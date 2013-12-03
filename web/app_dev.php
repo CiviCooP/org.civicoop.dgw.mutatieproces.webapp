@@ -15,7 +15,7 @@ if (isset($_SERVER['HTTP_CLIENT_IP'])
 		'127.0.0.1', 
 		'fe80::1', 
 		'::1',
-		'95.97.83.74', //bosqom
+		'192.168.11.59', //bosqom
 	))
 ) {
     header('HTTP/1.0 403 Forbidden');
