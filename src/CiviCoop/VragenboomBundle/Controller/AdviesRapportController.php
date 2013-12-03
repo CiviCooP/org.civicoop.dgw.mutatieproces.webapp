@@ -25,7 +25,7 @@ class AdviesRapportController extends AbstractController
      *
      * @Route("/", name="adviesrapport")
      * @Method("GET")
-     * @Template()
+     * @Template("CiviCoopVragenboomBundle:AdviesRapport:index.html.twig")
      */
     public function indexAction()
     {	
@@ -43,7 +43,7 @@ class AdviesRapportController extends AbstractController
      *
      * @Route("/{id}", name="adviesrapport_show")
      * @Method("GET")
-     * @Template()
+     * @Template("CiviCoopVragenboomBundle:AdviesRapport:show.html.twig")
      */
     public function showAction($id)
     {
