@@ -6,12 +6,16 @@ use CiviCoop\JsonRestBundle\Model\Response;
 
 class Http
 {    
-    public function performPostRequest($siteUrl, $data)
+    public function performPostRequest($siteUrl, $data, $hostname = false)
     {
+		$headers = array('Content-Type: application/json');
+		if ($hostname) {
+			$headers[] = 'Host: '.$hostname;
+		}
 		$curl = curl_init();
 		curl_setopt($curl, CURLOPT_URL, $siteUrl);
 		curl_setopt($curl, CURLOPT_POST, 1); // Do a regular HTTP POST
-		curl_setopt($curl, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
+		curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
 		curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($data)); // Set POST data
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, TRUE);
 		

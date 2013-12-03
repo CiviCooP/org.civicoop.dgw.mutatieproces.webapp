@@ -15,6 +15,7 @@ parameters:
     secret:            ThisTokenIsNotSoSecretChangeIt
 
     civicoop.insiteauthenticator.url: http://insitetest2/rest
+    civicoop.insiteauthenticator.hostname: 'insite'
     civicoop.civicrm.url: http://insitetest2
     civicoop.civicrm.api_key: testomgeving
     civicoop.civicrm.site_key: 0123456789abcdef
