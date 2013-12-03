@@ -15,20 +15,22 @@ class InsiteProvider implements AuthenticationProviderInterface
 	private $providerKey;
 	private $http;
 	private $url;
+	private $hostname;
 	private $api;
 	private $logger;
 
-    public function __construct($http, $url, $api, $logger)
+    public function __construct($http, $url, $hostname, $api, $logger)
     {
 		$this->http = $http;
 		$this->url = $url;
 		$this->api = $api;
 		$this->logger = $logger;
+		$this->hostname = $hostname;
     }
 
     public function authenticate(TokenInterface $token)
     {	
-		$response = $this->http->performPostRequest($this->url."/user/login", array('username' => $token->getUsername(), 'password' => $token->getCredentials()));
+		$response = $this->http->performPostRequest($this->url."/user/login", array('username' => $token->getUsername(), 'password' => $token->getCredentials()), $this->hostname);
 		if ($response->getStatusCode() == 200) {
 				$user = new InsiteUser($token->getUsername(), $token->getCredentials(), array('ROLE_USER'));
 				$user->setDrupalUser($response->getData()->user);

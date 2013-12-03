@@ -15,8 +15,8 @@ class Version20130719084529 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() != "mysql", "Migration can only be executed safely on 'mysql'.");
         
-        $this->addSql("ALTER TABLE object ADD slug VARCHAR(128) NOT NULL");
-        $this->addSql("CREATE UNIQUE INDEX UNIQ_AF01AEDA989D9B62 ON object (slug)");
+        $this->addSql("ALTER TABLE Object ADD slug VARCHAR(128) NOT NULL");
+        $this->addSql("CREATE UNIQUE INDEX UNIQ_AF01AEDA989D9B62 ON Object (slug)");
     }
 
     public function down(Schema $schema)

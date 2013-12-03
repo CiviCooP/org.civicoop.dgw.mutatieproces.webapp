@@ -4,7 +4,7 @@ parameters:
 services:
     insite.security.authentication.provider:
         class:  CiviCoop\InsiteAuthenticatorBundle\Security\Authentication\Provider\InsiteProvider
-        arguments: ["@civi_coop_json_rest.http", "%civicoop.insiteauthenticator.url%", "@civicoop.civicrm.api", "@logger"]
+        arguments: ["@civi_coop_json_rest.http", "%civicoop.insiteauthenticator.url%", "%civicoop.insiteauthenticator.hostname%", "@civicoop.civicrm.api", "@logger"]
     insite.security.authentication.listener:
         class:  CiviCoop\InsiteAuthenticatorBundle\Security\Firewall\InsiteListener
         arguments: ["@security.context", "@security.authentication.manager"]

@@ -17,7 +17,7 @@ class Version20130719141032 extends AbstractMigration
         
         $this->addSql("CREATE TABLE AdviesRapport (id INT AUTO_INCREMENT NOT NULL, case_id INT NOT NULL, date DATETIME NOT NULL, hov_nummer VARCHAR(255) NOT NULL, remarks LONGTEXT NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB");
         $this->addSql("CREATE TABLE AdviesRapportRegel (id INT AUTO_INCREMENT NOT NULL, remark LONGTEXT NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB");
-        $this->addSql("ALTER TABLE actiedefinitie CHANGE omschrijving omschrijving LONGTEXT DEFAULT NULL");
+        $this->addSql("ALTER TABLE ActieDefinitie CHANGE omschrijving omschrijving LONGTEXT DEFAULT NULL");
     }
 
     public function down(Schema $schema)
