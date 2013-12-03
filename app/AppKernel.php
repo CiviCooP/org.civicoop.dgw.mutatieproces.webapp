@@ -20,7 +20,6 @@ class AppKernel extends Kernel
             new CiviCoop\VragenboomBundle\CiviCoopVragenboomBundle(),
             new CiviCoop\CiviCrmBundle\CiviCoopCiviCrmBundle(),
             new CiviCoop\InsiteAuthenticatorBundle\CiviCoopInsiteAuthenticatorBundle(),
-			new Sonata\IntlBundle\SonataIntlBundle(),
 			
 			new Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle(),
             new CiviCoop\JsonRestBundle\CiviCoopJsonRestBundle(),

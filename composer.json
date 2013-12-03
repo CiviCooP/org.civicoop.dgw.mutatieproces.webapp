@@ -21,8 +21,7 @@
         "sensio/framework-extra-bundle": "2.3.*",
         "sensio/generator-bundle": "2.3.*",
         "incenteev/composer-parameter-handler": "~2.0",
-		"stof/doctrine-extensions-bundle": "~1.1@dev",
-        "sonata-project/intl-bundle": "dev-master"
+		"stof/doctrine-extensions-bundle": "~1.1@dev"
     },
     "scripts": {
         "post-install-cmd": [

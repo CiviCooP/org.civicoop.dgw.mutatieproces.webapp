@@ -71,7 +71,7 @@ stof_doctrine_extensions:
     orm:
         default:
             sluggable: true # not needed: listeners are not enabled by default
-sonata_intl:
-    timezone:
+#sonata_intl:
+#    timezone:
         # default timezone used as fallback
-        default: Europe/Amsterdam
+#        default: Europe/Amsterdam
