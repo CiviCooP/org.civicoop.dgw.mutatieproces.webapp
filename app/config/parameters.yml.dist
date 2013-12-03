@@ -13,3 +13,9 @@ parameters:
 
     locale:            en
     secret:            ThisTokenIsNotSoSecretChangeIt
+
+    civicoop.insiteauthenticator.url: http://insitetest2/rest
+    civicoop.civicrm.url: http://insitetest2
+    civicoop.civicrm.api_key: testomgeving
+    civicoop.civicrm.site_key: 0123456789abcdef
+    civicoop.civicrm.path: sites/all/modules/civicrm/extern/rest.php

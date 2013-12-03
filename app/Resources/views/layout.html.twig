@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset={{ _charset }}"/>
+        <meta name="robots" content="noindex,nofollow" />
+        <title>{% block title %}De Goede Woning (Adviesrapport mutatieproces){% endblock %}</title>
+        <link href="{{ asset('bundles/framework/css/structure.css') }}" rel="stylesheet" type="text/css" media="all" />
+        <link href="{{ asset('bundles/framework/css/body.css') }}" rel="stylesheet" type="text/css" media="all" />
+		{% stylesheets '../app/Resources/public/css/*' filter='cssrewrite' %}
+		<link href="{{ asset_url }}" type="text/css" rel="stylesheet" />
+		{% endstylesheets %}
+		
+		{% javascripts '../app/Resources/public/js/*' %}
+		<script type="text/javascript" src="{{ asset_url }}"></script>
+		{% endjavascripts %}
+
+        {% block head %}{% endblock %}
+    </head>
+    <body>
+		<div id="loader"></div>
+        <div id="content">
+            <div class="header clear-fix">
+                <div class="header-logo">
+                    De Goede Woning (Adviesrapport mutatieproces)
+                </div>
+            </div>
+
+            <div class="sf-reset">
+                {% block content %}{% endblock %}
+            </div>
+        </div>
+    </body>
+</html>

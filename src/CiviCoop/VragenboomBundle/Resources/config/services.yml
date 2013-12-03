@@ -1,0 +1,14 @@
+parameters:
+    civicoop.dgw.mutatieproces.case_type: DossierOpzeggingHuurcontract
+    civicoop.dgw.mutatieproces.activity_type: Adviesgesprek
+    civicoop.dgw.mutatieproces.eindehuurcontract: einde_huurcontract	
+
+services:
+    civicoop.dgw.mutatieproces.civicase:
+        class: CiviCoop\VragenboomBundle\Service\CiviCase
+        arguments: 
+            entityManager: @doctrine.orm.entity_manager
+            api: @civicoop.civicrm.api 
+            casetype: %civicoop.dgw.mutatieproces.case_type%
+            activitytype: %civicoop.dgw.mutatieproces.activity_type%
+            eindehuurcontract: %civicoop.dgw.mutatieproces.eindehuurcontract%

@@ -1,0 +1,7 @@
+parameters:
+    civi_coop_json_rest.http.class: CiviCoop\JsonRestBundle\Service\Http
+
+services:
+    civi_coop_json_rest.http:
+        class: %civi_coop_json_rest.http.class%
+        arguments: []

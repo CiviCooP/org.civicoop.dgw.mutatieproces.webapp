@@ -1,0 +1,51 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+    <h1>Objecten in {{ ruimte.naam }}</h1>
+
+	<p><a href="{{ path('ruimtes') }}">Terug naar alle overzicht van alle ruimtes</a></p>
+	
+    <table class="records_list">
+        <thead>
+            <tr>
+                <th>Naam</th>
+				<th>Gekoppelde acties</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for entity in entities %}
+            <tr>
+                <td><a href="{{ path('objects_edit', { 'object': entity.slug, 'ruimte': ruimte.slug }) }}">{{ entity.naam }}</a></td>
+				<td>
+					<ul>
+						{% for actie in entity.acties %}
+							<li>
+								<a href="{{ path('actiedefinitie_edit', { 'object': entity.slug, 'ruimte': ruimte.slug, 'id': actie.id }) }}" class="edit" title="{{actie.description}}">{{actie.actie}}</a>
+							</li>
+						{% endfor %}
+						<li>
+							<a href="{{ path('actiedefinitie_new', { 'object': entity.slug, 'ruimte': ruimte.slug }) }}" class="edit">Nieuwe actie</a>
+						</li>
+					</ul>
+				</td>
+                <td>
+                <ul>
+                    <li>
+                        <a href="{{ path('objects_edit', { 'object': entity.slug, 'ruimte': ruimte.slug }) }}" class="edit">Bewerken</a>
+                    </li>
+                </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+        <ul>
+        <li>
+            <a href="{{ path('objects_new', { 'ruimte': ruimte.slug }) }}" class="new">
+                Maak een nieuw object aan
+            </a>
+        </li>
+    </ul>
+    {% endblock %}

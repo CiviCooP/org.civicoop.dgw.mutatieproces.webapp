@@ -1,0 +1,20 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+    <h1>Nieuwe ruimte</h1>
+
+    <form action="{{ path('ruimtes_create') }}" method="post" {{ form_enctype(form) }}>
+        {{ form_widget(form) }}
+        <p>
+            <button type="submit">Opslaan</button>
+        </p>
+    </form>
+
+        <ul class="record_actions">
+    <li>
+        <a href="{{ path('ruimtes') }}">
+            Terug naar het overzicht
+        </a>
+    </li>
+</ul>
+{% endblock %}

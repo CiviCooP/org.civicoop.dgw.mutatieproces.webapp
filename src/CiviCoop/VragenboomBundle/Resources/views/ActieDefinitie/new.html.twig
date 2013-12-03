@@ -1,0 +1,21 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+    <h1>Maak nieuwe actie aan voor {{object.naam}} in {{ruimte.naam}}</h1>
+
+	        <ul class="record_actions">
+    <li>
+        <a href="{{ path('objects', {'ruimte': ruimte.slug}) }}">
+            Terug naar overzicht
+        </a>
+    </li>
+</ul>
+	
+    <form action="{{ path('actiedefinitie_create', {'ruimte': ruimte.slug, 'object': object.slug } ) }}" method="post" {{ form_enctype(form) }}>
+        {{ form_widget(form) }}
+        <p>
+            <button type="submit">Opslaan</button>
+        </p>
+    </form>
+
+{% endblock %}

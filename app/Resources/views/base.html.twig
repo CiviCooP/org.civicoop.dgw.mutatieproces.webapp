@@ -1,13 +1,31 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8" />
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
-        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
-    </head>
-    <body>
+{% extends '::layout.html.twig' %}
+
+{% block content %}
+    {% for flashMessage in app.session.flashbag.get('notice') %}
+        <div class="flash-message">
+            <em>Notice</em>: {{ flashMessage }}
+        </div>
+    {% endfor %}
+	
+	 {% block content_header %}
+        <ul id="menu">
+            {% block content_header_more %}
+				{% if app.user %}
+                <li><a href="{{ path('homepage') }}">Home</a></li>
+				<li><a href="{{ path('ruimtes') }}">Beheer</a></li>
+				{% endif %}
+            {% endblock %}
+			
+			{% if app.user %}
+			<li>Ingelogd als <strong>{{ app.user ? app.user.username : 'Anonymous' }}</strong> - <a href="{{ path('civicoop_vragenboom_logout') }}">Logout</a></li>
+			{% endif %}
+        </ul>
+
+        <div style="clear: both"></div>
+    {% endblock %}
+
+    <div class="block">
         {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
-    </body>
-</html>
+    </div>
+	
+{% endblock %}

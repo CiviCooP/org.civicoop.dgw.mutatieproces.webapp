@@ -1,0 +1,27 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+    <h1>Bewerk actie {{entity.actie}} voor {{object.naam}} in {{ruimte.naam}}</h1>
+
+	    <ul class="record_actions">
+    <li>
+        <a href="{{ path('objects', {'ruimte': ruimte.slug}) }}">
+            Terug naar overzicht
+        </a>
+    </li>
+	</ul>
+	
+    <form action="{{ path('actiedefinitie_update', { 'ruimte': ruimte.slug, 'object': object.slug, 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>
+        <input type="hidden" name="_method" value="PUT" />
+        {{ form_widget(edit_form) }}
+        <p>
+            <button type="submit">Opslaan</button>
+        </p>
+    </form>
+    
+        <form action="{{ path('actiedefinitie_delete', { 'ruimte': ruimte.slug, 'object': object.slug, 'id': entity.id }) }}" method="post">
+            <input type="hidden" name="_method" value="DELETE" />
+            {{ form_widget(delete_form) }}
+            <button type="submit">Verwijder</button>
+        </form>
+{% endblock %}

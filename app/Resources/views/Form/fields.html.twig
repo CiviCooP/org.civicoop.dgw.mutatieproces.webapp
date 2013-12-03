@@ -1,0 +1,44 @@
+{% block form_errors %}
+{% spaceless %}
+    {% if errors|length > 0 %}
+    <ul class="errors">
+        {% for error in errors %}
+            <li class="error">{{
+                error.messagePluralization is null
+                    ? error.messageTemplate|trans(error.messageParameters, 'validators')
+                    : error.messageTemplate|transchoice(error.messagePluralization, error.messageParameters, 'validators')
+            }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+{% endspaceless %}
+{% endblock form_errors %}
+
+{% block form_row %}
+{% spaceless %}
+    <div class="form_row">
+    	{{ form_errors(form) }}
+        {{ form_label(form) }}
+        {{ form_widget(form) }}
+    </div>
+{% endspaceless %}
+{% endblock form_row %}
+
+{% block form_widget_simple %}
+{% spaceless %}
+	{% set type = type|default('text') %}
+	<input
+    type="{% if type is defined %}{{type|escape}}{% else %}text{% endif %}"
+    {% if value is not empty %}value="{{value|escape}}"{% endif %}
+	
+    {% if attr is not empty and attr.class is defined %}
+		{% set attr = {'class': attr.class ~ ' ' ~ type } %}
+	{% else %}
+		{% set attr = {'class': type } %}
+    {% endif %}
+    
+	{{ block('widget_attributes') }}
+/>
+	
+{% endspaceless %}
+{% endblock form_widget_simple %}

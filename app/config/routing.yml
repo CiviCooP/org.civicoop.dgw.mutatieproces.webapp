@@ -1,0 +1,19 @@
+civi_coop_json_rest:
+    resource: "@CiviCoopJsonRestBundle/Resources/config/routing.yml"
+    prefix:   /
+
+civi_coop_insite_authenticator:
+    resource: "@CiviCoopInsiteAuthenticatorBundle/Resources/config/routing.yml"
+    prefix:   /
+
+civi_coop_civi_crm:
+    resource: "@CiviCoopCiviCrmBundle/Resources/config/routing.yml"
+    prefix:   /
+
+civi_coop_vragenboom:
+    resource: "@CiviCoopVragenboomBundle/Resources/config/routing.yml"
+    prefix:   /
+
+homepage:
+    pattern:   /
+    defaults:  { _controller: CiviCoopVragenboomBundle:AdviesRapport:Index }

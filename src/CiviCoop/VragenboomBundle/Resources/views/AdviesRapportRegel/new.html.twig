@@ -1,0 +1,87 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+    <h1>Nieuwe regel toevoegen aan rapport {{rapport.vgeAdres}}</h1>
+
+    <form action="{{ path('adviesrapportregel_create', {'rapport': rapport.id} ) }}" method="post" {{ form_enctype(form) }}>
+        {{ form_row(form.ruimte) }}
+		{{ form_row(form.object) }}
+		{{ form_row(form.actie) }}
+		<div id="actie_description" class="form_row"></div>
+		{{ form_widget(form) }}
+        <p>
+            <button type="submit">Toevoegen</button>
+        </p>
+    </form>
+
+        <ul class="record_actions">
+    <li>
+        <a href="{{ path('adviesrapport_show', {'id': rapport.id}) }}">
+            terug naar het rapport
+        </a>
+    </li>
+</ul>
+
+<script type="text/javascript">
+$(document).ready(function(){
+ 
+    $("#adviesrapportregel_ruimte").change( function() {
+        $("#loader").show();
+        $.ajax({
+            type: "GET",
+            data: "data=" + $(this).val(),
+            url:"{{ path('adviesrapportregel_objects', {'rapport': rapport.id}) }}",
+            success: function(msg){
+                if (msg != ''){
+                    $("#adviesrapportregel_object").html(msg).show();
+					{% if entity.object.id is defined %}
+                    $('#adviesrapportregel_object option[value={{  entity.object.id }}]').attr("selected","selected");
+					{% endif %}
+                    $("#loader").hide();
+                }
+                else
+                {
+                    $("#adviesrapportregel_object").html('<em>Geen objecten</em>');
+                    $("#loader").hide();
+                }
+				$("#adviesrapportregel_object").trigger('change');
+           }
+       });
+   }); 
+   
+   $("#adviesrapportregel_object").change( function() {
+        $("#loader").show();
+        $.ajax({
+            type: "GET",
+            data: "data=" + $(this).val(),
+            url:"{{ path('adviesrapportregel_acties', {'rapport': rapport.id}) }}",
+            success: function(msg){
+                if (msg != ''){
+                    $("#adviesrapportregel_actie").html(msg).show();
+					{% if entity.actie.id is defined %}
+                    $('#adviesrapportregel_actie option[value={{  entity.actie.id }}]').attr("selected","selected");
+					{% endif %}
+                    $("#loader").hide();
+                }
+                else
+                {
+                    $("#adviesrapportregel_actie").html('<em>Geen objecten</em>');
+                    $("#loader").hide();
+                }
+           }
+       });
+   }); 
+   
+   $("#adviesrapportregel_actie").change( function() {
+		$('#actie_description').html('');
+		var actie = $(this).find(":selected");
+		if (actie.data('description')) {
+			$('#actie_description').html('<label>Omschrijving</label><p>'+actie.data('description')+'</p>');
+		}
+   });
+   
+   $("#adviesrapportregel_ruimte").trigger('change');
+});
+</script>
+
+{% endblock %}

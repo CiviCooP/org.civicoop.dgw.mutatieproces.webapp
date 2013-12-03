@@ -1,0 +1,7 @@
+parameters:
+#    civi_coop_civi_crm.example.class: CiviCoop\CiviCrmBundle\Example
+
+services:
+    civicoop.civicrm.api:
+        class:  CiviCoop\CiviCrmBundle\Service\Api
+        arguments: ["%civicoop.civicrm.url%", "%civicoop.civicrm.api_key%", "%civicoop.civicrm.site_key%", "%civicoop.civicrm.path%"]
