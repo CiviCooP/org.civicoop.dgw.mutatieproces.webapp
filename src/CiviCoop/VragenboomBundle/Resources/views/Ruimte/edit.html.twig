@@ -2,27 +2,19 @@
 
 {% block body -%}
     <h1>Bewerk {{entity.naam}}</h1>
-	
-	    <ul class="record_actions">
-    <li>
-        <a href="{{ path('ruimtes') }}">
-            terug naar het overzicht
-        </a>
-    </li>
-	</ul>
 
     <form action="{{ path('ruimtes_update', { 'ruimte': entity.slug }) }}" method="post" {{ form_enctype(edit_form) }}>
         <input type="hidden" name="_method" value="PUT" />
         {{ form_widget(edit_form) }}
         <p>
-            <button type="submit">Opslaan</button>
+            <button type="submit" class="success">Opslaan</button><a href="{{ path('ruimtes') }}" class="button cancel">Terug naar het overzicht</a>
         </p>
     </form>
 
         <form action="{{ path('ruimtes_delete', { 'ruimte': entity.slug }) }}" method="post">
             <input type="hidden" name="_method" value="DELETE" />
             {{ form_widget(delete_form) }}
-            <button type="submit" class="button delete">Verwijderen</button>
+            <button type="submit" class="button delete" onclick="return confirm('Weet u het zeker?');">Verwijderen</button>
         </form>
 
 {% endblock %}

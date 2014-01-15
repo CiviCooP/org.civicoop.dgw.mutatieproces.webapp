@@ -7,31 +7,19 @@
         <thead>
             <tr>
                 <th>Contact</th>
-				<th>VGE Adres</th>
                 <th>HOV-nummer</th>
-                <th></th>
             </tr>
         </thead>
         <tbody>
         {% for entity in entities %}
-            <tr>
+            <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
                 <td>
-					<a href="{{ path('adviesrapport_show', { 'id': entity.id }) }}">
-						{% for client in entity.clients %}
-							{% if loop.index0 > 0 %}<br />{% endif %}
-							{{client.displayName}}
-						{% endfor %}
-					</a>
+					{% for client in entity.clients %}
+						<p>{{client.displayName}}, {{ entity.vgeAdres }}</p>
+					{% endfor %}
+					<a href="{{ path('adviesrapport_show', { 'id': entity.id }) }}" class="button">Bekijk rapport</a>
 				</td>
-				<td>{{ entity.vgeAdres }}</td>
                 <td>{{ entity.hovNummer }}</td>
-                <td>
-                <ul>
-                    <li>
-                        <a href="{{ path('adviesrapport_show', { 'id': entity.id }) }}">Bekijk rapport</a>
-                    </li>
-                </ul>
-                </td>
             </tr>
         {% endfor %}
         </tbody>
