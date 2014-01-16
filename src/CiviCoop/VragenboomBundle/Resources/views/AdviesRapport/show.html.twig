@@ -8,8 +8,7 @@
             <tr>
                 <th>Contact</th>
                 <td>{% for client in entity.clients %}
-						{% if loop.index0 > 0 %}<br />{% endif %}
-						{{client.displayName}}
+						<p>{{client.displayName}}</p>
 					{% endfor %}
 				</td>
 				<th>Civi Dossier ID</th>
@@ -29,19 +28,20 @@
             </tr>
             <tr>
                 <th>Datum</th>
-                <td>{{ entity.date|format_date }}</td>
+                <td>{{ entity.date|date("d-m-Y") }}</td>
             </tr>
         </tbody>
     </table>
 	
 	<h2>Adviezen</h2>
+	
+	<a href="{{ path('adviesrapportregel_new', {'rapport': entity.id} ) }}" class="button">Nieuw advies toevoegen</a>
+	
 	<table class="record_properties adviezen">
 		<tbody>
 			{% for regel in entity.regels %}
-				<tr>
-					<th>{{regel.actie.object.ruimte.naam}}</th>
-					<th>{{regel.actie.object.naam}}</th>
-					<td>
+				<tr class="{{ cycle(['odd', 'even'], loop.index) }}">
+					<td><p class="info"><span class="object">{{regel.actie.object.naam}}</span> in <span class="ruimte">{{regel.actie.object.ruimte.naam}}</span></p>
 						<h3>{{regel.actie.actie}}</h3>
 						<p>{{regel.actie.description}}</p>
 						<p>{{regel.remark}}</p>
@@ -56,27 +56,15 @@
 		</tbody>
 	</table>
 				
-	
-	<ul class="record_actions">
-    <li>
-        <a href="{{ path('adviesrapportregel_new', {'rapport': entity.id} ) }}">
-            Nieuwe regel toevoegen
-        </a>
-    </li>
+	<a href="{{ path('adviesrapportregel_new', {'rapport': entity.id} ) }}" class="button">Nieuw advies toevoegen</a>
 	
 	<form action="{{ path('adviesrapport_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }} class="adviesrapport">
         <input type="hidden" name="_method" value="PUT" />
         {{ form_widget(edit_form) }}
         <p>
-            <button type="submit">Opslaan</button>
+            <button type="submit" class="success">Opslaan</button>
+			<a href="{{ path('adviesrapport') }}" class="cancel button">Terug naar overzicht.</a>
         </p>
     </form>
-
-        <ul class="record_actions">
-    <li>
-        <a href="{{ path('adviesrapport') }}">
-            Terug naar overzicht.
-        </a>
-    </li>
-</ul>
+	
 {% endblock %}

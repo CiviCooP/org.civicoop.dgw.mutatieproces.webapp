@@ -12,7 +12,7 @@ class CiviCase extends CiviCommon {
 	
 	private $casetype;
 	private $casetype_id;
-	private $activitype;
+	private $activitytype;
 	private $activity_type_id;
 	private $eindehuurcontract;
 	private $eindehuurcontract_id;
@@ -23,11 +23,11 @@ class CiviCase extends CiviCommon {
 		parent::__construct($api);
 		$this->em = $entityManager;
 		$this->casetype = $casetype;
-		$this->activitype = $activitytype;
+		$this->activitytype = $activitytype;
 		$this->eindehuurcontract = $eindehuurcontract;
 		
 		$this->eindehuurcontract_id = $this->retrieveCustomGroupIdByName($this->eindehuurcontract);		
-		$this->activity_type_id = $this->retreiveOptionValueByname($this->activitype, 'activity_type');
+		$this->activity_type_id = $this->retreiveOptionValueByname($this->activitytype, 'activity_type');
 	}
 
 	/**

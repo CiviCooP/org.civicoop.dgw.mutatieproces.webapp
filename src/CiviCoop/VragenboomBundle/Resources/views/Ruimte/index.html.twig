@@ -4,41 +4,19 @@
     <h1>Ruimtes</h1>
 
     <table class="records_list">
-        <thead>
-            <tr>
-                <th>Naam</th>
-				<th></th>
-                <th></th>
-            </tr>
-        </thead>
         <tbody>
         {% for entity in entities %}
-            <tr>
-                <td><a href="{{ path('objects', { 'ruimte': entity.slug }) }}">{{ entity.naam }}</a></td>
+            <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
                 <td>
-                <ul>
-                    <li>
-                        <a href="{{ path('objects', { 'ruimte': entity.slug }) }}" class="show children">Bekijk objecten</a>
-                    </li>
-				</ul>
-				</td>
-				<td>
-				<ul>
-                    <li>
-                        <a href="{{ path('ruimtes_edit', { 'ruimte': entity.slug }) }}" class="edit">Bewerk</a>
-                    </li>
-                </ul>
+					<h3>{{ entity.naam }}</h3>
+                    <a href="{{ path('objects', { 'ruimte': entity.slug }) }}" class="button success">Bekijk objecten</a>
+                    <a href="{{ path('ruimtes_edit', { 'ruimte': entity.slug }) }}" class="button">Bewerk</a>
                 </td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    <ul>
-        <li>
-            <a href="{{ path('ruimtes_new') }}" class="new">
-                Maak een nieuwe ruimte aan
-            </a>
-        </li>
-    </ul>
+    <a href="{{ path('ruimtes_new') }}" class="button">Maak een nieuwe ruimte aan</a>
+	
     {% endblock %}

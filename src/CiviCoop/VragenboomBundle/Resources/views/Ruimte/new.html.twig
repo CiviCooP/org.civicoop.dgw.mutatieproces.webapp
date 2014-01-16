@@ -6,15 +6,8 @@
     <form action="{{ path('ruimtes_create') }}" method="post" {{ form_enctype(form) }}>
         {{ form_widget(form) }}
         <p>
-            <button type="submit">Opslaan</button>
+            <button type="submit" class="success">Opslaan</button><a href="{{ path('ruimtes') }}" class="button cancel">Terug naar het overzicht</a>
         </p>
     </form>
 
-        <ul class="record_actions">
-    <li>
-        <a href="{{ path('ruimtes') }}">
-            Terug naar het overzicht
-        </a>
-    </li>
-</ul>
 {% endblock %}

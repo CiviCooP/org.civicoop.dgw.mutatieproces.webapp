@@ -1,7 +1,9 @@
 parameters:
-    civicoop.dgw.mutatieproces.case_type: DossierOpzeggingHuurcontract
+#    civicoop.dgw.mutatieproces.case_type: DossierOpzeggingHuurcontract
+    civicoop.dgw.mutatieproces.case_type: Huuropzeggingsdossier    
     civicoop.dgw.mutatieproces.activity_type: Adviesgesprek
-    civicoop.dgw.mutatieproces.eindehuurcontract: einde_huurcontract	
+#    civicoop.dgw.mutatieproces.eindehuurcontract: einde_huurcontract
+    civicoop.dgw.mutatieproces.eindehuurcontract: vge
 
 services:
     civicoop.dgw.mutatieproces.civicase:

@@ -21,7 +21,7 @@ abstract class CiviCommon {
 			Throw new \Exception("No case types found in CiviCrm");
 		}
 		$option_group_id = $values->id;
-		
+
 		$data = $this->api->OptionValue->getSingle(array('option_group_id' => $option_group_id, 'name' => $name));
 		$values = $data->nextValue();
 		if (!$values) {
