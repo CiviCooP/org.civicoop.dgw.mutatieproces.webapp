@@ -16,6 +16,7 @@ class ActieDefinitieType extends AbstractType
 				'property' => 'naam',
 			))
 			->add('actie')
+->add('verantwoordelijke', 'choice', array('choices' => array('De Goede Woning' => 'De Goede Woning', 'Huurder' => 'Huurder'), 'required' => true))
             ->add('description')
             
         ;

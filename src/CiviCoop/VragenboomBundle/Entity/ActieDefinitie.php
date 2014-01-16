@@ -49,6 +49,12 @@ class ActieDefinitie
      */
     protected $type;
 
+    /**
+     * @Assert\NotBlank()
+     * @ORM\Column(name="verantwoordelijke", type="string", length=255)
+     */
+    protected $verantwoordelijke;
+
 
     /**
      * Get id
@@ -81,6 +87,29 @@ class ActieDefinitie
     public function getActie()
     {
         return $this->actie;
+    }
+
+    /**
+     * Set verantwoordelijke
+     *
+     * @param string $verantwoordelijke
+     * @return ActieDefinitie
+     */
+    public function setVerantwoordelijke($verantwoordelijke)
+    {
+        $this->verantwoordelijke = $verantwoordelijke;
+    
+        return $this;
+    }
+
+    /**
+     * Get verantwoordelijke
+     *
+     * @return string 
+     */
+    public function getVerantwoordelijke()
+    {
+        return $this->verantwoordelijke;
     }
 
     /**
