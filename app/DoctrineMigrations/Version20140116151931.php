@@ -16,6 +16,7 @@ class Version20140116151931 extends AbstractMigration
         $this->abortIf($this->connection->getDatabasePlatform()->getName() != "mysql", "Migration can only be executed safely on 'mysql'.");
         
         $this->addSql("ALTER TABLE ActieDefinitie ADD verantwoordelijke VARCHAR(255) NOT NULL");
+	$this->addSql("UPDATE ActieDefinitie SET verantwoordelijke = 'De Goede Woning'");
     }
 
     public function down(Schema $schema)
