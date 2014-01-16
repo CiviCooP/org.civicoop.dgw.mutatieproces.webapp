@@ -17,3 +17,10 @@ civi_coop_vragenboom:
 homepage:
     pattern:   /adviesrapport
     defaults:  { _controller: CiviCoopVragenboomBundle:AdviesRapport:Index }
+
+root:
+    path: /
+    defaults:
+        _controller: FrameworkBundle:Redirect:redirect
+        route: homepage
+        permanent: true
