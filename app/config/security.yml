@@ -11,8 +11,7 @@ security:
         in_memory:
             memory:
                 users:
-#                    jaap1234: { password: jaap1234, roles: [ 'ROLE_ADMIN' ] }
-                    erwin: { password: d1jk3MA, roles: [ 'ROLE_ADMIN' ] }
+                    %testuser%: { password: %testpass%, roles: [ 'ROLE_ADMIN' ] }
         insite:
             id: insite.security.authentication.userprovider	
 

@@ -20,3 +20,5 @@ parameters:
     civicoop.civicrm.api_key: testomgeving
     civicoop.civicrm.site_key: 0123456789abcdef
     civicoop.civicrm.path: sites/all/modules/civicrm/extern/rest.php
+    testuser: ~
+    testpass: ~
