@@ -11,7 +11,7 @@ security:
         in_memory:
             memory:
                 users:
-                    jaap1234: { password: jaap1234, roles: [ 'ROLE_ADMIN' ] }
+#                    jaap: { password: jaap1234, roles: [ 'ROLE_ADMIN' ] }
         insite:
             id: insite.security.authentication.userprovider	
 
