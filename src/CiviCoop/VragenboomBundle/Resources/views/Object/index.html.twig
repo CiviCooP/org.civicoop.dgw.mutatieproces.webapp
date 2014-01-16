@@ -24,17 +24,11 @@
 								<a href="{{ path('actiedefinitie_edit', { 'object': entity.slug, 'ruimte': ruimte.slug, 'id': actie.id }) }}" class="edit" title="{{actie.description}}">{{actie.actie}}</a>
 							</li>
 						{% endfor %}
-						<li>
-							<a href="{{ path('actiedefinitie_new', { 'object': entity.slug, 'ruimte': ruimte.slug }) }}" class="edit">Nieuwe actie</a>
-						</li>
 					</ul>
 				</td>
                 <td>
-                <ul>
-                    <li>
-                        <a href="{{ path('objects_edit', { 'object': entity.slug, 'ruimte': ruimte.slug }) }}" class="edit">Bewerken</a>
-                    </li>
-                </ul>
+		<a href="{{ path('objects_edit', { 'object': entity.slug, 'ruimte': ruimte.slug }) }}" class="button">Bewerken</a>				
+		<a href="{{ path('actiedefinitie_new', { 'object': entity.slug, 'ruimte': ruimte.slug }) }}" class="button success">Nieuwe actie</a>
                 </td>
             </tr>
         {% endfor %}
