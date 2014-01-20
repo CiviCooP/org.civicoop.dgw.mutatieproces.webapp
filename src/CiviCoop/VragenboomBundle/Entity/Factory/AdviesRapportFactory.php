@@ -138,6 +138,7 @@ class AdviesRapportFactory {
 		$regel->setActie($this->actie);
 		$regel->setRemark($this->remark);
 		$regel->setAdviesRapport($rapport);
+		$regel->setVerantwoordelijke($this->verantwoordelijke);
 		
 		$rapport->addRegel($regel);
 
