@@ -78,6 +78,9 @@ $(document).ready(function(){
 		if (actie.data('description')) {
 			$('#actie_description').html('<label>Omschrijving</label><p>'+actie.data('description')+'</p>');
 		}
+		if (actie.data('verantwoordelijke').length > 0) {
+			$("#adviesrapportregel_verantwoordelijke option[value='"+actie.data('verantwoordelijke')+"']").attr("selected", "selected");
+		}
    });
    
    $("#adviesrapportregel_ruimte").trigger('change');

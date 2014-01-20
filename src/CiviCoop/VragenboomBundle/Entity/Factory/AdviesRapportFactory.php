@@ -34,6 +34,11 @@ class AdviesRapportFactory {
 	 * @var String
 	 */
 	private $remark;
+
+    	/**
+	* @var String
+     	*/
+    	protected $verantwoordelijke;
 	
 	/**
      * @var \Doctrine\ORM\EntityManager
@@ -83,6 +88,29 @@ class AdviesRapportFactory {
 	public function getRemark() {
 		return $this->remark;
 	}
+
+    	/**
+     	* Set verantwoordelijke
+	*
+     	* @param string $verantwoordelijke
+     	* @return ActieDefinitie
+     	*/
+    	public function setVerantwoordelijke($verantwoordelijke)
+    	{
+        	$this->verantwoordelijke = $verantwoordelijke;
+    
+        	return $this;
+    	}
+
+    	/**
+     	* Get verantwoordelijke
+     	*
+     	* @return string 
+     	*/
+    	public function getVerantwoordelijke()
+    	{
+        	return $this->verantwoordelijke;
+    	}
 	
 	/**
      * @param  ExecutionContext $context

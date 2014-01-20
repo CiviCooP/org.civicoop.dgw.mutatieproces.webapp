@@ -116,7 +116,7 @@ class AdviesRapportRegelController extends Controller
 		$html = '<option selected="selected" disabled="disabled">Kies een actie</option>';
 		foreach($acties as $o)
 		{
-			$html = $html . sprintf("<option data-description=\"%s\" value=\"%d\">%s</option>",$o->getDescription(), $o->getId(), $o->getActie());
+			$html = $html . sprintf("<option data-description=\"%s\" data-verantwoordelijke=\"%s\" value=\"%d\">%s</option>",$o->getDescription(), $o->getVerantwoordelijke(), $o->getId(), $o->getActie());
 		}
  
 		return new Response($html);

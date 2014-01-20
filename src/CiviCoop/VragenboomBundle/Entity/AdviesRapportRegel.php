@@ -4,6 +4,7 @@ namespace CiviCoop\VragenboomBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * AdviesRapportRegel
@@ -35,11 +36,17 @@ class AdviesRapportRegel
      */
     protected $adviesRapport;
 	
-	/**
+    /**
      * @ORM\ManyToOne(targetEntity="ActieDefinitie")
      * @ORM\JoinColumn(name="actiedefinitie_id", referencedColumnName="id")
      */
-	protected $actie;
+     protected $actie;
+
+    /**
+     * @Assert\NotBlank()
+     * @ORM\Column(name="verantwoordelijke", type="string", length=255)
+     */
+    protected $verantwoordelijke;
 
 	public function __construct()
     {
@@ -122,5 +129,28 @@ class AdviesRapportRegel
     public function getActie()
     {
         return $this->actie;
+    }
+
+   /**
+     * Set verantwoordelijke
+     *
+     * @param string $verantwoordelijke
+     * @return ActieDefinitie
+     */
+    public function setVerantwoordelijke($verantwoordelijke)
+    {
+        $this->verantwoordelijke = $verantwoordelijke;
+    
+        return $this;
+    }
+
+    /**
+     * Get verantwoordelijke
+     *
+     * @return string 
+     */
+    public function getVerantwoordelijke()
+    {
+        return $this->verantwoordelijke;
     }
 }
