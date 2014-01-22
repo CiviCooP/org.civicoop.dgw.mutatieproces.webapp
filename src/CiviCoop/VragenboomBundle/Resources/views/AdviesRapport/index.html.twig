@@ -18,6 +18,7 @@
 						<p>{{client.displayName}}, {{ entity.vgeAdres }}</p>
 					{% endfor %}
 					<a href="{{ path('adviesrapport_show', { 'id': entity.id }) }}" class="button">Bekijk rapport</a>
+                                        <a href="{{ path('adviesrapport_close', { 'id': entity.id }) }}" class="button success">Sluit rapport</a>
 				</td>
                 <td>{{ entity.hovNummer }}</td>
             </tr>

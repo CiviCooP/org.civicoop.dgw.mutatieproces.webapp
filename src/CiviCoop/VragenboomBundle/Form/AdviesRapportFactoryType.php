@@ -27,7 +27,15 @@ class AdviesRapportFactoryType extends AbstractType
 				'empty_value' => 'Kies een actie',
 				'required' => false,
 			))
-			->add('verantwoordelijke', 'choice', array('choices' => array('De Goede Woning' => 'De Goede Woning', 'Huurder' => 'Huurder'), 'required' => true))
+			->add('verantwoordelijke', 'choice', array(
+         'choices' => array(
+           'De Goede Woning' => 'De Goede Woning', 
+           'Huurder' => 'Huurder',
+           'Akkoord' => 'Akkoord',
+           'Wordt overgenomen' => 'Wordt overgenomen',
+           'Niet van toepassing' => 'Niet van toepassing'
+        ), 
+        'required' => true))
 			->add('remark', 'textarea', array(
 				'required' => false,
 			))

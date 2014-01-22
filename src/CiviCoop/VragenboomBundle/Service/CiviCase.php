@@ -130,5 +130,12 @@ class CiviCase extends CiviCommon {
 		return $this->api->Case->get(array('activity_id' => $activity_id));
 	}
 	
+  public function closeActivity($activity_id, $details) {
+    $this->api->Activity->create(array(
+        'activity_id' => $activity_id,
+        'details' => $details,
+        'status_id' => 2, //closed
+    ));
+  }
 	
 }

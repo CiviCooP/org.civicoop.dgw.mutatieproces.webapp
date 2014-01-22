@@ -14,3 +14,5 @@ services:
             casetype: %civicoop.dgw.mutatieproces.case_type%
             activitytype: %civicoop.dgw.mutatieproces.activity_type%
             eindehuurcontract: %civicoop.dgw.mutatieproces.eindehuurcontract%
+    civicoop.vragenboom.report:
+        class: CiviCoop\VragenboomBundle\Service\Reports

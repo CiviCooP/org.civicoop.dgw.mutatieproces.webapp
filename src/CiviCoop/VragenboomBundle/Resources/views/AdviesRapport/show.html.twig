@@ -32,7 +32,7 @@
             </tr>
         </tbody>
     </table>
-	
+
 	<h2>Adviezen</h2>
 	
 	<a href="{{ path('adviesrapportregel_new', {'rapport': entity.id} ) }}" class="button">Nieuw advies toevoegen</a>
@@ -41,9 +41,9 @@
 		<tbody>
 			{% for regel in entity.regels %}
 				<tr class="{{ cycle(['odd', 'even'], loop.index) }}">
-					<td><p class="info"><span class="object">{{regel.actie.object.naam}}</span> in <span class="ruimte">{{regel.actie.object.ruimte.naam}}</span></p>
-						<h3>{{regel.actie.actie}} {% if regel.verantwoordelijke|length %} <span class="verantwoordelijke">door {{regel.verantwoordelijke}}</span> {% endif %}</h3>
-						<p>{{regel.actie.description}}</p>
+					<td><p class="info"><span class="object">{{regel.object}}</span> in <span class="ruimte">{{regel.ruimte}}</span></p>
+						<h3>{{regel.actie}} {% if regel.verantwoordelijke|length %} <span class="verantwoordelijke">door {{regel.verantwoordelijke}}</span> {% endif %}</h3>
+						<p>{{regel.actieRemark}}</p>
 						<p>{{regel.remark}}</p>
 					</td>
 					<td>
