@@ -135,13 +135,7 @@ class AdviesRapportRegel {
    * @return AdviesRapportRegel
    */
   public function setActieDefinitie(\CiviCoop\VragenboomBundle\Entity\ActieDefinitie $actie = null) {
-    $this->actie_definitie = $actie;
-    
-    $this->setRuimte($this->actie_definitie->getObject()->getRuimte()->getNaam());
-    $this->setObject($this->actie_definitie->getObject()->getNaam());
-    $this->setActie($this->actie_definitie->getActie());
-    $this->setActieRemark($this->actie_definitie->getDescription());
-    
+    $this->actie_definitie = $actie;    
     return $this;
   }
 

@@ -78,18 +78,18 @@ class AdviesRapportRegelController extends Controller
 	public function listObjects()
 	{
 		$this->em = $this->get('doctrine')->getEntityManager();
-		$this->repository = $this->em->getRepository('CiviCoopVragenboomBundle:Object');
+		$this->repository = $this->em->getRepository('CiviCoopVragenboomBundle:Ruimte');
  
 		$id = $this->get('request')->query->get('data');
  
-		$object = $this->repository->findByRuimte($id);
+		$ruimte = $this->repository->findOneById($id);
  
-		if (empty($object)) {
+		if (empty($ruimte) || empty($ruimte->getObjects())) {
 			return new Response('<option>Geen objecten</option>');
 		}
  
 		$html = '<option selected="selected" disabled="disabled">Kies een object</option>';
-		foreach($object as $o)
+		foreach($ruimte->getObjects() as $o)
 		{
 			$html = $html . sprintf("<option value=\"%d\">%s</option>",$o->getId(), $o->getNaam());
 		}

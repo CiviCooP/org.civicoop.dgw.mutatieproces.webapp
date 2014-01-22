@@ -38,7 +38,7 @@ class AdviesRapportRepository extends EntityRepository {
   public function findOneById($id) {
     $query = $this->getEntityManager()
         ->createQuery(
-            'SELECT r, regel, actie, object, ruimte FROM CiviCoopVragenboomBundle:AdviesRapport r LEFT JOIN r.regels regel LEFT JOIN regel.actie_definitie actie LEFT JOIN actie.object object LEFT JOIN object.ruimte ruimte WHERE r.id = :id ORDER BY ruimte.naam, object.naam, actie.actie'
+            'SELECT r, regel FROM CiviCoopVragenboomBundle:AdviesRapport r LEFT JOIN r.regels regel WHERE r.id = :id ORDER BY regel.ruimte, regel.object, regel.actie'
         )
         ->setParameter(':id', $id);
 

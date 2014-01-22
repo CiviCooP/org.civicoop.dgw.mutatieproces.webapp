@@ -114,7 +114,7 @@ class AdviesRapportFactory {
    * @return bool
    */
   public function isAllValid(ExecutionContext $context) {
-    if ($this->ruimte != $this->object->getRuimte()) {
+    if (!$this->object->getRuimtes()->contains($this->ruimte)) {
       $context->addViolation('Invalid object', array(), $this->object);
     }
 
@@ -131,6 +131,12 @@ class AdviesRapportFactory {
   public function make(AdviesRapport $rapport) {
     $regel = new AdviesRapportRegel();
     $regel->setActieDefinitie($this->actie);
+    
+    $regel->setRuimte($this->getRuimte()->getNaam());
+    $regel->setObject($this->getObject()->getNaam());
+    $regel->setActie($this->actie->getActie());
+    $regel->setActieRemark($this->actie->getDescription());
+    
     $regel->setRemark($this->remark);
     $regel->setAdviesRapport($rapport);
     $regel->setVerantwoordelijke($this->verantwoordelijke);
