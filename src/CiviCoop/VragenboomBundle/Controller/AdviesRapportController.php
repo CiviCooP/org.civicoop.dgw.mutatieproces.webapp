@@ -112,10 +112,22 @@ class AdviesRapportController extends AbstractController {
       throw $this->createNotFoundException('Unable to find AdviesRapport entity.');
     }
 
-    $editForm = $this->createForm(new AdviesRapportType(), $entity);
+    $editForm = $this->createForm($factory->getNewForm($factory->getEntity($entity)), $entity);
     $editForm->bind($request);
 
     if ($editForm->isValid()) {
+      if ($factory->getEntity($entity) == 'CiviCoopVragenboomBundle:EindRapport') {
+        $status = $request->get('status');
+        foreach($status as $rid => $s ) {
+          foreach($entity->getRegels() as $regel) {
+            if ($regel->getId() == $rid) {
+              $regel->setStatus($s);
+              $em->persist($regel);
+              break;
+            }
+          }
+        }
+      }
       $em->persist($entity);
       $em->flush();
 

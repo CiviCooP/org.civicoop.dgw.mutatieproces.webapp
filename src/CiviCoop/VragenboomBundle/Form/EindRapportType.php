@@ -11,7 +11,7 @@ class EindRapportType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('remarks')
+            ->add('remarks', null, array('required' => false))
         ;
     }
 
