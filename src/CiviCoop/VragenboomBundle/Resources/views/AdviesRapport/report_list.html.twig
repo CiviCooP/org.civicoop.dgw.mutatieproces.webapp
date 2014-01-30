@@ -1,0 +1,24 @@
+<table class="records_list">
+<thead>
+    <tr>
+        <th>Contact</th>
+        <th>Datum</th>
+        <th>Type</th>
+    </tr>
+</thead>
+<tbody>
+    {% for entity in entities %}
+        <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
+            <td>
+                {% for client in entity.clients %}
+                    <p>{{client.displayName}}, {{ entity.vgeAdres }}</p>
+                {% endfor %}
+                <a href="{{ path(show_report_link, { 'shortname': factory.getShortname(entity), 'id': entity.id }) }}" class="button">Bekijk rapport</a>
+                <a href="{{ path(close_report_link, { 'shortname': factory.getShortname(entity), 'id': entity.id }) }}" class="button success">Sluit rapport</a>
+            </td>
+            <td>{{ entity.date|date('d-m-Y H:i') }}</td>
+            <td>{{ factory.getHumanName(entity) }}</td>
+        </tr>
+    {% endfor %}
+</tbody>
+</table>

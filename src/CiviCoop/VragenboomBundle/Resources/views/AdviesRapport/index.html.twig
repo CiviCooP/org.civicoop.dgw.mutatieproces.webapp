@@ -1,29 +1,8 @@
 {% extends '::base.html.twig' %}
 
 {% block body -%}
-    <h1>Openstaande adviesrapporten</h1>
+    <h1>Openstaande rapporten</h1>
+    {% include 'CiviCoopVragenboomBundle:AdviesRapport:report_list.html.twig' with ({ 'show_report_link': 'adviesrapport_show', 'close_report_link': 'adviesrapport_close', 'entities': entities, 'factory': factory }) %}
 
-    <table class="records_list">
-        <thead>
-            <tr>
-                <th>Contact</th>
-                <th>HOV-nummer</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for entity in entities %}
-            <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
-                <td>
-					{% for client in entity.clients %}
-						<p>{{client.displayName}}, {{ entity.vgeAdres }}</p>
-					{% endfor %}
-					<a href="{{ path('adviesrapport_show', { 'id': entity.id }) }}" class="button">Bekijk rapport</a>
-                                        <a href="{{ path('adviesrapport_close', { 'id': entity.id }) }}" class="button success">Sluit rapport</a>
-				</td>
-                <td>{{ entity.hovNummer }}</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-	
+    
     {% endblock %}

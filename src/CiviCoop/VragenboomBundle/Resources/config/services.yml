@@ -1,9 +1,11 @@
 parameters:
 #    civicoop.dgw.mutatieproces.case_type: DossierOpzeggingHuurcontract
     civicoop.dgw.mutatieproces.case_type: Huuropzeggingsdossier    
-    civicoop.dgw.mutatieproces.activity_type: Adviesgesprek
+    civicoop.dgw.mutatieproces.activity_type_adviesgesprek: Adviesgesprek
+    civicoop.dgw.mutatieproces.activity_type_eindgesprek: Eindgesprek
 #    civicoop.dgw.mutatieproces.eindehuurcontract: einde_huurcontract
     civicoop.dgw.mutatieproces.eindehuurcontract: vge
+    civicoop.dgw.mutatieproces.rapport_factory_class: CiviCoop\VragenboomBundle\Service\RapportFactory
 
 services:
     civicoop.dgw.mutatieproces.civicase:
@@ -11,8 +13,13 @@ services:
         arguments: 
             entityManager: @doctrine.orm.entity_manager
             api: @civicoop.civicrm.api 
+            factory: @civicoop.vragenboom.rapportfactory
             casetype: %civicoop.dgw.mutatieproces.case_type%
-            activitytype: %civicoop.dgw.mutatieproces.activity_type%
+            activitytype_adviesgesprek: %civicoop.dgw.mutatieproces.activity_type_adviesgesprek%
+            activitytype_eindgesprek: %civicoop.dgw.mutatieproces.activity_type_eindgesprek%
             eindehuurcontract: %civicoop.dgw.mutatieproces.eindehuurcontract%
-    civicoop.vragenboom.report:
-        class: CiviCoop\VragenboomBundle\Service\Reports
+    civicoop.vragenboom.rapportfactory:
+        class: %civicoop.dgw.mutatieproces.rapport_factory_class%
+        arguments:
+            entityManager: @doctrine.orm.entity_manager
+            translator: @translator

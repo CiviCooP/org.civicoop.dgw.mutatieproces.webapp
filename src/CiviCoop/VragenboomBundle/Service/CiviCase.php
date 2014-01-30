@@ -3,7 +3,7 @@
 namespace CiviCoop\VragenboomBundle\Service;
 
 use CiviCoop\CiviCrmBundle\Service\Api;
-use CiviCoop\VragenboomBundle\Entity\AdviesRapport;
+use CiviCoop\VragenboomBundle\Service\RapportFactory;
 use CiviCoop\VragenboomBundle\Entity\Client;
 use Doctrine\ORM\EntityManager;
 
@@ -12,22 +12,28 @@ class CiviCase extends CiviCommon {
 	
 	private $casetype;
 	private $casetype_id;
-	private $activitytype;
-	private $activity_type_id;
+	private $activitytype_adviesgesprek;
+  private $activitytype_eindgesprek;
+	private $activity_adviesgesprek_type_id;
+  private $activity_eindgesprek_type_id;
 	private $eindehuurcontract;
 	private $eindehuurcontract_id;
+  private $factory;
 	
 	private $em;
 	
-	public function __construct(EntityManager $entityManager, Api $api, $casetype, $activitytype, $eindehuurcontract) {
+	public function __construct(EntityManager $entityManager, Api $api, RapportFactory $factory, $casetype, $activitytype_adviesgesprek, $activitytype_eindgesprek, $eindehuurcontract) {
 		parent::__construct($api);
+    $this->factory = $factory;
 		$this->em = $entityManager;
 		$this->casetype = $casetype;
-		$this->activitytype = $activitytype;
+		$this->activitytype_adviesgesprek = $activitytype_adviesgesprek;
+    $this->activitytype_eindgesprek = $activitytype_eindgesprek;
 		$this->eindehuurcontract = $eindehuurcontract;
 		
 		$this->eindehuurcontract_id = $this->retrieveCustomGroupIdByName($this->eindehuurcontract);		
-		$this->activity_type_id = $this->retreiveOptionValueByname($this->activitytype, 'activity_type');
+		$this->activity_adviesgesprek_type_id = $this->retreiveOptionValueByname($this->activitytype_adviesgesprek, 'activity_type');
+    $this->activity_eindgesprek_type_id = $this->retreiveOptionValueByname($this->activitytype_eindgesprek, 'activity_type');
 	}
 
 	/**
@@ -35,42 +41,53 @@ class CiviCase extends CiviCommon {
 	 */
 	public function sync() {
 		$this->syncExisting();
-		$this->syncNew();
+    $this->syncNew();
 	}
 	
 	protected function syncExisting() {
-		$reports = $this->em->getRepository('CiviCoopVragenboomBundle:AdviesRapport')->findAllActive();
+		$this->syncExistingActivity('CiviCoopVragenboomBundle:AdviesRapport');
+    $this->syncExistingActivity('CiviCoopVragenboomBundle:EindRapport');
+	}
+  
+  private function syncExistingActivity($entity) {
+    $reports = $this->factory->findAllActive($entity);
 		foreach($reports as $report) {
 			$activity = $this->getActivity($report->getActivityId());
 			if ($activity) {
 				$report->setActivityId($activity->id);
+        $report->setDate(new \DateTime($activity->activity_date_time));
 				$report->setClosed(($activity->status_id == 1) ? false : true);
 				$this->em->persist($report);
 			} else {
 				$report->setClosed(true);
 				$this->em->persist($report);
 			}
+      $this->em->flush();
 		}
-		
-		$this->em->flush();
-	}
+  }
 	 
-	protected function syncNew() {
-		
-		$activities = $this->getActivities($this->activity_type_id);
+	protected function syncNew() {		
+    $this->syncNewActivity($this->activity_adviesgesprek_type_id, 'CiviCoopVragenboomBundle:AdviesRapport');
+    $this->syncNewActivity($this->activity_eindgesprek_type_id, 'CiviCoopVragenboomBundle:EindRapport');
+	}
+  
+  private function syncNewActivity($activity_type_id, $entity) {
+    $activities = $this->getActivities($activity_type_id);
 		while($activity = $activities->nextValue()) {
+      $activity_id = $activity->id;
 			$cases = $this->getCaseByActivity($activity->id);
 			$case = $cases->nextValue();
 			if ($case) {
-				$report = $this->em->getRepository('CiviCoopVragenboomBundle:AdviesRapport')->findOneByCaseId($case->id);
+				$report = $this->factory->findOneByCaseId($entity, $case->id);
 				if (!$report) {
-					$report = new AdviesRapport();				
+					$report = $this->factory->getNewClass($entity);		
 					$report->setCaseId($case->id);					
 				} else { 
 					$report->setClosed(false);
 				}
 				
-				$report->setActivityId($activity->id);
+				$report->setActivityId($activity_id);
+        $report->setDate(new \DateTime($activity->activity_date_time));
 				$custom = $this->retrieveCustomValuesByEntity('civicrm_case', $case->id, $this->eindehuurcontract_id);					
 				if (isset($custom->hov_nr)) {
 					$report->setHovNummer($custom->hov_nr);
@@ -97,11 +114,10 @@ class CiviCase extends CiviCommon {
 				}
 				
 				$this->em->persist($report);
+        $this->em->flush();
 			}
 		}
-		
-		$this->em->flush();
-	}
+  }
 	
 	private function getActivities($activity_type_id) {
 		//Haal alle activiteiten op met de status gepland (1).

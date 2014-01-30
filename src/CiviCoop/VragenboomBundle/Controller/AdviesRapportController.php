@@ -8,9 +8,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use CiviCoop\VragenboomBundle\Entity\AdviesRapport;
-use CiviCoop\VragenboomBundle\Entity\AdviesRapportRegel;
-use CiviCoop\VragenboomBundle\Form\AdviesRapportType;
-use CiviCoop\VragenboomBundle\Form\AdviesRapportRegelType;
 
 /**
  * AdviesRapport controller.
@@ -27,35 +24,44 @@ class AdviesRapportController extends AbstractController {
    * @Template("CiviCoopVragenboomBundle:AdviesRapport:index.html.twig")
    */
   public function indexAction() {
-    $em = $this->getDoctrine()->getManager();
-
-    $entities = $em->getRepository('CiviCoopVragenboomBundle:AdviesRapport')->findAllActive();
+    $factory = $this->get('civicoop.vragenboom.rapportfactory');
+    $entities = $factory->findAllCombinedActive();
+    
+    /*($adviesgesprek = $em->getRepository('CiviCoopVragenboomBundle:AdviesRapport')->findAllActive();
+    $eindgesprek = $em->getRepository('CiviCoopVragenboomBundle:EindRapport')->findAllActive();*/
 
     return array(
       'entities' => $entities,
+      'factory' => $factory,
     );
   }
 
   /**
    * Finds and displays a AdviesRapport entity.
    *
-   * @Route("/{id}", name="adviesrapport_show")
+   * @Route("/{shortname}/{id}", name="adviesrapport_show")
    * @Method("GET")
    * @Template("CiviCoopVragenboomBundle:AdviesRapport:show.html.twig")
    */
-  public function showAction($id) {
+  public function showAction($shortname, $id) {
     $em = $this->getDoctrine()->getManager();
-
-    $entity = $em->getRepository('CiviCoopVragenboomBundle:AdviesRapport')->findOneById($id);
+    $factory = $this->get('civicoop.vragenboom.rapportfactory');
+    
+    $entity = $em->getRepository($factory->getEntityFromShortname($shortname))->findOneById($id);
 
     if (!$entity) {
-      throw $this->createNotFoundException('Unable to find AdviesRapport entity.');
+      throw $this->createNotFoundException('Unable to find Rapport entity.');
     }
+    
+    /*if ($factory->getEntity($entity) == 'CiviCoopVragenboomBundle:EindRapport') {
+      //do loading from other reports
+    }*/
 
-    $editForm = $this->createForm(new AdviesRapportType(), $entity);
+    $editForm = $this->createForm($factory->getNewForm($factory->getEntity($entity)), $entity);
 
     return array(
       'entity' => $entity,
+      'factory' => $factory,
       'edit_form' => $editForm->createView(),
     );
   }
@@ -63,14 +69,15 @@ class AdviesRapportController extends AbstractController {
   /**
    * Edits an existing AdviesRapport entity.
    *
-   * @Route("/{id}/update", name="adviesrapport_update")
+   * @Route("/{shortname}/{id}/update", name="adviesrapport_update")
    * @Method("PUT")
    * @Template("CiviCoopVragenboomBundle:AdviesRapport:show.html.twig")
    */
-  public function updateAction(Request $request, $id) {
+  public function updateAction(Request $request, $shortname, $id) {
     $em = $this->getDoctrine()->getManager();
-
-    $entity = $em->getRepository('CiviCoopVragenboomBundle:AdviesRapport')->find($id);
+    $factory = $this->get('civicoop.vragenboom.rapportfactory');
+    
+    $entity = $em->getRepository($factory->getEntityFromShortname($shortname))->findOneById($id);
 
     if (!$entity) {
       throw $this->createNotFoundException('Unable to find AdviesRapport entity.');
@@ -83,7 +90,7 @@ class AdviesRapportController extends AbstractController {
       $em->persist($entity);
       $em->flush();
 
-      return $this->redirect($this->generateUrl('adviesrapport_show', array('id' => $id)));
+      return $this->redirect($this->generateUrl('adviesrapport_show', array('id' => $id, 'shortname' => $factory->getShortName($entity))));
     }
 
     return array(
@@ -95,19 +102,22 @@ class AdviesRapportController extends AbstractController {
   /**
    * Close an AdviesRapport entity.
    *
-   * @Route("/{id}/close", name="adviesrapport_close")
+   * @Route("/{shortname}/{id}/close", name="adviesrapport_close")
    * @Method("GET")
    * @Template("CiviCoopVragenboomBundle:AdviesRapport:close.html.twig")
    */
-  public function closeAction(Request $request, $id) {
+  public function closeAction(Request $request, $shortname, $id) {
     $em = $this->getDoctrine()->getManager();
-
-    $entity = $em->getRepository('CiviCoopVragenboomBundle:AdviesRapport')->find($id);
+    $factory = $this->get('civicoop.vragenboom.rapportfactory');
+    
+    $entity = $em->getRepository($factory->getEntityFromShortname($shortname))->findOneById($id);
 
     if (!$entity) {
       throw $this->createNotFoundException('Unable to find AdviesRapport entity.');
     }
-    $rapport = $this->get('civicoop.vragenboom.report')->createReport($entity);
+    
+    $entityType = $factory->getEntity($entity);
+    $rapport = $factory->getRapportGenerator($entityType)->createReport;
     $this->get('civicoop.dgw.mutatieproces.civicase')->closeActivity($entity->getActivityId(), $rapport);
     $entity->setClosed(true);
     

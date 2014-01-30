@@ -1,7 +1,7 @@
 {% extends '::base.html.twig' %}
 
 {% block body -%}
-    <h1>Adviesrapport</h1>
+    <h1>{{ factory.getHumanName(entity) }}</h1>
 
     <table class="record_properties adviesrapport">
         <tbody>
@@ -35,7 +35,7 @@
 
 	<h2>Adviezen</h2>
 	
-	<a href="{{ path('adviesrapportregel_new', {'rapport': entity.id} ) }}" class="button">Nieuw advies toevoegen</a>
+	<a href="{{ path('adviesrapportregel_new', {'shortname': factory.getShortName(entity), 'id': entity.id} ) }}" class="button">Nieuw advies toevoegen</a>
 	
 	<table class="record_properties adviezen">
 		<tbody>
@@ -48,7 +48,7 @@
 					</td>
 					<td>
 						<ul class="actions">
-							<li><a href="{{ path('adviesrapportregel_delete', {'rapport': entity.id, 'id': regel.id} ) }}" onclick="return confirm('Weet u het zeker?');">Verwijderen</a></li>
+							<li><a href="{{ path('adviesrapportregel_delete', {'shortname': factory.getShortName(entity), 'id': entity.id, 'entity_id': regel.id} ) }}" onclick="return confirm('Weet u het zeker?');">Verwijderen</a></li>
 						</ul>
 					</td>
 				</tr>
@@ -56,9 +56,9 @@
 		</tbody>
 	</table>
 				
-	<a href="{{ path('adviesrapportregel_new', {'rapport': entity.id} ) }}" class="button">Nieuw advies toevoegen</a>
+	<a href="{{ path('adviesrapportregel_new', {'shortname': factory.getShortName(entity), 'id': entity.id} ) }}" class="button">Nieuw advies toevoegen</a>
 	
-	<form action="{{ path('adviesrapport_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }} class="adviesrapport">
+	<form action="{{ path('adviesrapport_update', { 'shortname': factory.getShortName(entity), 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }} class="adviesrapport">
         <input type="hidden" name="_method" value="PUT" />
         {{ form_widget(edit_form) }}
         <p>
