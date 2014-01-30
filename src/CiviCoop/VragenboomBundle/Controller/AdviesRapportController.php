@@ -53,9 +53,10 @@ class AdviesRapportController extends AbstractController {
       throw $this->createNotFoundException('Unable to find Rapport entity.');
     }
     
-    /*if ($factory->getEntity($entity) == 'CiviCoopVragenboomBundle:EindRapport') {
+    if ($factory->getEntity($entity) == 'CiviCoopVragenboomBundle:EindRapport') {
       //do loading from other reports
-    }*/
+     $this->loadEindGesprekRapport($entity);
+    }
 
     $editForm = $this->createForm($factory->getNewForm($factory->getEntity($entity)), $entity);
 
@@ -64,6 +65,34 @@ class AdviesRapportController extends AbstractController {
       'factory' => $factory,
       'edit_form' => $editForm->createView(),
     );
+  }
+  
+  protected function loadEindGesprekRapport($rapport) {
+    $em = $this->getDoctrine()->getManager();
+    $factory = $this->get('civicoop.vragenboom.rapportfactory');
+    $reports = $em->getRepository($factory->getEntityFromShortname('adviesrapport'))->findByCaseId($rapport->getCaseId());
+    foreach($reports as $rep) {
+      foreach($rep->getRegels() as $regel) {
+        $contains = false;
+        foreach($rapport->getRegels() as $rregel) {
+          if ($rregel->getAdviesRapportRegel() && $rregel->getAdviesRapportRegel() == $regel) {
+            $contains = true;
+            break;
+          }
+        }
+        
+        if (!$contains) {
+          $eind_regel = new \CiviCoop\VragenboomBundle\Entity\EindRapportRegel();
+          $eind_regel->setAdviesRapportRegel($regel);
+          $eind_regel->setEindRapport($rapport);
+          $rapport->addRegel($eind_regel);
+          $em->persist($eind_regel);
+        }
+      }
+    }
+    
+    $em->persist($rapport);
+    $em->flush();
   }
 
   /**

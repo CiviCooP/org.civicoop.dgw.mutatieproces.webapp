@@ -17,14 +17,15 @@ class EindRapportGenerateor {
                           <p>%s</p>
                         </td>
                         <td>%s</td>
-                        <td>%s</td>
+                        <td><p>%s</p><p>%s</p></td>
                         </tr>",
                          $regel->getRuimte(),
                          $regel->getObject(),
                          $regel->getActie(),
                          $regel->getActieRemark(),
                          $regel->getRemark(),
-                         $regel->getVerantwoordelijke()
+                         $regel->getVerantwoordelijke(),
+                         $regel->getStatus()
           );
     }
     $html .= "</tbody></table>";

@@ -120,7 +120,7 @@ class EindRapport
      * Set caseId
      *
      * @param integer $caseId
-     * @return AdviesRapport
+     * @return EindRapport
      */
     public function setCaseId($caseId)
     {
@@ -143,7 +143,7 @@ class EindRapport
      * Set date
      *
      * @param \DateTime $date
-     * @return AdviesRapport
+     * @return EindRapport
      */
     public function setDate($date)
     {
@@ -166,7 +166,7 @@ class EindRapport
      * Set hovNummer
      *
      * @param string $hovNummer
-     * @return AdviesRapport
+     * @return EindRapport
      */
     public function setHovNummer($hovNummer)
     {
@@ -189,7 +189,7 @@ class EindRapport
      * Set remarks
      *
      * @param string $remarks
-     * @return AdviesRapport
+     * @return EindRapport
      */
     public function setRemarks($remarks)
     {
@@ -211,10 +211,10 @@ class EindRapport
     /**
      * Add regels
      *
-     * @param \CiviCoop\VragenboomBundle\Entity\AdviesRapportRegel $regels
-     * @return AdviesRapport
+     * @param \CiviCoop\VragenboomBundle\Entity\EindRapportRegel $regels
+     * @return EindRapport
      */
-    public function addRegel(\CiviCoop\VragenboomBundle\Entity\AdviesRapportRegel $regels)
+    public function addRegel(\CiviCoop\VragenboomBundle\Entity\EindRapportRegel $regels)
     {
         $this->regels[] = $regels;
     
@@ -224,9 +224,9 @@ class EindRapport
     /**
      * Remove regels
      *
-     * @param \CiviCoop\VragenboomBundle\Entity\AdviesRapportRegel $regels
+     * @param \CiviCoop\VragenboomBundle\Entity\EindRapportRegel $regels
      */
-    public function removeRegel(\CiviCoop\VragenboomBundle\Entity\AdviesRapportRegel $regels)
+    public function removeRegel(\CiviCoop\VragenboomBundle\Entity\EindRapportRegel $regels)
     {
         $this->regels->removeElement($regels);
     }
@@ -245,7 +245,7 @@ class EindRapport
      * Set activityId
      *
      * @param integer $activityId
-     * @return AdviesRapport
+     * @return EindRapport
      */
     public function setActivityId($activityId)
     {
@@ -268,7 +268,7 @@ class EindRapport
      * Set vgeNummer
      *
      * @param string $vgeNummer
-     * @return AdviesRapport
+     * @return EindRapport
      */
     public function setVgeNummer($vgeNummer)
     {
@@ -291,7 +291,7 @@ class EindRapport
      * Set vgeAdres
      *
      * @param string $vgeAdres
-     * @return AdviesRapport
+     * @return EindRapport
      */
     public function setVgeAdres($vgeAdres)
     {
@@ -314,7 +314,7 @@ class EindRapport
      * Set closed
      *
      * @param boolean $closed
-     * @return AdviesRapport
+     * @return EindRapport
      */
     public function setClosed($closed)
     {
@@ -347,7 +347,7 @@ class EindRapport
      * Add clients
      *
      * @param \CiviCoop\VragenboomBundle\Entity\Client $clients
-     * @return AdviesRapport
+     * @return EindRapport
      */
     public function addClient(\CiviCoop\VragenboomBundle\Entity\Client $clients)
     {

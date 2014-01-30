@@ -72,6 +72,17 @@ class EindRapportRegel {
    * @ORM\Column(name="verantwoordelijke", type="string", length=255)
    */
   protected $verantwoordelijke;
+  
+  /**
+   * @ORM\Column(name="status", type="string", length=255)
+   */
+  protected $status = '';
+  
+  /**
+    * @ORM\ManyToOne(targetEntity="AdviesRapportRegel")
+    * @ORM\JoinColumn(name="advies_rapport_regel_id", referencedColumnName="id", nullable=true)
+    */
+  protected $adviesRapportRegel;
 
   public function __construct() {
     
@@ -203,6 +214,33 @@ class EindRapportRegel {
   public function setActieRemark($actieRemark) {
     $this->actieRemark = $actieRemark;
     return $this;
+  }
+  
+  public function setStatus($status) {
+    $this->status = $status;
+    return $this;
+  }
+  
+  public function getStatus() {
+    return $this->status;
+  }
+  
+  public function setAdviesRapportRegel(\CiviCoop\VragenboomBundle\Entity\AdviesRapportRegel $regel) {
+    $this->adviesRapportRegel = $regel;
+    if ($regel !== null) {
+      $this->actieRemark = $regel->getActieRemark();
+      $this->actie = $regel->getActie();
+      $this->actie_definitie = $regel->getActieDefinitie();
+      $this->remark = $regel->getRemark();
+      $this->ruimte = $regel->getRuimte();
+      $this->object = $regel->getObject();
+      $this->verantwoordelijke = $regel->getVerantwoordelijke();
+    }    
+    return $this;
+  }
+  
+  public function getAdviesRapportRegel() {
+    return $this->adviesRapportRegel;
   }
 
 }
