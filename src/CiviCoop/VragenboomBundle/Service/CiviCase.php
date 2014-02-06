@@ -24,15 +24,15 @@ class CiviCase extends CiviCommon {
 	
 	private $em;
 	
-	public function __construct(EntityManager $entityManager, Api $api, RapportFactory $factory, $casetype, $activitytype_adviesgesprek, $activitytype_eindgesprek, $eindehuurcontract, $huuropzegging) {
+	public function __construct(EntityManager $entityManager, Api $api, RapportFactory $factory) {
 		parent::__construct($api);
     $this->factory = $factory;
 		$this->em = $entityManager;
-		$this->casetype = $casetype;
-		$this->activitytype_adviesgesprek = $activitytype_adviesgesprek;
-    $this->activitytype_eindgesprek = $activitytype_eindgesprek;
-		$this->eindehuurcontract = $eindehuurcontract;
-    $this->huuropzegging = $huuropzegging;
+		$this->casetype = 'Huuropzeggingsdossier';
+		$this->activitytype_adviesgesprek = 'Adviesgesprek';
+    $this->activitytype_eindgesprek = 'Eindgesprek';
+		$this->eindehuurcontract = 'vge';
+    $this->huuropzegging = 'huur_opzegging';
 		
 		$this->eindehuurcontract_id = $this->retrieveCustomGroupIdByName($this->eindehuurcontract);		
     $this->huuropzegging_id = $this->retrieveCustomGroupIdByName($this->huuropzegging);
