@@ -15,6 +15,7 @@ Installation and configuration
 -----------------------------
 
 To install the application follow the instructions below
+
 1. `git clone github.com/jaapjansma/org.civicoop.dgw.mutatieproces.webapp`
 2. Create a database
 3. `php composer.phar install`
@@ -26,6 +27,7 @@ To install the application follow the instructions below
 
 Requirements
 ------------
+
 - SSH access
 - PHP 5.3.3 or greater
 - PHP-Intl extension enabled (intl with Icu 4+)
