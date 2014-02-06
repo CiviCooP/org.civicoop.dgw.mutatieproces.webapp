@@ -3,21 +3,32 @@
     <tr>
         <th>Contact</th>
         <th>Datum</th>
-        <th>Type</th>
     </tr>
 </thead>
 <tbody>
     {% for entity in entities %}
-        <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
+        <tr class="item-top {{ cycle(['odd', 'even'], loop.index) }}">
+            <td colspan="2">
+                {{ factory.getHumanName(entity) }}
+            </td>
+        </tr>
+        <tr class="item-middle {{ cycle(['odd', 'even'], loop.index) }}">
             <td>
                 {% for client in entity.clients %}
-                    <p>{{client.displayName}}, {{ entity.vgeAdres }}</p>
+                    <p>{{client.displayName}}</p> 
+                    <p>{{ entity.vgeAdres }}</p>
                 {% endfor %}
+            </td>
+            <td>
+                <p>{{ entity.date|date('d-m-y') }}</p>
+                <p>{{ entity.date|date('H:i') }}</p>
+            </td>
+        </tr>
+        <tr class="item-bottom {{ cycle(['odd', 'even'], loop.index) }}">
+            <td colspan="2">
                 <a href="{{ path(show_report_link, { 'shortname': factory.getShortname(entity), 'id': entity.id }) }}" class="button">Bekijk rapport</a>
                 <a href="{{ path(close_report_link, { 'shortname': factory.getShortname(entity), 'id': entity.id }) }}" class="button success">Sluit rapport</a>
             </td>
-            <td>{{ entity.date|date('d-m-Y H:i') }}</td>
-            <td>{{ factory.getHumanName(entity) }}</td>
         </tr>
     {% endfor %}
 </tbody>

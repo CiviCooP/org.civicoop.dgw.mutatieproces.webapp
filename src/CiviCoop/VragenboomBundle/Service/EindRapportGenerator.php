@@ -4,10 +4,10 @@ namespace CiviCoop\VragenboomBundle\Service;
 
 use CiviCoop\VragenboomBundle\Entity\EindRapport;
 
-class EindRapportGenerateor {
+class EindRapportGenerator {
   
   public function createReport(EindRapport $rapport) {
-    $html = "<table><thead><tr><th>Ruimte / Object</th><th>Actie</th><th>Opmerkingen</th><th>Status</th></tr></thead><tbody>";
+    $html = "<table><thead><tr><th>Ruimte / Object</th><th>Actie</th><th>Opmerkingen</th><th>Status</th><th>Eindrapport</th></tr></thead><tbody>";
   
     foreach($rapport->getRegels() as $regel) {
       $html .= sprintf("<tr>
@@ -17,7 +17,8 @@ class EindRapportGenerateor {
                           <p>%s</p>
                         </td>
                         <td>%s</td>
-                        <td><p>%s</p><p>%s</p></td>
+                        <td>%s</td>
+                        <td>%s</td>
                         </tr>",
                          $regel->getRuimte(),
                          $regel->getObject(),

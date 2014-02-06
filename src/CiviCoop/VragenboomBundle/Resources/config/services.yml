@@ -5,6 +5,7 @@ parameters:
     civicoop.dgw.mutatieproces.activity_type_eindgesprek: Eindgesprek
 #    civicoop.dgw.mutatieproces.eindehuurcontract: einde_huurcontract
     civicoop.dgw.mutatieproces.eindehuurcontract: vge
+    civicoop.dgw.mutatieproces.huuropzegging: huur_opzegging
     civicoop.dgw.mutatieproces.rapport_factory_class: CiviCoop\VragenboomBundle\Service\RapportFactory
 
 services:
@@ -18,6 +19,7 @@ services:
             activitytype_adviesgesprek: %civicoop.dgw.mutatieproces.activity_type_adviesgesprek%
             activitytype_eindgesprek: %civicoop.dgw.mutatieproces.activity_type_eindgesprek%
             eindehuurcontract: %civicoop.dgw.mutatieproces.eindehuurcontract%
+            huuropzegging: %civicoop.dgw.mutatieproces.huuropzegging%
     civicoop.vragenboom.rapportfactory:
         class: %civicoop.dgw.mutatieproces.rapport_factory_class%
         arguments:

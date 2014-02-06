@@ -13,366 +13,369 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="CiviCoop\VragenboomBundle\Entity\AdviesRapportRepository")
  */
-class AdviesRapport
-{
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    private $id;
+class AdviesRapport {
 
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="case_id", type="integer")
-     */
-    private $caseId;
-	
-	/**
-	 * @var integer
-	 *
-	 * @ORM\Column(name="activity_id", type="integer")
-	 */
-	private $activityId;
+  /**
+   * @var integer
+   *
+   * @ORM\Column(name="id", type="integer")
+   * @ORM\Id
+   * @ORM\GeneratedValue(strategy="AUTO")
+   */
+  private $id;
 
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="date", type="datetime")
-     */
-    private $date;
+  /**
+   * @var integer
+   *
+   * @ORM\Column(name="case_id", type="integer")
+   */
+  private $caseId;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="hov_nummer", type="string", length=255, nullable=true)
-     */
-    private $hovNummer;
-	
-	/**
-     * @var string
-     *
-     * @ORM\Column(name="vge_nummer", type="string", length=255, nullable=true)
-     */
-    private $vgeNummer;
-	
-	/**
-     * @var string
-     *
-     * @ORM\Column(name="vge_adres", type="string", length=255, nullable=true)
-     */
-    private $vgeAdres;
+  /**
+   * @var integer
+   *
+   * @ORM\Column(name="activity_id", type="integer")
+   */
+  private $activityId;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="remarks", type="text")
-     */
-    private $remarks = "";
-	
-	/**
-     * @var boolean
-     *
-     * @ORM\Column(name="closed", type="boolean")
-     */
-    private $closed = false;
-	
-	/**
-     * @ORM\OneToMany(targetEntity="Client", mappedBy="adviesrapport", cascade={"persist"})
-     */
-	 
-	 /**
-     * @ORM\ManyToMany(targetEntity="Client", cascade={"persist"})
-     * @ORM\JoinTable(name="adviesrapport_client",
-     *      joinColumns={@ORM\JoinColumn(name="client_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="adviesrapport_id", referencedColumnName="id")}
-     *      )
-     **/	 
-	private $clients;
-	
-	/**
-     * @ORM\OneToMany(targetEntity="AdviesRapportRegel", mappedBy="adviesRapport")
-     */
-	private $regels;
-	
-	public function __construct()
-    {
-        $this->regels = new ArrayCollection();
-		$this->clients = new ArrayCollection();
-		$this->date = new \DateTime();
-    }
+  /**
+   * @var \DateTime
+   *
+   * @ORM\Column(name="date", type="datetime")
+   */
+  private $date;
 
+  /**
+   * @var \DateTime
+   *
+   * @ORM\Column(name="expected_enddate", type="datetime")
+   */
+  private $expectedEndDate;
 
-    /**
-     * Get id
-     *
-     * @return integer 
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
+  /**
+   * @var string
+   *
+   * @ORM\Column(name="hov_nummer", type="string", length=255, nullable=true)
+   */
+  private $hovNummer;
 
-    /**
-     * Set caseId
-     *
-     * @param integer $caseId
-     * @return AdviesRapport
-     */
-    public function setCaseId($caseId)
-    {
-        $this->caseId = $caseId;
-    
-        return $this;
-    }
+  /**
+   * @var string
+   *
+   * @ORM\Column(name="vge_nummer", type="string", length=255, nullable=true)
+   */
+  private $vgeNummer;
 
-    /**
-     * Get caseId
-     *
-     * @return integer 
-     */
-    public function getCaseId()
-    {
-        return $this->caseId;
-    }
+  /**
+   * @var string
+   *
+   * @ORM\Column(name="vge_adres", type="string", length=255, nullable=true)
+   */
+  private $vgeAdres;
 
-    /**
-     * Set date
-     *
-     * @param \DateTime $date
-     * @return AdviesRapport
-     */
-    public function setDate($date)
-    {
-        $this->date = $date;
-    
-        return $this;
-    }
+  /**
+   * @var string
+   *
+   * @ORM\Column(name="remarks", type="text")
+   */
+  private $remarks = "";
 
-    /**
-     * Get date
-     *
-     * @return \DateTime 
-     */
-    public function getDate()
-    {
-        return $this->date;
-    }
+  /**
+   * @var boolean
+   *
+   * @ORM\Column(name="closed", type="boolean")
+   */
+  private $closed = false;
 
-    /**
-     * Set hovNummer
-     *
-     * @param string $hovNummer
-     * @return AdviesRapport
-     */
-    public function setHovNummer($hovNummer)
-    {
-        $this->hovNummer = $hovNummer;
-    
-        return $this;
-    }
+  /**
+   * @ORM\OneToMany(targetEntity="Client", mappedBy="adviesrapport", cascade={"persist"})
+   */
 
-    /**
-     * Get hovNummer
-     *
-     * @return string 
-     */
-    public function getHovNummer()
-    {
-        return $this->hovNummer;
-    }
+  /**
+   * @ORM\ManyToMany(targetEntity="Client", cascade={"persist"})
+   * @ORM\JoinTable(name="adviesrapport_client",
+   *      joinColumns={@ORM\JoinColumn(name="client_id", referencedColumnName="id")},
+   *      inverseJoinColumns={@ORM\JoinColumn(name="adviesrapport_id", referencedColumnName="id")}
+   *      )
+   * */
+  private $clients;
 
-    /**
-     * Set remarks
-     *
-     * @param string $remarks
-     * @return AdviesRapport
-     */
-    public function setRemarks($remarks)
-    {
-        $this->remarks = $remarks;
-    
-        return $this;
-    }
+  /**
+   * @ORM\OneToMany(targetEntity="AdviesRapportRegel", mappedBy="adviesRapport")
+   */
+  private $regels;
 
-    /**
-     * Get remarks
-     *
-     * @return string 
-     */
-    public function getRemarks()
-    {
-        return $this->remarks;
-    }
+  public function __construct() {
+    $this->regels = new ArrayCollection();
+    $this->clients = new ArrayCollection();
+    $this->date = new \DateTime();
+  }
 
-    /**
-     * Add regels
-     *
-     * @param \CiviCoop\VragenboomBundle\Entity\AdviesRapportRegel $regels
-     * @return AdviesRapport
-     */
-    public function addRegel(\CiviCoop\VragenboomBundle\Entity\AdviesRapportRegel $regels)
-    {
-        $this->regels[] = $regels;
-    
-        return $this;
-    }
+  /**
+   * Get id
+   *
+   * @return integer 
+   */
+  public function getId() {
+    return $this->id;
+  }
 
-    /**
-     * Remove regels
-     *
-     * @param \CiviCoop\VragenboomBundle\Entity\AdviesRapportRegel $regels
-     */
-    public function removeRegel(\CiviCoop\VragenboomBundle\Entity\AdviesRapportRegel $regels)
-    {
-        $this->regels->removeElement($regels);
-    }
+  /**
+   * Set caseId
+   *
+   * @param integer $caseId
+   * @return AdviesRapport
+   */
+  public function setCaseId($caseId) {
+    $this->caseId = $caseId;
 
-    /**
-     * Get regels
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getRegels()
-    {
-        return $this->regels;
-    }
+    return $this;
+  }
 
-    /**
-     * Set activityId
-     *
-     * @param integer $activityId
-     * @return AdviesRapport
-     */
-    public function setActivityId($activityId)
-    {
-        $this->activityId = $activityId;
-    
-        return $this;
-    }
+  /**
+   * Get caseId
+   *
+   * @return integer 
+   */
+  public function getCaseId() {
+    return $this->caseId;
+  }
+  
+  /**
+   * Set expected end date
+   *
+   * @param \DateTime $date
+   * @return AdviesRapport
+   */
+  public function setExpectedEndDate($date) {
+    $this->expectedEndDate = $date;
 
-    /**
-     * Get activityId
-     *
-     * @return integer 
-     */
-    public function getActivityId()
-    {
-        return $this->activityId;
-    }
+    return $this;
+  }
 
-    /**
-     * Set vgeNummer
-     *
-     * @param string $vgeNummer
-     * @return AdviesRapport
-     */
-    public function setVgeNummer($vgeNummer)
-    {
-        $this->vgeNummer = $vgeNummer;
-    
-        return $this;
-    }
+  /**
+   * Get expected enddate
+   *
+   * @return \DateTime 
+   */
+  public function getExpectedEndDate() {
+    return $this->expectedEndDate;
+  }
 
-    /**
-     * Get vgeNummer
-     *
-     * @return string 
-     */
-    public function getVgeNummer()
-    {
-        return $this->vgeNummer;
-    }
+  /**
+   * Set date
+   *
+   * @param \DateTime $date
+   * @return AdviesRapport
+   */
+  public function setDate($date) {
+    $this->date = $date;
 
-    /**
-     * Set vgeAdres
-     *
-     * @param string $vgeAdres
-     * @return AdviesRapport
-     */
-    public function setVgeAdres($vgeAdres)
-    {
-        $this->vgeAdres = $vgeAdres;
-    
-        return $this;
-    }
+    return $this;
+  }
 
-    /**
-     * Get vgeAdres
-     *
-     * @return string 
-     */
-    public function getVgeAdres()
-    {
-        return $this->vgeAdres;
-    }
+  /**
+   * Get date
+   *
+   * @return \DateTime 
+   */
+  public function getDate() {
+    return $this->date;
+  }
 
-    /**
-     * Set closed
-     *
-     * @param boolean $closed
-     * @return AdviesRapport
-     */
-    public function setClosed($closed)
-    {
-        $this->closed = $closed;
-    
-        return $this;
-    }
+  /**
+   * Set hovNummer
+   *
+   * @param string $hovNummer
+   * @return AdviesRapport
+   */
+  public function setHovNummer($hovNummer) {
+    $this->hovNummer = $hovNummer;
 
-    /**
-     * Get closed
-     *
-     * @return boolean 
-     */
-    public function isClosed()
-    {
-        return $this->closed;
-    }
+    return $this;
+  }
 
-    /**
-     * Get closed
-     *
-     * @return boolean 
-     */
-    public function getClosed()
-    {
-        return $this->closed;
-    }
+  /**
+   * Get hovNummer
+   *
+   * @return string 
+   */
+  public function getHovNummer() {
+    return $this->hovNummer;
+  }
 
-    /**
-     * Add clients
-     *
-     * @param \CiviCoop\VragenboomBundle\Entity\Client $clients
-     * @return AdviesRapport
-     */
-    public function addClient(\CiviCoop\VragenboomBundle\Entity\Client $clients)
-    {
-        $this->clients[] = $clients;
-    
-        return $this;
-    }
+  /**
+   * Set remarks
+   *
+   * @param string $remarks
+   * @return AdviesRapport
+   */
+  public function setRemarks($remarks) {
+    $this->remarks = $remarks;
 
-    /**
-     * Remove clients
-     *
-     * @param \CiviCoop\VragenboomBundle\Entity\Client $clients
-     */
-    public function removeClient(\CiviCoop\VragenboomBundle\Entity\Client $clients)
-    {
-        $this->clients->removeElement($clients);
-    }
+    return $this;
+  }
 
-    /**
-     * Get clients
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getClients()
-    {
-        return $this->clients;
-    }
+  /**
+   * Get remarks
+   *
+   * @return string 
+   */
+  public function getRemarks() {
+    return $this->remarks;
+  }
+
+  /**
+   * Add regels
+   *
+   * @param \CiviCoop\VragenboomBundle\Entity\AdviesRapportRegel $regels
+   * @return AdviesRapport
+   */
+  public function addRegel(\CiviCoop\VragenboomBundle\Entity\AdviesRapportRegel $regels) {
+    $this->regels[] = $regels;
+
+    return $this;
+  }
+
+  /**
+   * Remove regels
+   *
+   * @param \CiviCoop\VragenboomBundle\Entity\AdviesRapportRegel $regels
+   */
+  public function removeRegel(\CiviCoop\VragenboomBundle\Entity\AdviesRapportRegel $regels) {
+    $this->regels->removeElement($regels);
+  }
+
+  /**
+   * Get regels
+   *
+   * @return \Doctrine\Common\Collections\Collection 
+   */
+  public function getRegels() {
+    return $this->regels;
+  }
+
+  /**
+   * Set activityId
+   *
+   * @param integer $activityId
+   * @return AdviesRapport
+   */
+  public function setActivityId($activityId) {
+    $this->activityId = $activityId;
+
+    return $this;
+  }
+
+  /**
+   * Get activityId
+   *
+   * @return integer 
+   */
+  public function getActivityId() {
+    return $this->activityId;
+  }
+
+  /**
+   * Set vgeNummer
+   *
+   * @param string $vgeNummer
+   * @return AdviesRapport
+   */
+  public function setVgeNummer($vgeNummer) {
+    $this->vgeNummer = $vgeNummer;
+
+    return $this;
+  }
+
+  /**
+   * Get vgeNummer
+   *
+   * @return string 
+   */
+  public function getVgeNummer() {
+    return $this->vgeNummer;
+  }
+
+  /**
+   * Set vgeAdres
+   *
+   * @param string $vgeAdres
+   * @return AdviesRapport
+   */
+  public function setVgeAdres($vgeAdres) {
+    $this->vgeAdres = $vgeAdres;
+
+    return $this;
+  }
+
+  /**
+   * Get vgeAdres
+   *
+   * @return string 
+   */
+  public function getVgeAdres() {
+    return $this->vgeAdres;
+  }
+
+  /**
+   * Set closed
+   *
+   * @param boolean $closed
+   * @return AdviesRapport
+   */
+  public function setClosed($closed) {
+    $this->closed = $closed;
+
+    return $this;
+  }
+
+  /**
+   * Get closed
+   *
+   * @return boolean 
+   */
+  public function isClosed() {
+    return $this->closed;
+  }
+
+  /**
+   * Get closed
+   *
+   * @return boolean 
+   */
+  public function getClosed() {
+    return $this->closed;
+  }
+
+  /**
+   * Add clients
+   *
+   * @param \CiviCoop\VragenboomBundle\Entity\Client $clients
+   * @return AdviesRapport
+   */
+  public function addClient(\CiviCoop\VragenboomBundle\Entity\Client $clients) {
+    $this->clients[] = $clients;
+
+    return $this;
+  }
+
+  /**
+   * Remove clients
+   *
+   * @param \CiviCoop\VragenboomBundle\Entity\Client $clients
+   */
+  public function removeClient(\CiviCoop\VragenboomBundle\Entity\Client $clients) {
+    $this->clients->removeElement($clients);
+  }
+
+  /**
+   * Get clients
+   *
+   * @return \Doctrine\Common\Collections\Collection 
+   */
+  public function getClients() {
+    return $this->clients;
+  }
+
 }

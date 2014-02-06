@@ -18,11 +18,13 @@ class CiviCase extends CiviCommon {
   private $activity_eindgesprek_type_id;
 	private $eindehuurcontract;
 	private $eindehuurcontract_id;
+  private $huuropzegging;
+  private $huuropzegging_id;
   private $factory;
 	
 	private $em;
 	
-	public function __construct(EntityManager $entityManager, Api $api, RapportFactory $factory, $casetype, $activitytype_adviesgesprek, $activitytype_eindgesprek, $eindehuurcontract) {
+	public function __construct(EntityManager $entityManager, Api $api, RapportFactory $factory, $casetype, $activitytype_adviesgesprek, $activitytype_eindgesprek, $eindehuurcontract, $huuropzegging) {
 		parent::__construct($api);
     $this->factory = $factory;
 		$this->em = $entityManager;
@@ -30,8 +32,10 @@ class CiviCase extends CiviCommon {
 		$this->activitytype_adviesgesprek = $activitytype_adviesgesprek;
     $this->activitytype_eindgesprek = $activitytype_eindgesprek;
 		$this->eindehuurcontract = $eindehuurcontract;
+    $this->huuropzegging = $huuropzegging;
 		
 		$this->eindehuurcontract_id = $this->retrieveCustomGroupIdByName($this->eindehuurcontract);		
+    $this->huuropzegging_id = $this->retrieveCustomGroupIdByName($this->huuropzegging);
 		$this->activity_adviesgesprek_type_id = $this->retreiveOptionValueByname($this->activitytype_adviesgesprek, 'activity_type');
     $this->activity_eindgesprek_type_id = $this->retreiveOptionValueByname($this->activitytype_eindgesprek, 'activity_type');
 	}
@@ -89,15 +93,20 @@ class CiviCase extends CiviCommon {
 				$report->setActivityId($activity_id);
         $report->setDate(new \DateTime($activity->activity_date_time));
 				$custom = $this->retrieveCustomValuesByEntity('civicrm_case', $case->id, $this->eindehuurcontract_id);					
-				if (isset($custom->hov_nr)) {
-					$report->setHovNummer($custom->hov_nr);
-				}
 				if (isset($custom->vge_nr)) {
 					$report->setVgeNummer($custom->vge_nr);
 				}
 				if (isset($custom->vge_adres)) {
 					$report->setVgeAdres($custom->vge_adres);
 				}
+        
+        $custom = $this->retrieveCustomValuesByEntity('civicrm_case', $case->id, $this->huuropzegging_id);					
+        if (isset($custom->hov_nr)) {
+					$report->setHovNummer($custom->hov_nr);
+				}
+        if (isset($custom->verwachte_eind_datum)) {
+          $report->setExpectedEndDate(new \DateTime($custom->verwachte_eind_datum));
+        }
 				
 				foreach($case->client_id as $cid) {
 					$client = $this->em->getRepository('CiviCoopVragenboomBundle:Client')->findOneByContactId($cid);
@@ -127,9 +136,9 @@ class CiviCase extends CiviCommon {
 	private function getActivity($activity_id) {
 		$activity = $this->api->Activity->get(array('activity_id' => $activity_id));
 		$activity = $activity->nextValue();
-		if ($activity && $activity->is_current_revision == 0) {
+		/*if ($activity && $activity->is_current_revision == 0) {
 			$activity = $this->getActivityByOriginalId($activity->id);
-		}
+		}*/
 		return $activity;
 	}
 	

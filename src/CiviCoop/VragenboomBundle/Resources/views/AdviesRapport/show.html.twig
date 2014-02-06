@@ -24,11 +24,13 @@
                 <th>HOV-Nummer</th>
                 <td>{{ entity.hovNummer }}</td>
 				<th></th>
-				<td></th>
+				<td></td>
             </tr>
             <tr>
-                <th>Datum</th>
-                <td>{{ entity.date|date("d-m-Y") }}</td>
+                <th>Verwachte einddatum</th>
+                <td>{{ entity.expectedEndDate|date("d-m-Y") }}</td>
+                <th>Datum gesprek</th>
+                <td>{{ entity.date|date("d-m-Y H:i") }}</td>
             </tr>
         </tbody>
     </table>
@@ -45,11 +47,13 @@
 						<h3>{{regel.actie}} {% if regel.verantwoordelijke|length %} <span class="verantwoordelijke">door {{regel.verantwoordelijke}}</span> {% endif %}</h3>
 						<p>{{regel.actieRemark}}</p>
 						<p>{{regel.remark}}</p>
+                                                {% if showStatus %}
                                                 <select name="status[{{regel.id}}]">
                                                     <option value=¨>-</option>
                                                     <option value="Akkoord" {% if regel.status == 'Akkoord' %}selected="selected"{% endif %} >Akkoord</option>
                                                     <option value="Niet akkoord" {% if regel.status == 'Niet akkoord' %}selected="selected"{% endif %}>Niet akkoord</option>
                                                 </select>
+                                                {% endif %}
 					</td>
 					<td>
 						<ul class="actions">

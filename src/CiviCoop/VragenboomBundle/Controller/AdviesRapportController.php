@@ -53,9 +53,11 @@ class AdviesRapportController extends AbstractController {
       throw $this->createNotFoundException('Unable to find Rapport entity.');
     }
     
+    $showStatus = false;
     if ($factory->getEntity($entity) == 'CiviCoopVragenboomBundle:EindRapport') {
       //do loading from other reports
      $this->loadEindGesprekRapport($entity);
+     $showStatus = true;
     }
 
     $editForm = $this->createForm($factory->getNewForm($factory->getEntity($entity)), $entity);
@@ -64,6 +66,7 @@ class AdviesRapportController extends AbstractController {
       'entity' => $entity,
       'factory' => $factory,
       'edit_form' => $editForm->createView(),
+      'showStatus' => $showStatus,
     );
   }
   
@@ -158,7 +161,7 @@ class AdviesRapportController extends AbstractController {
     }
     
     $entityType = $factory->getEntity($entity);
-    $rapport = $factory->getRapportGenerator($entityType)->createReport;
+    $rapport = $factory->getRapportGenerator($entityType)->createReport($entity);
     $this->get('civicoop.dgw.mutatieproces.civicase')->closeActivity($entity->getActivityId(), $rapport);
     $entity->setClosed(true);
     

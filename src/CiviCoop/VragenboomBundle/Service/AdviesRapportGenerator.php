@@ -4,7 +4,7 @@ namespace CiviCoop\VragenboomBundle\Service;
 
 use CiviCoop\VragenboomBundle\Entity\AdviesRapport;
 
-class AdviesRapportGenerateor {
+class AdviesRapportGenerator {
   
   public function createReport(AdviesRapport $rapport) {
     $html = "<table><thead><tr><th>Ruimte / Object</th><th>Actie</th><th>Opmerkingen</th><th>Status</th></tr></thead><tbody>";
