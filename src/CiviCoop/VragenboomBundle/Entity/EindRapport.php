@@ -8,12 +8,12 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * AdviesRapport
+ * EindRapport
  *
  * @ORM\Table()
- * @ORM\Entity(repositoryClass="CiviCoop\VragenboomBundle\Entity\AdviesRapportRepository")
+ * @ORM\Entity(repositoryClass="CiviCoop\VragenboomBundle\Entity\EindRapportRepository")
  */
-class AdviesRapport {
+class EindRapport {
 
   /**
    * @var integer
@@ -44,7 +44,7 @@ class AdviesRapport {
    * @ORM\Column(name="date", type="datetime")
    */
   private $date;
-
+  
   /**
    * @var \DateTime
    *
@@ -93,15 +93,15 @@ class AdviesRapport {
 
   /**
    * @ORM\ManyToMany(targetEntity="Client", cascade={"persist"})
-   * @ORM\JoinTable(name="adviesrapport_client",
+   * @ORM\JoinTable(name="eindrapport_client",
    *      joinColumns={@ORM\JoinColumn(name="client_id", referencedColumnName="id")},
-   *      inverseJoinColumns={@ORM\JoinColumn(name="adviesrapport_id", referencedColumnName="id")}
+   *      inverseJoinColumns={@ORM\JoinColumn(name="eindrapport_id", referencedColumnName="id")}
    *      )
    * */
   private $clients;
 
   /**
-   * @ORM\OneToMany(targetEntity="AdviesRapportRegel", mappedBy="adviesRapport")
+   * @ORM\OneToMany(targetEntity="EindRapportRegel", mappedBy="eindRapport")
    */
   private $regels;
 
@@ -124,7 +124,7 @@ class AdviesRapport {
    * Set caseId
    *
    * @param integer $caseId
-   * @return AdviesRapport
+   * @return EindRapport
    */
   public function setCaseId($caseId) {
     $this->caseId = $caseId;
@@ -140,7 +140,28 @@ class AdviesRapport {
   public function getCaseId() {
     return $this->caseId;
   }
-  
+
+  /**
+   * Set date
+   *
+   * @param \DateTime $date
+   * @return EindRapport
+   */
+  public function setDate($date) {
+    $this->date = $date;
+
+    return $this;
+  }
+
+  /**
+   * Get date
+   *
+   * @return \DateTime 
+   */
+  public function getDate() {
+    return $this->date;
+  }
+
   /**
    * Set expected end date
    *
@@ -163,31 +184,10 @@ class AdviesRapport {
   }
 
   /**
-   * Set date
-   *
-   * @param \DateTime $date
-   * @return AdviesRapport
-   */
-  public function setDate($date) {
-    $this->date = $date;
-
-    return $this;
-  }
-
-  /**
-   * Get date
-   *
-   * @return \DateTime 
-   */
-  public function getDate() {
-    return $this->date;
-  }
-
-  /**
    * Set hovNummer
    *
    * @param string $hovNummer
-   * @return AdviesRapport
+   * @return EindRapport
    */
   public function setHovNummer($hovNummer) {
     $this->hovNummer = $hovNummer;
@@ -208,7 +208,7 @@ class AdviesRapport {
    * Set remarks
    *
    * @param string $remarks
-   * @return AdviesRapport
+   * @return EindRapport
    */
   public function setRemarks($remarks) {
     $this->remarks = $remarks;
@@ -228,10 +228,10 @@ class AdviesRapport {
   /**
    * Add regels
    *
-   * @param \CiviCoop\VragenboomBundle\Entity\AdviesRapportRegel $regels
-   * @return AdviesRapport
+   * @param \CiviCoop\VragenboomBundle\Entity\EindRapportRegel $regels
+   * @return EindRapport
    */
-  public function addRegel(\CiviCoop\VragenboomBundle\Entity\AdviesRapportRegel $regels) {
+  public function addRegel(\CiviCoop\VragenboomBundle\Entity\EindRapportRegel $regels) {
     $this->regels[] = $regels;
 
     return $this;
@@ -240,9 +240,9 @@ class AdviesRapport {
   /**
    * Remove regels
    *
-   * @param \CiviCoop\VragenboomBundle\Entity\AdviesRapportRegel $regels
+   * @param \CiviCoop\VragenboomBundle\Entity\EindRapportRegel $regels
    */
-  public function removeRegel(\CiviCoop\VragenboomBundle\Entity\AdviesRapportRegel $regels) {
+  public function removeRegel(\CiviCoop\VragenboomBundle\Entity\EindRapportRegel $regels) {
     $this->regels->removeElement($regels);
   }
 
@@ -259,7 +259,7 @@ class AdviesRapport {
    * Set activityId
    *
    * @param integer $activityId
-   * @return AdviesRapport
+   * @return EindRapport
    */
   public function setActivityId($activityId) {
     $this->activityId = $activityId;
@@ -280,7 +280,7 @@ class AdviesRapport {
    * Set vgeNummer
    *
    * @param string $vgeNummer
-   * @return AdviesRapport
+   * @return EindRapport
    */
   public function setVgeNummer($vgeNummer) {
     $this->vgeNummer = $vgeNummer;
@@ -301,7 +301,7 @@ class AdviesRapport {
    * Set vgeAdres
    *
    * @param string $vgeAdres
-   * @return AdviesRapport
+   * @return EindRapport
    */
   public function setVgeAdres($vgeAdres) {
     $this->vgeAdres = $vgeAdres;
@@ -322,7 +322,7 @@ class AdviesRapport {
    * Set closed
    *
    * @param boolean $closed
-   * @return AdviesRapport
+   * @return EindRapport
    */
   public function setClosed($closed) {
     $this->closed = $closed;
@@ -352,7 +352,7 @@ class AdviesRapport {
    * Add clients
    *
    * @param \CiviCoop\VragenboomBundle\Entity\Client $clients
-   * @return AdviesRapport
+   * @return EindRapport
    */
   public function addClient(\CiviCoop\VragenboomBundle\Entity\Client $clients) {
     $this->clients[] = $clients;

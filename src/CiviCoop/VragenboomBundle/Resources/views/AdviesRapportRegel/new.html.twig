@@ -3,7 +3,7 @@
 {% block body -%}
     <h1>Nieuwe regel toevoegen aan rapport {{rapport.vgeAdres}}</h1>
 
-    <form action="{{ path('adviesrapportregel_create', {'rapport': rapport.id} ) }}" method="post" {{ form_enctype(form) }}>
+    <form action="{{ path('adviesrapportregel_create', {'shortname': factory.getShortName(rapport), 'id': rapport.id} ) }}" method="post" {{ form_enctype(form) }}>
         {{ form_row(form.ruimte) }}
 		{{ form_row(form.object) }}
 		{{ form_row(form.actie) }}
@@ -16,7 +16,7 @@
 
         <ul class="record_actions">
     <li>
-        <a href="{{ path('adviesrapport_show', {'id': rapport.id}) }}">
+        <a href="{{ path('adviesrapport_show', {'shortname': factory.getShortName(rapport), 'id': rapport.id}) }}">
             terug naar het rapport
         </a>
     </li>
@@ -30,7 +30,7 @@ $(document).ready(function(){
         $.ajax({
             type: "GET",
             data: "data=" + $(this).val(),
-            url:"{{ path('adviesrapportregel_objects', {'rapport': rapport.id}) }}",
+            url:"{{ path('adviesrapportregel_objects', {'shortname': factory.getShortName(rapport), 'id': rapport.id}) }}",
             success: function(msg){
                 if (msg != ''){
                     $("#adviesrapportregel_object").html(msg).show();
@@ -54,7 +54,7 @@ $(document).ready(function(){
         $.ajax({
             type: "GET",
             data: "data=" + $(this).val(),
-            url:"{{ path('adviesrapportregel_acties', {'rapport': rapport.id}) }}",
+            url:"{{ path('adviesrapportregel_acties', {'shortname': factory.getShortName(rapport), 'id': rapport.id}) }}",
             success: function(msg){
                 if (msg != ''){
                     $("#adviesrapportregel_actie").html(msg).show();
@@ -77,6 +77,9 @@ $(document).ready(function(){
 		var actie = $(this).find(":selected");
 		if (actie.data('description')) {
 			$('#actie_description').html('<label>Omschrijving</label><p>'+actie.data('description')+'</p>');
+		}
+		if (actie.data('verantwoordelijke').length > 0) {
+			$("#adviesrapportregel_verantwoordelijke option[value='"+actie.data('verantwoordelijke')+"']").attr("selected", "selected");
 		}
    });
    

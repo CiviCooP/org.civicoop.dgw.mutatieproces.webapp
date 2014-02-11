@@ -7,12 +7,12 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * AdviesRapportRegel
+ * EindRapportRegel
  *
  * @ORM\Table()
- * @ORM\Entity(repositoryClass="CiviCoop\VragenboomBundle\Entity\AdviesRapportRegelRepository")
+ * @ORM\Entity(repositoryClass="CiviCoop\VragenboomBundle\Entity\EindRapportRegelRepository")
  */
-class AdviesRapportRegel {
+class EindRapportRegel {
 
   /**
    * @var integer
@@ -31,10 +31,10 @@ class AdviesRapportRegel {
   private $remark;
 
   /**
-   * @ORM\ManyToOne(targetEntity="AdviesRapport", inversedBy="regels")
-   * @ORM\JoinColumn(name="adviesrapport_id", referencedColumnName="id")
+   * @ORM\ManyToOne(targetEntity="EindRapport", inversedBy="regels")
+   * @ORM\JoinColumn(name="eindrapport_id", referencedColumnName="id")
    */
-  protected $adviesRapport;
+  protected $eindRapport;
 
   /**
    * @ORM\ManyToOne(targetEntity="ActieDefinitie")
@@ -72,6 +72,17 @@ class AdviesRapportRegel {
    * @ORM\Column(name="verantwoordelijke", type="string", length=255)
    */
   protected $verantwoordelijke;
+  
+  /**
+   * @ORM\Column(name="status", type="string", length=255)
+   */
+  protected $status = '';
+  
+  /**
+    * @ORM\ManyToOne(targetEntity="AdviesRapportRegel")
+    * @ORM\JoinColumn(name="advies_rapport_regel_id", referencedColumnName="id", nullable=true)
+    */
+  protected $adviesRapportRegel;
 
   public function __construct() {
     
@@ -110,22 +121,22 @@ class AdviesRapportRegel {
   /**
    * Set adviesRapport
    *
-   * @param \CiviCoop\VragenboomBundle\Entity\AdviesRapport $adviesRapport
-   * @return AdviesRapportRegel
+   * @param \CiviCoop\VragenboomBundle\Entity\AdviesRapport $eindRapport
+   * @return EindRapportRegel
    */
-  public function setAdviesRapport(\CiviCoop\VragenboomBundle\Entity\AdviesRapport $adviesRapport = null) {
-    $this->adviesRapport = $adviesRapport;
+  public function setEindRapport(\CiviCoop\VragenboomBundle\Entity\EindRapport $eindRapport = null) {
+    $this->eindRapport = $eindRapport;
 
     return $this;
   }
 
   /**
-   * Get adviesRapport
+   * Get eindRapport
    *
-   * @return \CiviCoop\VragenboomBundle\Entity\AdviesRapport 
+   * @return \CiviCoop\VragenboomBundle\Entity\EindRapport 
    */
-  public function getAdviesRapport() {
-    return $this->adviesRapport;
+  public function getEindRapport() {
+    return $this->eindRapport;
   }
 
   /**
@@ -203,6 +214,33 @@ class AdviesRapportRegel {
   public function setActieRemark($actieRemark) {
     $this->actieRemark = $actieRemark;
     return $this;
+  }
+  
+  public function setStatus($status) {
+    $this->status = $status;
+    return $this;
+  }
+  
+  public function getStatus() {
+    return $this->status;
+  }
+  
+  public function setAdviesRapportRegel(\CiviCoop\VragenboomBundle\Entity\AdviesRapportRegel $regel) {
+    $this->adviesRapportRegel = $regel;
+    if ($regel !== null) {
+      $this->actieRemark = $regel->getActieRemark();
+      $this->actie = $regel->getActie();
+      $this->actie_definitie = $regel->getActieDefinitie();
+      $this->remark = $regel->getRemark();
+      $this->ruimte = $regel->getRuimte();
+      $this->object = $regel->getObject();
+      $this->verantwoordelijke = $regel->getVerantwoordelijke();
+    }    
+    return $this;
+  }
+  
+  public function getAdviesRapportRegel() {
+    return $this->adviesRapportRegel;
   }
 
 }

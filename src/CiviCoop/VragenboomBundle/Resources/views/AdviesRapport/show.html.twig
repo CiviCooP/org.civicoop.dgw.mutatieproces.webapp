@@ -1,8 +1,8 @@
 {% extends '::base.html.twig' %}
 
 {% block body -%}
-    <h1>Adviesrapport</h1>
-
+    <h1>{{ factory.getHumanName(entity) }}</h1>
+    <form action="{{ path('adviesrapport_update', { 'shortname': factory.getShortName(entity), 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }} class="adviesrapport">
     <table class="record_properties adviesrapport">
         <tbody>
             <tr>
@@ -24,31 +24,40 @@
                 <th>HOV-Nummer</th>
                 <td>{{ entity.hovNummer }}</td>
 				<th></th>
-				<td></th>
+				<td></td>
             </tr>
             <tr>
-                <th>Datum</th>
-                <td>{{ entity.date|date("d-m-Y") }}</td>
+                <th>Verwachte einddatum</th>
+                <td>{{ entity.expectedEndDate|date("d-m-Y") }}</td>
+                <th>Datum gesprek</th>
+                <td>{{ entity.date|date("d-m-Y H:i") }}</td>
             </tr>
         </tbody>
     </table>
-	
+
 	<h2>Adviezen</h2>
 	
-	<a href="{{ path('adviesrapportregel_new', {'rapport': entity.id} ) }}" class="button">Nieuw advies toevoegen</a>
+	<a href="{{ path('adviesrapportregel_new', {'shortname': factory.getShortName(entity), 'id': entity.id} ) }}" class="button">Nieuw advies toevoegen</a>
 	
 	<table class="record_properties adviezen">
 		<tbody>
 			{% for regel in entity.regels %}
 				<tr class="{{ cycle(['odd', 'even'], loop.index) }}">
-					<td><p class="info"><span class="object">{{regel.actie.object.naam}}</span> in <span class="ruimte">{{regel.actie.object.ruimte.naam}}</span></p>
-						<h3>{{regel.actie.actie}}</h3>
-						<p>{{regel.actie.description}}</p>
+					<td><p class="info"><span class="object">{{regel.object}}</span> in <span class="ruimte">{{regel.ruimte}}</span></p>
+						<h3>{{regel.actie}} {% if regel.verantwoordelijke|length %} <span class="verantwoordelijke">door {{regel.verantwoordelijke}}</span> {% endif %}</h3>
+						<p>{{regel.actieRemark}}</p>
 						<p>{{regel.remark}}</p>
+                                                {% if showStatus %}
+                                                <select name="status[{{regel.id}}]">
+                                                    <option value=¨>-</option>
+                                                    <option value="Akkoord" {% if regel.status == 'Akkoord' %}selected="selected"{% endif %} >Akkoord</option>
+                                                    <option value="Niet akkoord" {% if regel.status == 'Niet akkoord' %}selected="selected"{% endif %}>Niet akkoord</option>
+                                                </select>
+                                                {% endif %}
 					</td>
 					<td>
 						<ul class="actions">
-							<li><a href="{{ path('adviesrapportregel_delete', {'rapport': entity.id, 'id': regel.id} ) }}" onclick="return confirm('Weet u het zeker?');">Verwijderen</a></li>
+							<li><a href="{{ path('adviesrapportregel_delete', {'shortname': factory.getShortName(entity), 'id': entity.id, 'entity_id': regel.id} ) }}" onclick="return confirm('Weet u het zeker?');">Verwijderen</a></li>
 						</ul>
 					</td>
 				</tr>
@@ -56,9 +65,8 @@
 		</tbody>
 	</table>
 				
-	<a href="{{ path('adviesrapportregel_new', {'rapport': entity.id} ) }}" class="button">Nieuw advies toevoegen</a>
+	<a href="{{ path('adviesrapportregel_new', {'shortname': factory.getShortName(entity), 'id': entity.id} ) }}" class="button">Nieuw advies toevoegen</a>
 	
-	<form action="{{ path('adviesrapport_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }} class="adviesrapport">
         <input type="hidden" name="_method" value="PUT" />
         {{ form_widget(edit_form) }}
         <p>
