@@ -126,7 +126,7 @@ class civicrm_api3 {
   function remoteCall($entity, $action, $params = array(
     )) {
     $fields = "key={$this->key}&api_key={$this->api_key}";
-    $query = $this->uri . "&entity=$entity&action=$action";
+    $query = $this->uri . "&entity=$entity&action=$action&key={$this->key}&api_key={$this->api_key}";
     foreach ($params as $k => $v) {
       $fields .= "&$k=" . urlencode($v);
     }
@@ -182,7 +182,8 @@ class civicrm_api3 {
       $this->lastResult = json_decode(json_encode(civicrm_api($entity, $action, $params)));
     }
     // reset the input to be ready for a new call
-    $this->input = array();
+    $this->input = array();	
+
     if (property_exists($this->lastResult, 'is_error')) {
       return !$this->lastResult->is_error;
     }
