@@ -29,8 +29,8 @@ class CiviCase extends CiviCommon {
     $this->factory = $factory;
 		$this->em = $entityManager;
 		$this->casetype = 'Huuropzeggingsdossier';
-		$this->activitytype_adviesgesprek = 'Adviesgesprek';
-    $this->activitytype_eindgesprek = 'Eindgesprek';
+		$this->activitytype_adviesgesprek = 'adviesgesprek_huuropzegging';
+    $this->activitytype_eindgesprek = 'eindgesprek_huuropzegging';
 		$this->eindehuurcontract = 'vge';
     $this->huuropzegging = 'huur_opzegging';
 		
