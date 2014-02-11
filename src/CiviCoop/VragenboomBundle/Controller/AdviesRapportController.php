@@ -35,6 +35,19 @@ class AdviesRapportController extends AbstractController {
       'factory' => $factory,
     );
   }
+  
+  /**
+   * Syncs
+   *
+   * @Route("/sync", name="adviesrapport_sync")
+   * @Method("GET")
+   */
+  public function sync() {
+    $civicase = $this->get('civicoop.dgw.mutatieproces.civicase');
+		$civicase->sync();
+    
+    return $this->redirect($this->generateUrl('adviesrapport'));
+  }
 
   /**
    * Finds and displays a AdviesRapport entity.
