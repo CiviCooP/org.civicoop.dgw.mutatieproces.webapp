@@ -85,7 +85,7 @@ class AdviesRapportRegelController extends Controller {
 
     $ruimte = $this->repository->findOneById($id);
 
-    if (empty($ruimte) || empty($ruimte->getObjects())) {
+    if (!$ruimte || !$ruimte->getObjects()) {
       return new Response('<option>Geen objecten</option>');
     }
 
