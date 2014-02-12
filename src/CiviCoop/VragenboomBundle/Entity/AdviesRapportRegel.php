@@ -38,7 +38,7 @@ class AdviesRapportRegel {
 
   /**
    * @ORM\ManyToOne(targetEntity="ActieDefinitie")
-   * @ORM\JoinColumn(name="actiedefinitie_id", referencedColumnName="id", nullable=true)
+   * @ORM\JoinColumn(name="actiedefinitie_id", referencedColumnName="id", nullable=true, onDelete="SET NULL")
    */
   protected $actie_definitie;
 

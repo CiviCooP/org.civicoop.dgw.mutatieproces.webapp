@@ -189,12 +189,16 @@ class ObjectController extends AbstractController {
       if (!$entity) {
         throw $this->createNotFoundException('Unable to find Object entity.');
       }
+      
+      foreach ($entity->getActies() as $actie) {
+        $em->remove($actie);
+      }
 
       $em->remove($entity);
       $em->flush();
     }
 
-    return $this->redirect($this->generateUrl('objects', array('ruimte' => $ruimte . slug)));
+    return $this->redirect($this->generateUrl('objects', array('ruimte' => $ruimte->getSlug())));
   }
 
   /**
