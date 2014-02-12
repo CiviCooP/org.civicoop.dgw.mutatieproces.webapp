@@ -42,7 +42,7 @@ class ObjectController extends AbstractController {
     $ruimte = $this->getRuimte($ruimte);
 
     $entity = new Object();
-    $entity->setRuimte($ruimte);
+    $entity->addRuimte($ruimte);
     $form = $this->createForm(new ObjectType(), $entity);
     $form->bind($request);
 
@@ -71,7 +71,7 @@ class ObjectController extends AbstractController {
   public function newAction($ruimte) {
     $ruimte = $this->getRuimte($ruimte);
     $entity = new Object();
-    $entity->setRuimte($ruimte);
+    $entity->addRuimte($ruimte);
     $form = $this->createForm(new ObjectType(), $entity);
 
     return array(
