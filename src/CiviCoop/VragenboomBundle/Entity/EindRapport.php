@@ -48,7 +48,7 @@ class EindRapport {
   /**
    * @var \DateTime
    *
-   * @ORM\Column(name="expected_enddate", type="datetime")
+   * @ORM\Column(name="expected_enddate", type="datetime", nullable=true)
    */
   private $expectedEndDate;
 
