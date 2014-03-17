@@ -40,6 +40,17 @@ class AdviesRapportRegelController extends Controller {
       $regel = $entity->make($rapport);
       $em->persist($regel);
       $em->flush();
+      $ruimte = $entity->getRuimte();
+      
+      //save ruimte in session 
+      if ($ruimte) {
+        $session  = $this->get("session");
+        $session->set("room-".$id, $ruimte->getId());
+      }
+      
+      if ($request->request->get('add_another_rule')) {
+        return $this->redirect($this->generateUrl('adviesrapportregel_new', array('shortname' => $factory->getShortName($rapport), 'id' => $rapport->getId())));
+      }
       return $this->redirect($this->generateUrl('adviesrapport_show', array('shortname' => $factory->getShortName($rapport), 'id' => $rapport->getId())));
     }
 
@@ -62,8 +73,17 @@ class AdviesRapportRegelController extends Controller {
     $factory = $this->get('civicoop.vragenboom.rapportfactory');
 
     $rapport = $em->getRepository($factory->getEntityFromShortname($shortname))->findOneById($id);
-
     $entity = new AdviesRapportFactory($em);
+    
+    
+    //get the last used room from session
+    $session  = $this->get("session");
+    $ruimte_id = $session->get("room-".$id, false);
+    if ($ruimte_id) {
+      $ruimte = $em->getRepository("CiviCoopVragenboomBundle:Ruimte")->findOneById($ruimte_id);
+      $entity->setRuimte($ruimte);
+    }
+    
     $form = $this->createForm(new AdviesRapportFactoryType(), $entity);
 
     return array(
@@ -77,16 +97,22 @@ class AdviesRapportRegelController extends Controller {
   /**
    * @Route("/objects", name="adviesrapportregel_objects")
    */
-  public function listObjects() {
+  public function listObjects($id, Request $request) {
     $this->em = $this->get('doctrine')->getEntityManager();
     $this->repository = $this->em->getRepository('CiviCoopVragenboomBundle:Ruimte');
 
-    $id = $this->get('request')->query->get('data');
+    $ruimte_id = $this->get('request')->query->get('data');
 
-    $ruimte = $this->repository->findOneById($id);
+    $ruimte = $this->repository->findOneById($ruimte_id);
 
     if (!$ruimte || !$ruimte->getObjects()) {
       return new Response('<option>Geen objecten</option>');
+    }
+    
+    //save ruimte in session 
+    if ($ruimte) {
+      $session  = $this->get("session");
+      $session->set("room-".$id, $ruimte->getId());
     }
 
     $html = '<option selected="selected" disabled="disabled">Kies een object</option>';
