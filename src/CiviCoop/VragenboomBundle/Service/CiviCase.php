@@ -134,7 +134,7 @@ class CiviCase extends CiviCommon {
 	}
 	
 	private function getActivity($activity_id) {
-		$activity = $this->api->Activity->get(array('activity_id' => $activity_id));
+		$activity = $this->api->Activity->get(array('id' => $activity_id));
 		$activity = $activity->nextValue();
 		/*if ($activity && $activity->is_current_revision == 0) {
 			$activity = $this->getActivityByOriginalId($activity->id);
