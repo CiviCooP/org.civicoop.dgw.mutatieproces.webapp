@@ -7,11 +7,19 @@
         <tbody>
             <tr>
                 <th>Contact</th>
-                <td>{% for client in entity.clients %}
-						<p>{{client.displayName}}</p>
-					{% endfor %}
-				</td>
-				<th>Civi Dossier ID</th>
+                <td>
+                    {% for client in entity.clients %}
+                        <p>
+                            {{client.displayName}}
+                            {% if (client.email) %}
+                                ({{client.email}})
+                            {% else %}
+                                (<em>Geen e-mailadres bekend</em>)
+                            {% endif %}
+                        </p>
+                    {% endfor %}
+                </td>
+                <th>Civi Dossier ID</th>
                 <td>{{ entity.caseId }}</td>
             </tr>
 			<tr>

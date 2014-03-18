@@ -18,9 +18,12 @@ class SyncCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $civicontact = $this->getApplication()->getKernel()->getContainer()->get('civicoop.dgw.mutatieproces.civicontact');
+        $civicontact->sync();
+        
         $civicase = $this->getApplication()->getKernel()->getContainer()->get('civicoop.dgw.mutatieproces.civicase');
-		$civicase->sync();
-
+        $civicase->sync();
+        
         $output->writeln('Syncing complete');
     }
 }

@@ -2,6 +2,12 @@ parameters:
     civicoop.dgw.mutatieproces.rapport_factory_class: CiviCoop\VragenboomBundle\Service\RapportFactory
 
 services:
+    civicoop.dgw.mutatieproces.civicontact:
+        class: CiviCoop\VragenboomBundle\Service\CiviContact
+        arguments: 
+            entityManager: @doctrine.orm.entity_manager
+            api: @civicoop.civicrm.api 
+            factory: @civicoop.vragenboom.rapportfactory
     civicoop.dgw.mutatieproces.civicase:
         class: CiviCoop\VragenboomBundle\Service\CiviCase
         arguments: 

@@ -34,6 +34,13 @@ class Client
      * @ORM\Column(name="displayName", type="string", length=255)
      */
     private $displayName;
+    
+    /**
+     * @var string  
+     * 
+     * @ORM\Column(name="email", type="string", length=255, nullable=true)
+     */
+    private $email;
 
 
     /**
@@ -90,5 +97,25 @@ class Client
     public function getDisplayName()
     {
         return $this->displayName;
+    }
+    
+    /**
+     * Get email address of client
+     * 
+     * @return string
+     */
+    public function getEmail() {
+      return $this->email;
+    }
+    
+    /**
+     * Sets the email address of the client
+     * 
+     * @param string $email
+     * @return Client
+     */
+    public function setEmail($email) {
+      $this->email = $email;
+      return $this;
     }
 }

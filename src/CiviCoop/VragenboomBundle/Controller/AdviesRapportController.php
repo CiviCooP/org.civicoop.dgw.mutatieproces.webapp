@@ -43,6 +43,9 @@ class AdviesRapportController extends AbstractController {
    * @Method("GET")
    */
   public function sync() {
+    $civicontact = $this->get('civicoop.dgw.mutatieproces.civicontact');
+		$civicontact->sync();
+        
     $civicase = $this->get('civicoop.dgw.mutatieproces.civicase');
 		$civicase->sync();
     
