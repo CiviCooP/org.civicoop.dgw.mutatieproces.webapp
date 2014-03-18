@@ -7,7 +7,7 @@ use CiviCoop\VragenboomBundle\Entity\EindRapport;
 class EindRapportGenerator {
   
   public function createReport(EindRapport $rapport) {
-    $html = "<table><thead><tr><th>Ruimte / Object</th><th>Actie</th><th>Opmerkingen</th><th>Status</th><th>Eindrapport</th></tr></thead><tbody>";
+    $html = "<table><thead><tr><th>Ruimte / Object</th><th>Actie</th><th>Opmerkingen</th><th>Verantwoordelijke</th><th>Eindrapport</th></tr></thead><tbody>";
   
     foreach($rapport->getRegels() as $regel) {
       $html .= sprintf("<tr>

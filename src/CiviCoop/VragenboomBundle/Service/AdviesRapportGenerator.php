@@ -7,7 +7,7 @@ use CiviCoop\VragenboomBundle\Entity\AdviesRapport;
 class AdviesRapportGenerator {
   
   public function createReport(AdviesRapport $rapport) {
-    $html = "<table><thead><tr><th>Ruimte / Object</th><th>Actie</th><th>Opmerkingen</th><th>Status</th></tr></thead><tbody>";
+    $html = "<table><thead><tr><th>Ruimte / Object</th><th>Actie</th><th>Opmerkingen</th><th>Verantwoordelijke</th></tr></thead><tbody>";
   
     foreach($rapport->getRegels() as $regel) {
       $html .= sprintf("<tr>
