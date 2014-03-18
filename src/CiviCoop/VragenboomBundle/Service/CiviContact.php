@@ -11,6 +11,7 @@ namespace CiviCoop\VragenboomBundle\Service;
 use CiviCoop\CiviCrmBundle\Service\Api;
 use CiviCoop\VragenboomBundle\Service\RapportFactory;
 use Doctrine\ORM\EntityManager;
+use CiviCoop\VragenboomBundle\Entity\Client;
 
 class CiviContact extends CiviCommon {
   
@@ -22,6 +23,21 @@ class CiviContact extends CiviCommon {
     parent::__construct($api);
     $this->em = $entityManager;
     $this->factory = $factory;
+  }
+  
+  /**
+   * Update a record in civicrm from the client object
+   * 
+   * @param \CiviCoop\VragenboomBundle\Entity\Client $client
+   */
+  public function updateContact(Client $client) {
+    //one field to update and that is the primary email address
+    //first get the id of the email field
+    $result = $this->api->Email->getsingle(array('contact_id' => $client->getContactId(), 'is_primary' => '1'));
+    $data = $result->nextValue();
+    if ($data->id) {
+      $this->api->Email->create(array('id' => $data->id, 'email' => $client->getEmail()));
+    }
   }
   
   public function sync() {

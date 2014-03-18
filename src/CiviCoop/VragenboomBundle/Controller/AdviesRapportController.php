@@ -8,6 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use CiviCoop\VragenboomBundle\Entity\AdviesRapport;
+use CiviCoop\VragenboomBundle\Form\ClientType;
 
 /**
  * AdviesRapport controller.
@@ -185,6 +186,82 @@ class AdviesRapportController extends AbstractController {
     $em->flush();
 
     return $this->redirect($this->generateUrl('adviesrapport'));
+  }
+  
+  /**
+   * Display a client edit form.
+   *
+   * @Route("/{shortname}/{id}/client/{client_id}", name="adviesrapport_show_client")
+   * @Method("GET")
+   * @Template("CiviCoopVragenboomBundle:AdviesRapport:show_client.html.twig")
+   */
+  public function showClientAction($shortname, $id, $client_id) {
+    $em = $this->getDoctrine()->getManager();
+    $factory = $this->get('civicoop.vragenboom.rapportfactory');
+    
+    $rapport = $em->getRepository($factory->getEntityFromShortname($shortname))->findOneById($id);
+
+    if (!$rapport) {
+      throw $this->createNotFoundException('Unable to find Rapport entity.');
+    }
+    
+    $client = $em->getRepository('CiviCoopVragenboomBundle:Client')->findOneById($client_id);
+    if (!$client) {
+      throw $this->createNotFoundException('Unable to find client entity.');
+    }
+
+    $editForm = $this->createForm(new ClientType(), $client);
+
+    return array(
+      'rapport' => $rapport,
+      'client' => $client,
+      'factory' => $factory,
+      'edit_form' => $editForm->createView(),
+    );
+  }
+  
+  /**
+   * Edits an existing client entity.
+   *
+   * @Route("/{shortname}/{id}/client/{client_id}/update", name="adviesrapport_update_client")
+   * @Method("PUT")
+   * @Template("CiviCoopVragenboomBundle:AdviesRapport:show_client.html.twig")
+   */
+  public function updateClientAction(Request $request, $shortname, $id, $client_id) {
+    
+    $em = $this->getDoctrine()->getManager();
+    $factory = $this->get('civicoop.vragenboom.rapportfactory');
+    
+    $rapport = $em->getRepository($factory->getEntityFromShortname($shortname))->findOneById($id);
+
+    if (!$rapport) {
+      throw $this->createNotFoundException('Unable to find Rapport entity.');
+    }
+    
+    $client = $em->getRepository('CiviCoopVragenboomBundle:Client')->findOneById($client_id);
+    if (!$client) {
+      throw $this->createNotFoundException('Unable to find client entity.');
+    }
+
+    $editForm = $this->createForm(new ClientType(), $client);
+    $editForm->bind($request);
+    
+   if ($editForm->isValid()) {
+      $em->persist($client);
+      $em->flush();
+      
+      $civicontact = $this->get('civicoop.dgw.mutatieproces.civicontact');
+      $civicontact->updateContact($client);
+
+      return $this->redirect($this->generateUrl('adviesrapport_show', array('id' => $id, 'shortname' => $factory->getShortName($rapport))));
+    }
+
+    return array(
+      'rapport' => $rapport,
+      'client' => $client,
+      'factory' => $factory,
+      'edit_form' => $editForm->createView(),
+    );
   }
 
 }

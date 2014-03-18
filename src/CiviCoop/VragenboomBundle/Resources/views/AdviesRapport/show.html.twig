@@ -10,12 +10,14 @@
                 <td>
                     {% for client in entity.clients %}
                         <p>
+                            <a href="{{ path('adviesrapport_show_client', {'shortname': factory.getShortName(entity), 'id': entity.id, 'client_id': client.id}) }}">
                             {{client.displayName}}
                             {% if (client.email) %}
                                 ({{client.email}})
                             {% else %}
                                 (<em>Geen e-mailadres bekend</em>)
                             {% endif %}
+                            </a>
                         </p>
                     {% endfor %}
                 </td>

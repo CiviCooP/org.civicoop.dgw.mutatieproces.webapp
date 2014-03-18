@@ -2,6 +2,7 @@
 
 namespace CiviCoop\VragenboomBundle\Entity;
 
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -38,6 +39,8 @@ class Client
     /**
      * @var string  
      * 
+     * @Assert\Email(message = "Enter a valid e-mail")
+     *
      * @ORM\Column(name="email", type="string", length=255, nullable=true)
      */
     private $email;
