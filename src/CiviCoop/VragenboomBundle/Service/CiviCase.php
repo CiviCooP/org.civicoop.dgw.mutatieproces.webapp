@@ -119,6 +119,9 @@ class CiviCase extends CiviCommon {
             if ($contact->email) {
               $client->setEmail($contact->email);
             }
+            if ($contact->phone) {
+              $client->setPhone($contact->phone);
+            }
 					}
 					if (!$report->getClients()->contains($client)) {
 						$report->addClient($client);

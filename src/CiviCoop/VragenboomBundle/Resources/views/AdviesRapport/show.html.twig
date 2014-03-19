@@ -6,24 +6,25 @@
     <table class="record_properties adviesrapport">
         <tbody>
             <tr>
+{% for client in entity.clients %}
                 <th>Contact</th>
                 <td>
-                    {% for client in entity.clients %}
-                        <p>
-                            <a href="{{ path('adviesrapport_show_client', {'shortname': factory.getShortName(entity), 'id': entity.id, 'client_id': client.id}) }}">
+
                             {{client.displayName}}
                             {% if (client.email) %}
                                 ({{client.email}})
                             {% else %}
                                 (<em>Geen e-mailadres bekend</em>)
                             {% endif %}
-                            </a>
-                        </p>
-                    {% endfor %}
+                            {% if (client.phone) %}
+                                <br>Tel. <span class="phone">{{client.phone}}</span>
+                            {% endif %}
+                            <br /><br />
                 </td>
-                <th>Civi Dossier ID</th>
-                <td>{{ entity.caseId }}</td>
+                <th></th>
+                <td>                            <a href="{{ path('adviesrapport_show_client', {'shortname': factory.getShortName(entity), 'id': entity.id, 'client_id': client.id}) }}">Wijzig contact gegevens</a></td>
             </tr>
+{% endfor %}
 			<tr>
                 <th>VGE Adres</th>
                 <td>{{ entity.vgeAdres }}</td>
@@ -33,8 +34,8 @@
 			<tr>
                 <th>HOV-Nummer</th>
                 <td>{{ entity.hovNummer }}</td>
-				<th></th>
-				<td></td>
+				<th>Civi Dossier ID</th>
+                <td>{{ entity.caseId }}</td>
             </tr>
             <tr>
                 <th>Verwachte einddatum</th>
@@ -53,8 +54,8 @@
 		<tbody>
 			{% for regel in entity.regels %}
 				<tr class="{{ cycle(['odd', 'even'], loop.index) }}">
-					<td><p class="info"><span class="object">{{regel.object}}</span> in <span class="ruimte">{{regel.ruimte}}</span></p>
-						<h3>{{regel.actie}} {% if regel.verantwoordelijke|length %} <span class="verantwoordelijke">door {{regel.verantwoordelijke}}</span> {% endif %}</h3>
+					<td><p class="info"><span class="ruimte">{{regel.ruimte}}</span> / <span class="object">{{regel.object}}</span></p>
+						<h3><a href="{{ path('adviesrapportregel_edit', {'shortname': factory.getShortName(entity), 'id': entity.id, 'rule_id': regel.id} ) }}">{{regel.actie}}</a> {% if regel.verantwoordelijke|length %} <span class="verantwoordelijke">- {{regel.verantwoordelijke}}</span> {% endif %}</h3>
 						<p>{{regel.actieRemark}}</p>
 						<p>{{regel.remark}}</p>
                                                 {% if showStatus %}

@@ -38,6 +38,14 @@ class CiviContact extends CiviCommon {
     if ($data->id) {
       $this->api->Email->create(array('id' => $data->id, 'email' => $client->getEmail()));
     }
+    
+    //update the primary phone number
+    //first get the id of the phone field
+    $result = $this->api->Phone->getsingle(array('contact_id' => $client->getContactId(), 'is_primary' => '1'));
+    $data = $result->nextValue();
+    if ($data->id) {
+      $this->api->Phone->create(array('id' => $data->id, 'phone' => $client->getPhone()));
+    }
   }
   
   public function sync() {
@@ -64,6 +72,11 @@ class CiviContact extends CiviCommon {
           $client->setEmail($contact->email);
         } else {
           $client->setEmail(null);
+        }
+        if ($contact->phone) {
+          $client->setPhone($contact->phone);
+        } else {
+          $client->setPhone(null);
         }
         $this->em->persist($client);
       }

@@ -44,6 +44,13 @@ class Client
      * @ORM\Column(name="email", type="string", length=255, nullable=true)
      */
     private $email;
+    
+    /**
+     * @var string 
+     * 
+     * @ORM\Column(name="phone", type="string", length=255, nullable=true)
+     */
+    private $phone;
 
 
     /**
@@ -119,6 +126,26 @@ class Client
      */
     public function setEmail($email) {
       $this->email = $email;
+      return $this;
+    }
+    
+    /**
+     * Get phone number of client
+     * 
+     * @return string
+     */
+    public function getPhone() {
+      return $this->phone;
+    }
+    
+    /**
+     * Sets the phone number of the client
+     * 
+     * @param string $phone
+     * @return Client
+     */
+    public function setPhone($phone) {
+      $this->phone = $phone;
       return $this;
     }
 }

@@ -13,6 +13,7 @@ class ClientType extends AbstractType {
         ->add('email', null, array(
           'attr'=> array('class'=>'text') //make sure the layout is like a text field
         ))
+        ->add('phone')
     ;
   }
 

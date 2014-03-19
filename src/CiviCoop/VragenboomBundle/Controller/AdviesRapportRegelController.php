@@ -12,6 +12,7 @@ use CiviCoop\VragenboomBundle\Entity\Factory\AdviesRapportFactory;
 use CiviCoop\VragenboomBundle\Entity\AdviesRapportRegel;
 use CiviCoop\VragenboomBundle\Entity\AdviesRapport;
 use CiviCoop\VragenboomBundle\Form\AdviesRapportFactoryType;
+use CiviCoop\VragenboomBundle\Form\EditAdviesRapportRegelType;
 
 /**
  * AdviesRapportRegel controller.
@@ -85,6 +86,83 @@ class AdviesRapportRegelController extends Controller {
     }
     
     $form = $this->createForm(new AdviesRapportFactoryType(), $entity);
+
+    return array(
+      'entity' => $entity,
+      'form' => $form->createView(),
+      'rapport' => $rapport,
+      'factory' => $factory,
+    );
+  }
+  
+  /**
+   * Update an existing AdviesRapportRegel entity.
+   *
+   * @Route("/update/{rule_id}", name="adviesrapportregel_update")
+   * @Method("POST")
+   * @Template("CiviCoopVragenboomBundle:AdviesRapportRegel:edit.html.twig")
+   */
+  public function updateAction(Request $request, $shortname, $id, $rule_id) {
+    $em = $this->getDoctrine()->getManager();
+    $factory = $this->get('civicoop.vragenboom.rapportfactory');
+
+    $rapport = $em->getRepository($factory->getEntityFromShortname($shortname))->findOneById($id);
+    $entity = false;
+    foreach($rapport->getRegels() as $r) {
+      if ($r->getId() == $rule_id) {
+        $entity = $r;
+        break;
+      }
+    }
+    
+    if (!$entity) {
+      throw $this->createNotFoundException();
+    }
+
+    $form = $this->createForm(new EditAdviesRapportRegelType(), $entity);
+    $form->bind($request);
+
+    if ($form->isValid()) {
+      $em->persist($entity);
+      $em->flush();
+      $ruimte = $entity->getRuimte();
+      
+      return $this->redirect($this->generateUrl('adviesrapport_show', array('shortname' => $factory->getShortName($rapport), 'id' => $rapport->getId())));
+    }
+
+    return array(
+      'entity' => $entity,
+      'form' => $form->createView(),
+      'rapport' => $rapport,
+    );
+  }
+
+  /**
+   * Displays a form to edit an exiting AdviesRapportRegel entity.
+   *
+   * @Route("/edit/{rule_id}", name="adviesrapportregel_edit")
+   * @Method("GET")
+   * @Template()
+   */
+  public function editAction($id, $shortname, $rule_id) {
+    $em = $this->getDoctrine()->getManager();
+    $factory = $this->get('civicoop.vragenboom.rapportfactory');
+
+    $rapport = $em->getRepository($factory->getEntityFromShortname($shortname))->findOneById($id);
+    
+    $entity = false;
+    foreach($rapport->getRegels() as $r) {
+      if ($r->getId() == $rule_id) {
+        $entity = $r;
+        break;
+      }
+    }
+    
+    if (!$entity) {
+      throw $this->createNotFoundException();
+    }
+    
+    $form = $this->createForm(new EditAdviesRapportRegelType(), $entity);
 
     return array(
       'entity' => $entity,
