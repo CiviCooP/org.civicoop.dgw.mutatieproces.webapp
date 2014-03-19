@@ -5,6 +5,7 @@ namespace CiviCoop\VragenboomBundle\Service;
 use CiviCoop\CiviCrmBundle\Service\Api;
 use CiviCoop\VragenboomBundle\Service\RapportFactory;
 use CiviCoop\VragenboomBundle\Entity\Client;
+use CiviCoop\VragenboomBundle\Entity\RapportInterface;
 use Doctrine\ORM\EntityManager;
 
 class CiviCase extends CiviCommon {
@@ -20,6 +21,8 @@ class CiviCase extends CiviCommon {
 	private $eindehuurcontract_id;
   private $huuropzegging;
   private $huuropzegging_id;
+  private $info_afd_verhuur;
+  private $info_afd_verhuur_id;
   private $factory;
 	
 	private $em;
@@ -33,9 +36,11 @@ class CiviCase extends CiviCommon {
     $this->activitytype_eindgesprek = 'eindgesprek_huuropzegging';
 		$this->eindehuurcontract = 'vge';
     $this->huuropzegging = 'huur_opzegging';
+    $this->info_afd_verhuur = 'info_afd_verhuur';
 		
 		$this->eindehuurcontract_id = $this->retrieveCustomGroupIdByName($this->eindehuurcontract);		
     $this->huuropzegging_id = $this->retrieveCustomGroupIdByName($this->huuropzegging);
+    $this->info_afd_verhuur_id = $this->retrieveCustomGroupIdByName($this->info_afd_verhuur);
 		$this->activity_adviesgesprek_type_id = $this->retreiveOptionValueByname($this->activitytype_adviesgesprek, 'activity_type');
     $this->activity_eindgesprek_type_id = $this->retreiveOptionValueByname($this->activitytype_eindgesprek, 'activity_type');
 	}
@@ -107,6 +112,11 @@ class CiviCase extends CiviCommon {
         if (isset($custom->verwachte_eind_datum)) {
           $report->setExpectedEndDate(new \DateTime($custom->verwachte_eind_datum));
         }
+        
+        $custom = $this->retrieveCustomValuesByEntity('civicrm_case', $case->id, $this->info_afd_verhuur_id);					
+        if (isset($custom->huuropzeg_rapport)) {
+					$report->setOpmAfdVerhuur($custom->huuropzeg_rapport);
+				}
 				
 				foreach($case->client_id as $cid) {
 					$client = $this->em->getRepository('CiviCoopVragenboomBundle:Client')->findOneByContactId($cid);
@@ -167,6 +177,10 @@ class CiviCase extends CiviCommon {
         'details' => $details,
         'status_id' => 2, //closed
     ));
+  }
+  
+  public function updateInfoAfdVerhuur(RapportInterface $rapport) {
+    $custom = $this->updateCustomValuesByEntity('civicrm_case', $rapport->getCaseId(), $this->info_afd_verhuur_id, 'huuropzeg_rapport', $rapport->getOpmAfdVerhuur());					
   }
 	
 }

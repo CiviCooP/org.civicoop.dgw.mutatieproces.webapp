@@ -9,6 +9,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use CiviCoop\VragenboomBundle\Entity\AdviesRapport;
 use CiviCoop\VragenboomBundle\Form\ClientType;
+use CiviCoop\VragenboomBundle\Form\AfdVerhuurType;
 
 /**
  * AdviesRapport controller.
@@ -263,6 +264,71 @@ class AdviesRapportController extends AbstractController {
     return array(
       'rapport' => $rapport,
       'client' => $client,
+      'factory' => $factory,
+      'edit_form' => $editForm->createView(),
+    );
+  }
+  
+  
+  /**
+   * Display an edit form for info for afdeling verhuur
+   *
+   * @Route("/{shortname}/{id}/verhuur", name="adviesrapport_show_afdverhuur")
+   * @Method("GET")
+   * @Template("CiviCoopVragenboomBundle:AdviesRapport:show_afdverhuur.html.twig")
+   */
+  public function showAfdVerhuurAction($shortname, $id) {
+    $em = $this->getDoctrine()->getManager();
+    $factory = $this->get('civicoop.vragenboom.rapportfactory');
+    
+    $rapport = $em->getRepository($factory->getEntityFromShortname($shortname))->findOneById($id);
+
+    if (!$rapport) {
+      throw $this->createNotFoundException('Unable to find Rapport entity.');
+    }
+
+    $editForm = $this->createForm(new AfdVerhuurType(), $rapport);
+
+    return array(
+      'rapport' => $rapport,
+      'factory' => $factory,
+      'edit_form' => $editForm->createView(),
+    );
+  }
+  
+  /**
+   * Edits info for afdeling verhuur
+   *
+   * @Route("/{shortname}/{id}/verhuur/update", name="adviesrapport_update_afdverhuur")
+   * @Method("PUT")
+   * @Template("CiviCoopVragenboomBundle:AdviesRapport:show_afdverhuur.html.twig")
+   */
+  public function updateAfdVerhuurAction(Request $request, $shortname, $id) {
+    
+    $em = $this->getDoctrine()->getManager();
+    $factory = $this->get('civicoop.vragenboom.rapportfactory');
+    
+    $rapport = $em->getRepository($factory->getEntityFromShortname($shortname))->findOneById($id);
+
+    if (!$rapport) {
+      throw $this->createNotFoundException('Unable to find Rapport entity.');
+    }
+
+    $editForm = $this->createForm(new AfdVerhuurType(), $rapport);
+    $editForm->bind($request);
+    
+   if ($editForm->isValid()) {
+      $em->persist($rapport);
+      $em->flush();
+      
+      $civicase = $this->get('civicoop.dgw.mutatieproces.civicase');
+      $civicase->updateInfoAfdVerhuur($rapport);
+      
+      return $this->redirect($this->generateUrl('adviesrapport_show', array('id' => $id, 'shortname' => $factory->getShortName($rapport))));
+    }
+
+    return array(
+      'rapport' => $rapport,
       'factory' => $factory,
       'edit_form' => $editForm->createView(),
     );

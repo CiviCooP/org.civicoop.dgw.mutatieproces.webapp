@@ -45,7 +45,13 @@
             </tr>
         </tbody>
     </table>
-
+        
+        <div>
+        <h2>Info voor afdeling verhuur</h2>
+        <p>{{entity.opmAfdVerhuur}}</p>
+        <p><a class="" href="{{ path('adviesrapport_show_afdverhuur', {'shortname': factory.getShortName(entity), 'id': entity.id}) }}">Wijzig info voor afdeling verhuur</a></td></p>
+        </div>
+        <br />
 	<h2>Adviezen</h2>
 	
 	<a href="{{ path('adviesrapportregel_new', {'shortname': factory.getShortName(entity), 'id': entity.id} ) }}" class="button">Nieuw advies toevoegen</a>

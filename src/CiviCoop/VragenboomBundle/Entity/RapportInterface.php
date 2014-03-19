@@ -20,5 +20,30 @@ interface RapportInterface {
    * Add a new regel to the report
    */
   public function addRegel(RapportRegelInterface $regel);
+  
+  /**
+   * Set opmerkingen voor afdeling verhuur
+   */
+  public function setOpmAfdVerhuur($opmAfdVerhuur); 
+  
+  /**
+   * get opmerkingen voor afdeling verhuur
+   */
+  public function getOpmAfdVerhuur(); 
+  
+    /**
+   * Set caseId
+   *
+   * @param integer $caseId
+   * @return EindRapport
+   */
+  public function setCaseId($caseId);
+
+  /**
+   * Get caseId
+   *
+   * @return integer 
+   */
+  public function getCaseId();
 }
 

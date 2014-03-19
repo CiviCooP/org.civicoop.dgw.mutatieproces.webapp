@@ -106,6 +106,15 @@ class AdviesRapport implements RapportInterface {
    * @ORM\OneToMany(targetEntity="AdviesRapportRegel", mappedBy="adviesRapport")
    */
   private $regels;
+  
+  /**
+   * Opmerkingen voor afdeling verhuur
+   * 
+   * @var string
+   *
+   * @ORM\Column(name="opm_afd_verhuur", type="text")
+   */
+  protected $opmAfdVerhuur;
 
   public function __construct() {
     $this->regels = new ArrayCollection();
@@ -386,6 +395,15 @@ class AdviesRapport implements RapportInterface {
    */
   public function getClients() {
     return $this->clients;
+  }
+  
+  public function setOpmAfdVerhuur($opmAfdVerhuur) {
+    $this->opmAfdVerhuur = $opmAfdVerhuur;
+    return $this;
+  }
+  
+  public function getOpmAfdVerhuur() {
+    return $this->opmAfdVerhuur;
   }
 
 }

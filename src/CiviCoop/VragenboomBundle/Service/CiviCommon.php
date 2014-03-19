@@ -73,6 +73,19 @@ abstract class CiviCommon {
 		
 		return new \stdClass();
 	}
+  
+  protected function updateCustomValuesByEntity($entity_table, $entity_id, $group_id, $fieldname, $value) {
+		$data = $this->api->CustomField->getSingle(array('custom_group_id' => $group_id, 'name' => $fieldname));
+    $field = $data->nextValue();
+		if (!$field) {
+			throw new \Exception("Customfield '".$fieldname."' not found in civicrm");
+		}
+    
+    $params['entity_id'] = $entity_id;
+    $params['entity_table'] = $entity_table;
+    $params['custom_'.$field->id] = $value;
+    $this->api->CustomValue->create($params);
+	}
 	
 	protected function retrieveCustomGroupIdByName($name) {
 		$data = $this->api->CustomGroup->getSingle(array('name' => $name));
