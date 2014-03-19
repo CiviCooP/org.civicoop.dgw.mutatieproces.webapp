@@ -126,7 +126,7 @@ class AdviesRapportRegelController extends Controller {
       $em->persist($entity);
       $em->flush();
       $ruimte = $entity->getRuimte();
-      
+            
       return $this->redirect($this->generateUrl('adviesrapport_show', array('shortname' => $factory->getShortName($rapport), 'id' => $rapport->getId())));
     }
 

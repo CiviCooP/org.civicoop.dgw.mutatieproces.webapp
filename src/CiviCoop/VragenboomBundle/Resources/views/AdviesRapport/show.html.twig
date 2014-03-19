@@ -81,8 +81,7 @@
         <input type="hidden" name="_method" value="PUT" />
         {{ form_widget(edit_form) }}
         <p>
-            <button type="submit" class="success">Opslaan</button>
-			<a href="{{ path('adviesrapport') }}" class="cancel button">Terug naar overzicht.</a>
+			<button type="submit" name="back_to_overview" value="back_to_overview" class="success button">Terug naar overzicht.</button>
         </p>
     </form>
 	

@@ -150,7 +150,11 @@ class AdviesRapportController extends AbstractController {
       }
       $em->persist($entity);
       $em->flush();
-
+      
+      if ($request->request->get('back_to_overview')) {
+        return $this->redirect($this->generateUrl('adviesrapport'));
+      }
+      
       return $this->redirect($this->generateUrl('adviesrapport_show', array('id' => $id, 'shortname' => $factory->getShortName($entity))));
     }
 
