@@ -2,6 +2,8 @@
 
 namespace CiviCoop\VragenboomBundle\Entity;
 
+use CiviCoop\VragenboomBundle\Entity\RapportInterface;
+use CiviCoop\VragenboomBundle\Entity\RapportRegelInterface;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -13,7 +15,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="CiviCoop\VragenboomBundle\Entity\EindRapportRepository")
  */
-class EindRapport {
+class EindRapport implements RapportInterface {
 
   /**
    * @var integer
@@ -44,7 +46,7 @@ class EindRapport {
    * @ORM\Column(name="date", type="datetime")
    */
   private $date;
-  
+
   /**
    * @var \DateTime
    *
@@ -226,12 +228,20 @@ class EindRapport {
   }
 
   /**
+   * Returns a new regel object which can be added the report
+   * @return RapportRegelInterface
+   */
+  public function getNewRegelClass() {
+    return new \CiviCoop\VragenboomBundle\Entity\EindRapportRegel();
+  }
+
+  /**
    * Add regels
    *
    * @param \CiviCoop\VragenboomBundle\Entity\EindRapportRegel $regels
    * @return EindRapport
    */
-  public function addRegel(\CiviCoop\VragenboomBundle\Entity\EindRapportRegel $regels) {
+  public function addRegel(\CiviCoop\VragenboomBundle\Entity\RapportRegelInterface $regels) {
     $this->regels[] = $regels;
 
     return $this;
@@ -242,7 +252,7 @@ class EindRapport {
    *
    * @param \CiviCoop\VragenboomBundle\Entity\EindRapportRegel $regels
    */
-  public function removeRegel(\CiviCoop\VragenboomBundle\Entity\EindRapportRegel $regels) {
+  public function removeRegel(\CiviCoop\VragenboomBundle\Entity\RapportRegelInterface $regels) {
     $this->regels->removeElement($regels);
   }
 

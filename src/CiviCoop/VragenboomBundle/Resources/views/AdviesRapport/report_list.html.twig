@@ -27,7 +27,7 @@
         <tr class="item-bottom {{ cycle(['odd', 'even'], loop.index) }}">
             <td colspan="2">
                 <a href="{{ path(show_report_link, { 'shortname': factory.getShortname(entity), 'id': entity.id }) }}" class="button">Bekijk rapport</a>
-                <a href="{{ path(close_report_link, { 'shortname': factory.getShortname(entity), 'id': entity.id }) }}" class="button success">Sluit rapport</a>
+                <a href="{{ path(close_report_link, { 'shortname': factory.getShortname(entity), 'id': entity.id }) }}" class="button success" onclick="return confirm('Weet u het zeker?');">Sluit rapport</a>
             </td>
         </tr>
     {% endfor %}

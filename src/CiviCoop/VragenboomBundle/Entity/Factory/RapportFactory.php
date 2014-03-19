@@ -2,7 +2,7 @@
 
 namespace CiviCoop\VragenboomBundle\Entity\Factory;
 
-use CiviCoop\VragenboomBundle\Entity\AdviesRapport;
+use CiviCoop\VragenboomBundle\Entity\RapportInterface;
 use CiviCoop\VragenboomBundle\Entity\AdviesRapportRegel;
 use CiviCoop\VragenboomBundle\Entity\Ruimte;
 use CiviCoop\VragenboomBundle\Entity\Object;
@@ -13,7 +13,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @Assert\Callback(methods={"isAllValid"})
  */
-class AdviesRapportFactory {
+class RapportFactory {
 
   /**
    * @var Ruimte
@@ -40,16 +40,7 @@ class AdviesRapportFactory {
    */
   protected $verantwoordelijke;
 
-  /**
-   * @var \Doctrine\ORM\EntityManager
-   */
-  private $em;
-
-  /**
-   * @param \Doctrine\ORM\EntityManager $em
-   */
-  public function __construct($em) {
-    $this->em = $em;
+  public function __construct() {
   }
 
   public function setRuimte(Ruimte $ruimte) {
@@ -126,10 +117,13 @@ class AdviesRapportFactory {
   }
 
   /**
-   * @return \CiviCoop\VragenboomBundle\Entity\AdviesRapportRegel
+   * Creates a new regel and adds it to the rapport
+   * 
+   * @param \CiviCoop\VragenboomBundle\Entity\RapportInterface $rapport
+   * @return \CiviCoop\VragenboomBundle\Entity\RapportRegelInterface
    */
-  public function make(AdviesRapport $rapport) {
-    $regel = new AdviesRapportRegel();
+  public function make(RapportInterface $rapport) {
+    $regel = $rapport->getNewRegelClass();
     $regel->setActieDefinitie($this->actie);
     
     $regel->setRuimte($this->getRuimte()->getNaam());
@@ -138,7 +132,7 @@ class AdviesRapportFactory {
     $regel->setActieRemark($this->actie->getDescription());
     
     $regel->setRemark($this->remark);
-    $regel->setAdviesRapport($rapport);
+    $regel->setRapport($rapport);
     $regel->setVerantwoordelijke($this->verantwoordelijke);
 
     $rapport->addRegel($regel);

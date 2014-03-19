@@ -2,6 +2,8 @@
 
 namespace CiviCoop\VragenboomBundle\Entity;
 
+use CiviCoop\VragenboomBundle\Entity\RapportInterface;
+use CiviCoop\VragenboomBundle\Entity\RapportRegelInterface;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -13,7 +15,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="CiviCoop\VragenboomBundle\Entity\AdviesRapportRepository")
  */
-class AdviesRapport {
+class AdviesRapport implements RapportInterface {
 
   /**
    * @var integer
@@ -224,6 +226,14 @@ class AdviesRapport {
   public function getRemarks() {
     return $this->remarks;
   }
+  
+  /**
+   * Returns a new regel object which can be added the report
+   * @return RapportRegelInterface
+   */
+  public function getNewRegelClass() {
+    return new \CiviCoop\VragenboomBundle\Entity\AdviesRapportRegel();
+  }
 
   /**
    * Add regels
@@ -231,8 +241,8 @@ class AdviesRapport {
    * @param \CiviCoop\VragenboomBundle\Entity\AdviesRapportRegel $regels
    * @return AdviesRapport
    */
-  public function addRegel(\CiviCoop\VragenboomBundle\Entity\AdviesRapportRegel $regels) {
-    $this->regels[] = $regels;
+  public function addRegel(\CiviCoop\VragenboomBundle\Entity\RapportRegelInterface $regel) {
+    $this->regels[] = $regel;
 
     return $this;
   }
@@ -242,8 +252,8 @@ class AdviesRapport {
    *
    * @param \CiviCoop\VragenboomBundle\Entity\AdviesRapportRegel $regels
    */
-  public function removeRegel(\CiviCoop\VragenboomBundle\Entity\AdviesRapportRegel $regels) {
-    $this->regels->removeElement($regels);
+  public function removeRegel(\CiviCoop\VragenboomBundle\Entity\RapportRegelInterface $regel) {
+    $this->regels->removeElement($regel);
   }
 
   /**

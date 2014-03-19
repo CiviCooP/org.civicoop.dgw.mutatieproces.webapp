@@ -38,6 +38,10 @@ $(document).ready(function(){
 					{% if entity.object.id is defined %}
                     $('#adviesrapportregel_object option[value={{  entity.object.id }}]').attr("selected","selected");
 					{% endif %}
+
+                    if ($("#adviesrapportregel_object option").length == 2) {
+                        $("#adviesrapportregel_object option:eq(1)").attr('selected', 'selected');
+                    }
                     $("#loader").hide();
                 }
                 else
@@ -62,13 +66,17 @@ $(document).ready(function(){
 					{% if entity.actie.id is defined %}
                     $('#adviesrapportregel_actie option[value={{  entity.actie.id }}]').attr("selected","selected");
 					{% endif %}
+                    if ($("#adviesrapportregel_actie option").length == 2) {
+                        $("#adviesrapportregel_actie option:eq(1)").attr('selected', 'selected');
+                    }
                     $("#loader").hide();
                 }
                 else
                 {
-                    $("#adviesrapportregel_actie").html('<em>Geen objecten</em>');
+                    $("#adviesrapportregel_actie").html('<em>Geen acties</em>');
                     $("#loader").hide();
                 }
+                $("#adviesrapportregel_actie").trigger('change');
            }
        });
    }); 

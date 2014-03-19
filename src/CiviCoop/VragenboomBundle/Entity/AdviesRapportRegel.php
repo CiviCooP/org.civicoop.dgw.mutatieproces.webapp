@@ -5,6 +5,8 @@ namespace CiviCoop\VragenboomBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
+use CiviCoop\VragenboomBundle\Entity\RapportInterface;
+use CiviCoop\VragenboomBundle\Entity\RapportRegelInterface;
 
 /**
  * AdviesRapportRegel
@@ -12,7 +14,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="CiviCoop\VragenboomBundle\Entity\AdviesRapportRegelRepository")
  */
-class AdviesRapportRegel {
+class AdviesRapportRegel implements RapportRegelInterface {
 
   /**
    * @var integer
@@ -113,7 +115,7 @@ class AdviesRapportRegel {
    * @param \CiviCoop\VragenboomBundle\Entity\AdviesRapport $adviesRapport
    * @return AdviesRapportRegel
    */
-  public function setAdviesRapport(\CiviCoop\VragenboomBundle\Entity\AdviesRapport $adviesRapport = null) {
+  public function setRapport(\CiviCoop\VragenboomBundle\Entity\RapportInterface $adviesRapport = null) {
     $this->adviesRapport = $adviesRapport;
 
     return $this;
@@ -124,7 +126,7 @@ class AdviesRapportRegel {
    *
    * @return \CiviCoop\VragenboomBundle\Entity\AdviesRapport 
    */
-  public function getAdviesRapport() {
+  public function getRapport() {
     return $this->adviesRapport;
   }
 

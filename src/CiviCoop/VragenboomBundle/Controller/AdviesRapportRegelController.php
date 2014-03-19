@@ -8,7 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use CiviCoop\VragenboomBundle\Entity\Factory\AdviesRapportFactory;
+use CiviCoop\VragenboomBundle\Entity\Factory\RapportFactory;
 use CiviCoop\VragenboomBundle\Entity\AdviesRapportRegel;
 use CiviCoop\VragenboomBundle\Entity\AdviesRapport;
 use CiviCoop\VragenboomBundle\Form\AdviesRapportFactoryType;
@@ -33,7 +33,7 @@ class AdviesRapportRegelController extends Controller {
     $factory = $this->get('civicoop.vragenboom.rapportfactory');
 
     $rapport = $em->getRepository($factory->getEntityFromShortname($shortname))->findOneById($id);
-    $entity = new AdviesRapportFactory($em);
+    $entity = new RapportFactory();
     $form = $this->createForm(new AdviesRapportFactoryType(), $entity);
     $form->bind($request);
 
@@ -74,7 +74,7 @@ class AdviesRapportRegelController extends Controller {
     $factory = $this->get('civicoop.vragenboom.rapportfactory');
 
     $rapport = $em->getRepository($factory->getEntityFromShortname($shortname))->findOneById($id);
-    $entity = new AdviesRapportFactory($em);
+    $entity = new RapportFactory();
     
     
     //get the last used room from session
