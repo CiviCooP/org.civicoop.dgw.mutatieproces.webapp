@@ -105,7 +105,7 @@ class AdviesRapportController extends AbstractController {
         if (!$contains) {
           $eind_regel = new \CiviCoop\VragenboomBundle\Entity\EindRapportRegel();
           $eind_regel->setAdviesRapportRegel($regel);
-          $eind_regel->setEindRapport($rapport);
+          $eind_regel->setRapport($rapport);
           $rapport->addRegel($eind_regel);
           $em->persist($eind_regel);
         }
