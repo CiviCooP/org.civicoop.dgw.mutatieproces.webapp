@@ -61,7 +61,7 @@ class CiviCase extends CiviCommon {
   private function syncExistingActivity($entity) {
     $reports = $this->factory->findAllActive($entity);
 		foreach($reports as $report) {
-			$activity = $this->getActivity($report->getActivityId());
+			$activity = $this->getCurrentActivity($report->getActivityId());
 			if ($activity) {
 				$report->setActivityId($activity->id);
         $report->setDate(new \DateTime($activity->activity_date_time));
@@ -148,13 +148,13 @@ class CiviCase extends CiviCommon {
 		//Haal alle activiteiten op met de status gepland (1).
 		return $this->api->Activity->get(array('activity_type_id' => $activity_type_id, 'status_id' => 1, 'is_current_revision'=>1));
 	}
-	
-	private function getActivity($activity_id) {
+  
+  private function getCurrentActivity($activity_id) {
 		$activity = $this->api->Activity->get(array('id' => $activity_id));
 		$activity = $activity->nextValue();
-		/*if ($activity && $activity->is_current_revision == 0) {
+		if ($activity && $activity->is_current_revision == 0) {
 			$activity = $this->getActivityByOriginalId($activity->id);
-		}*/
+		}
 		return $activity;
 	}
 	

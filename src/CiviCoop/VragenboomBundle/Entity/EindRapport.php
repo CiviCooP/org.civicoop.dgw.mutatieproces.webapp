@@ -12,7 +12,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * EindRapport
  *
- * @ORM\Table()
+ * @ORM\Table(uniqueConstraints={@ORM\UniqueConstraint(name="udx_case_activity_eindrprt", columns={"case_id", "activity_id"})})
  * @ORM\Entity(repositoryClass="CiviCoop\VragenboomBundle\Entity\EindRapportRepository")
  */
 class EindRapport implements RapportInterface {

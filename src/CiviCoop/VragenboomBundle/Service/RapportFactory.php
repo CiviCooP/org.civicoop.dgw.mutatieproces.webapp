@@ -54,7 +54,7 @@ class RapportFactory {
   
   private function getNewIndex($array, $index) {
     $i = $index;
-    while(isset($array[$index])) {
+    while(isset($array[$i])) {
       $i++;
     }
     return $i;
