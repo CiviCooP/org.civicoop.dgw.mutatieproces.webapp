@@ -33,19 +33,23 @@ class CiviContact extends CiviCommon {
   public function updateContact(Client $client) {
     //one field to update and that is the primary email address
     //first get the id of the email field
-    $result = $this->api->Email->getsingle(array('contact_id' => $client->getContactId(), 'is_primary' => '1'));
+    $result = $this->api->Email->get(array('contact_id' => $client->getContactId(), 'is_primary' => '1'));
     $data = $result->nextValue();
+    $params['email'] = $client->getEmail();
     if ($data->id) {
-      $this->api->Email->create(array('id' => $data->id, 'email' => $client->getEmail()));
+      $params['id'] = $data->id;
     }
+    $this->api->Email->create($params);
     
     //update the primary phone number
     //first get the id of the phone field
-    $result = $this->api->Phone->getsingle(array('contact_id' => $client->getContactId(), 'is_primary' => '1'));
+    $result = $this->api->Phone->get(array('contact_id' => $client->getContactId(), 'is_primary' => '1'));
     $data = $result->nextValue();
+    $params['phone'] = $client->getPhone();
     if ($data->id) {
-      $this->api->Phone->create(array('id' => $data->id, 'phone' => $client->getPhone()));
+      $params['id'] = $data->id;
     }
+    $this->api->Phone->create($params);
   }
   
   public function sync() {
