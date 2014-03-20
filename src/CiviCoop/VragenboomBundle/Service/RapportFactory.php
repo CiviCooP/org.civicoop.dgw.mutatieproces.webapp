@@ -177,7 +177,7 @@ class RapportFactory {
         return 'CiviCoopVragenboomBundle:AdviesRapport';
         break;
     }
-    throw new Exception("invalid shortname");
+    throw new \Exception("invalid shortname");
   }
   
   protected function checkEntity($entity) {
@@ -187,7 +187,7 @@ class RapportFactory {
         return true;
         break;
     }
-    throw new Exception("Invalid entity: ".$entity);
+    throw new \Exception("Invalid entity: ".$entity);
   }
   
 }

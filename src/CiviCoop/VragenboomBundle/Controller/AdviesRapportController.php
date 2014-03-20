@@ -91,7 +91,7 @@ class AdviesRapportController extends AbstractController {
   protected function loadEindGesprekRapport($rapport) {
     $em = $this->getDoctrine()->getManager();
     $factory = $this->get('civicoop.vragenboom.rapportfactory');
-    $reports = $em->getRepository($factory->getEntityFromShortname('adviesrapport'))->findByCaseId($rapport->getCaseId());
+    $reports = $em->getRepository($factory->getEntityFromShortname('vooropname'))->findByCaseId($rapport->getCaseId());
     foreach($reports as $rep) {
       foreach($rep->getRegels() as $regel) {
         $contains = false;
