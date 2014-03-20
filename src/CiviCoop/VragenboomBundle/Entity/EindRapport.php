@@ -114,7 +114,7 @@ class EindRapport implements RapportInterface {
    *
    * @ORM\Column(name="opm_afd_verhuur", type="text")
    */
-  protected $opmAfdVerhuur;
+  protected $opmAfdVerhuur = "";
 
   public function __construct() {
     $this->regels = new ArrayCollection();
