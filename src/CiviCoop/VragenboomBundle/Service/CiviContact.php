@@ -12,6 +12,7 @@ use CiviCoop\CiviCrmBundle\Service\Api;
 use CiviCoop\VragenboomBundle\Service\RapportFactory;
 use Doctrine\ORM\EntityManager;
 use CiviCoop\VragenboomBundle\Entity\Client;
+use CiviCoop\CiviCrmBundle\Exception\CiviCrmApiError;
 
 class CiviContact extends CiviCommon {
   
@@ -40,7 +41,7 @@ class CiviContact extends CiviCommon {
       if ($data->id) {
         $params['id'] = $data->id;
       }
-    } catch (Exception $e) {
+    } catch (CiviCrmApiError $e) {
       ;
     }
     $this->api->Email->create($params);
@@ -54,7 +55,7 @@ class CiviContact extends CiviCommon {
       if ($data->id) {
         $params['id'] = $data->id;
       }
-    } catch (Exception $e) {
+    } catch (CiviCrmApiError $e) {
       ;
     }
     $this->api->Phone->create($params);
