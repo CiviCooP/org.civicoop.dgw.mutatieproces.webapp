@@ -25,8 +25,10 @@
             </td>
         </tr>
         <tr class="item-bottom {{ cycle(['odd', 'even'], loop.index) }}">
-            <td colspan="2">
+            <td colspan="1">
                 <a href="{{ path(show_report_link, { 'shortname': factory.getShortname(entity), 'id': entity.id }) }}" class="button">Bekijk rapport</a>
+            </td>
+            <td>
                 <a href="{{ path(close_report_link, { 'shortname': factory.getShortname(entity), 'id': entity.id }) }}" class="button success" onclick="return confirm('Weet u het zeker?');">Sluit rapport</a>
             </td>
         </tr>

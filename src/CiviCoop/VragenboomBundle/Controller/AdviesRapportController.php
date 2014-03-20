@@ -14,7 +14,7 @@ use CiviCoop\VragenboomBundle\Form\AfdVerhuurType;
 /**
  * AdviesRapport controller.
  *
- * @Route("/adviesrapport")
+ * @Route("/")
  */
 class AdviesRapportController extends AbstractController {
 

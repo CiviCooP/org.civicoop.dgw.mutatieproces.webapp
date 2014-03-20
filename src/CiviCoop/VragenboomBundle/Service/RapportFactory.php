@@ -147,10 +147,10 @@ class RapportFactory {
     $this->checkEntity($entity);
     switch ($entity) {
       case 'CiviCoopVragenboomBundle:EindRapport':
-        return $this->translator->trans('Eindgesprek');
+        return $this->translator->trans('Eindopname');
         break;
       case 'CiviCoopVragenboomBundle:AdviesRapport':
-        return $this->translator->trans('Adviesgesprek');
+        return $this->translator->trans('Vooropname');
         break;
     }
   }
@@ -160,20 +160,20 @@ class RapportFactory {
     $this->checkEntity($entity);
     switch ($entity) {
       case 'CiviCoopVragenboomBundle:EindRapport':
-        return 'eindrapport';
+        return 'eindopname';
         break;
       case 'CiviCoopVragenboomBundle:AdviesRapport':
-        return 'adviesrapport';
+        return 'vooropname';
         break;
     }
   }
   
   public function getEntityFromShortname($shortname) {
     switch ($shortname) {
-      case 'eindrapport':
+      case 'eindopname':
         return 'CiviCoopVragenboomBundle:EindRapport';
         break;
-      case 'adviesrapport':
+      case 'vooropname':
         return 'CiviCoopVragenboomBundle:AdviesRapport';
         break;
     }
