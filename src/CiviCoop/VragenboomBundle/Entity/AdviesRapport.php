@@ -115,6 +115,13 @@ class AdviesRapport implements RapportInterface {
    * @ORM\Column(name="opm_afd_verhuur", type="text")
    */
   protected $opmAfdVerhuur = "";
+  
+  /**
+   * @var \DateTime
+   *
+   * @ORM\Column(name="eindopname", type="datetime", nullable=true)
+   */
+  private $eindopname;
 
   public function __construct() {
     $this->regels = new ArrayCollection();
@@ -171,6 +178,27 @@ class AdviesRapport implements RapportInterface {
    */
   public function getExpectedEndDate() {
     return $this->expectedEndDate;
+  }
+  
+  /**
+   * Set geplande datum voor eindopname
+   *
+   * @param \DateTime $date
+   * @return AdviesRapport
+   */
+  public function setEindopname($date) {
+    $this->eindopname = $date;
+
+    return $this;
+  }
+
+  /**
+   * Get eindopname
+   *
+   * @return \DateTime 
+   */
+  public function getEindopname() {
+    return $this->eindopname;
   }
 
   /**

@@ -27,6 +27,9 @@
         <tr class="item-bottom {{ cycle(['odd', 'even'], loop.index) }}">
             <td colspan="1">
                 <a href="{{ path(show_report_link, { 'shortname': factory.getShortname(entity), 'id': entity.id }) }}" class="button">Bekijk rapport</a>
+                {% if (factory.getShortname(entity) == 'vooropname') %}
+                    <a href="{{ path('adviesrapport_show_eindopname', { 'shortname': factory.getShortname(entity), 'id': entity.id }) }}" class="button">Plan eindopname</a>
+                {% endif %}
             </td>
             <td>
                 <a href="{{ path(close_report_link, { 'shortname': factory.getShortname(entity), 'id': entity.id }) }}" class="button success" onclick="return confirm('Weet u het zeker?');">Sluit rapport</a>

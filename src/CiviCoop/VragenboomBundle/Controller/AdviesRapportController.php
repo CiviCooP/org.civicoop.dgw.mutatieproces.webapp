@@ -7,9 +7,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use CiviCoop\VragenboomBundle\Entity\AdviesRapport;
 use CiviCoop\VragenboomBundle\Form\ClientType;
 use CiviCoop\VragenboomBundle\Form\AfdVerhuurType;
+use CiviCoop\VragenboomBundle\Form\EindopnameType;
 
 /**
  * AdviesRapport controller.
@@ -191,6 +191,76 @@ class AdviesRapportController extends AbstractController {
     $em->flush();
 
     return $this->redirect($this->generateUrl('adviesrapport'));
+  }
+  
+  /**
+   * Display an edit form for planning the eindopname
+   *
+   * @Route("/{shortname}/{id}/eindopname/", name="adviesrapport_show_eindopname")
+   * @Method("GET")
+   * @Template("CiviCoopVragenboomBundle:AdviesRapport:show_eindopname.html.twig")
+   */
+  public function showEindopnameAction($shortname, $id) {
+    $em = $this->getDoctrine()->getManager();
+    $factory = $this->get('civicoop.vragenboom.rapportfactory');
+    
+    $rapport = $em->getRepository($factory->getEntityFromShortname($shortname))->findOneById($id);
+
+    if (!$rapport) {
+      throw $this->createNotFoundException('Unable to find Rapport entity.');
+    }
+    
+    $eindopname = $rapport->getEindopname();
+    if (empty($eindopname)) {
+      $eindopname = new \DateTime();
+      $eindopname->setTime(10,0,0);
+      $rapport->setEindopname($eindopname);
+    }
+
+    $editForm = $this->createForm(new EindopnameType(), $rapport);
+
+    return array(
+      'rapport' => $rapport,
+      'factory' => $factory,
+      'edit_form' => $editForm->createView(),
+    );
+  }
+  
+  /**
+   * Edits an existing client entity.
+   *
+   * @Route("/{shortname}/{id}/eindopname/update", name="adviesrapport_update_eindopname")
+   * @Method("PUT")
+   * @Template("CiviCoopVragenboomBundle:AdviesRapport:show_eindopname.html.twig")
+   */
+  public function updateEindopnameAction(Request $request, $shortname, $id) {
+    
+    $em = $this->getDoctrine()->getManager();
+    $factory = $this->get('civicoop.vragenboom.rapportfactory');
+    
+    $rapport = $em->getRepository($factory->getEntityFromShortname($shortname))->findOneById($id);
+
+    if (!$rapport) {
+      throw $this->createNotFoundException('Unable to find Rapport entity.');
+    }
+
+    $editForm = $this->createForm(new EindopnameType(), $rapport);
+    $editForm->bind($request);
+    
+   if ($editForm->isValid()) {
+      $em->persist($rapport);
+      $em->flush();
+      $civi_user_id = $this->get('security.context')->getToken()->getAttribute('civicrm_contact_id');
+      $civicase = $this->get('civicoop.dgw.mutatieproces.civicase');
+      $civicase->createEindopname($rapport, $civi_user_id);
+      
+      return $this->redirect($this->generateUrl('adviesrapport'));
+   }
+    return array(
+      'rapport' => $rapport,
+      'factory' => $factory,
+      'edit_form' => $editForm->createView(),
+    );
   }
   
   /**

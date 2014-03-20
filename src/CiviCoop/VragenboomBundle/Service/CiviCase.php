@@ -6,6 +6,7 @@ use CiviCoop\CiviCrmBundle\Service\Api;
 use CiviCoop\VragenboomBundle\Service\RapportFactory;
 use CiviCoop\VragenboomBundle\Entity\Client;
 use CiviCoop\VragenboomBundle\Entity\RapportInterface;
+use CiviCoop\VragenboomBundle\Entity\AdviesRapport;
 use Doctrine\ORM\EntityManager;
 
 class CiviCase extends CiviCommon {
@@ -181,6 +182,46 @@ class CiviCase extends CiviCommon {
   
   public function updateInfoAfdVerhuur(RapportInterface $rapport) {
     $custom = $this->updateCustomValuesByEntity('civicrm_case', $rapport->getCaseId(), $this->info_afd_verhuur_id, 'huuropzeg_rapport', $rapport->getOpmAfdVerhuur());					
+  }
+  
+  public function createEindopname(AdviesRapport $rapport, $civi_user_id) {
+    $eindopname = $rapport->getEindopname();
+    if (empty($eindopname)) {
+      //eindopname datum is leeg
+      return;
+    }
+    
+    //kijk of er al een eindgesprek is ingepland voor dit dossier
+    //als dat niet het geval is maak dan een nieuwe activiteit van het type eindgesprek aan
+    //als dat wel het geval wijzig de datum en tijd
+    $eindopname_activity_id = false;
+    $cases = $this->api->Case->get(array('case_id' => $rapport->getCaseId()));
+    $case = $cases->nextValue();
+    if ($case) {
+      foreach($case->activities as $case_act_id) {
+        $case_activity = $this->getCurrentActivity($case_act_id);
+        if ($case_activity && $case_activity->activity_type_id == $this->activity_eindgesprek_type_id && $case_activity->status_id == 1 && $case_activity->is_deleted != '1') {
+          $eindopname_activity_id = $case_activity->id;
+          break;
+        }
+      }
+    }
+    
+    //$params['activity_date_time'] = $rapport->getEindopname()->format('Y-m-d H:i:s');
+    $params['activity_date_time'] = $rapport->getEindopname()->format('YmdHis');
+    if ($eindopname_activity_id) {
+     //werk activiteit bij met nieuwe planning
+     $params['id']  = $eindopname_activity_id;
+     $this->api->Activity->Create($params);
+    } else {
+     $params['activity_type_id'] = $this->activity_eindgesprek_type_id;
+     $params['status_id'] = '1';
+     $params['subject'] = 'Eindopname';
+     $params['case_id'] = $rapport->getCaseId();
+     $params['source_contact_id'] = $civi_user_id;
+     
+     $this->api->Activity->Create($params); 
+    }
   }
 	
 }
