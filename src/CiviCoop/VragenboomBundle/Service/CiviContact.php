@@ -35,6 +35,7 @@ class CiviContact extends CiviCommon {
     //one field to update and that is the primary email address
     //first get the id of the email field
     $params['email'] = $client->getEmail();
+    $params['contact_id'] = $client->getContactId();
     try { 
       $result = $this->api->Email->getsingle(array('contact_id' => $client->getContactId(), 'is_primary' => '1'));
       $data = $result->nextValue();
@@ -49,6 +50,7 @@ class CiviContact extends CiviCommon {
     //update the primary phone number
     //first get the id of the phone field
     $params['phone'] = $client->getPhone();
+    $params['contact_id'] = $client->getContactId();
     try {
       $result = $this->api->Phone->getsingle(array('contact_id' => $client->getContactId(), 'is_primary' => '1'));
       $data = $result->nextValue();
