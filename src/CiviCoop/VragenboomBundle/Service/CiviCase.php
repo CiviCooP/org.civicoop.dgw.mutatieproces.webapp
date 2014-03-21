@@ -66,7 +66,7 @@ class CiviCase extends CiviCommon {
 			if ($activity) {
 				$report->setActivityId($activity->id);
         $report->setDate(new \DateTime($activity->activity_date_time));
-				$report->setClosed(($activity->status_id == 1) ? false : true);
+				$report->setClosed(($activity->status_id == 1 && $activity->is_deleted != 1) ? false : true);
 				$this->em->persist($report);
 			} else {
 				$report->setClosed(true);
