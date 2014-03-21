@@ -15,7 +15,7 @@ civi_coop_vragenboom:
     prefix:   /
 
 homepage:
-    pattern:   /adviesrapport
+    pattern:   /
     defaults:  { _controller: CiviCoopVragenboomBundle:AdviesRapport:Index }
 
 root:
