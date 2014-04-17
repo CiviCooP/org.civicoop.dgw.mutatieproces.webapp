@@ -35,12 +35,13 @@ $(document).ready(function(){
             success: function(msg){
                 if (msg != ''){
                     $("#adviesrapportregel_object").html(msg).show();
+										$("#adviesrapportregel_object option").prop('selected', '');
 					{% if entity.object.id is defined %}
-                    $('#adviesrapportregel_object option[value={{  entity.object.id }}]').attr("selected","selected");
+                    $('#adviesrapportregel_object option[value={{  entity.object.id }}]').prop("selected","selected");
 					{% endif %}
 
                     if ($("#adviesrapportregel_object option").length == 2) {
-                        $("#adviesrapportregel_object option:eq(1)").attr('selected', 'selected');
+                        $("#adviesrapportregel_object option:eq(1)").prop('selected', 'selected');
                     }
                     $("#loader").hide();
                 }
@@ -63,11 +64,12 @@ $(document).ready(function(){
             success: function(msg){
                 if (msg != ''){
                     $("#adviesrapportregel_actie").html(msg).show();
+										$("#adviesrapportregel_actie option").prop('selected', '');
 					{% if entity.actie.id is defined %}
-                    $('#adviesrapportregel_actie option[value={{  entity.actie.id }}]').attr("selected","selected");
+                    $('#adviesrapportregel_actie option[value={{  entity.actie.id }}]').prop("selected","selected");
 					{% endif %}
                     if ($("#adviesrapportregel_actie option").length == 2) {
-                        $("#adviesrapportregel_actie option:eq(1)").attr('selected', 'selected');
+                        $("#adviesrapportregel_actie option:eq(1)").prop('selected', 'selected');
                     }
                     $("#loader").hide();
                 }
@@ -88,7 +90,7 @@ $(document).ready(function(){
 			$('#actie_description').html('<label>Omschrijving</label><p>'+actie.data('description')+'</p>');
 		}
 		if (actie.data('verantwoordelijke').length > 0) {
-			$("#adviesrapportregel_verantwoordelijke option[value='"+actie.data('verantwoordelijke')+"']").attr("selected", "selected");
+			$("#adviesrapportregel_verantwoordelijke option[value='"+actie.data('verantwoordelijke')+"']").prop("selected", "selected");
 		}
    });
    

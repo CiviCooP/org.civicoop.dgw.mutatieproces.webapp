@@ -69,6 +69,8 @@
                                                     <option value=¨>-</option>
                                                     <option value="Akkoord" {% if regel.status == 'Akkoord' %}selected="selected"{% endif %} >Akkoord</option>
                                                     <option value="Niet akkoord" {% if regel.status == 'Niet akkoord' %}selected="selected"{% endif %}>Niet akkoord</option>
+																										<option value="Overname" {% if regel.status == 'Overname' %}selected="selected"{% endif %} >Overname</option>
+																										<option value="Niet van toepassing" {% if regel.status == 'Niet van toepassing' %}selected="selected"{% endif %} >Niet van toepassing</option>
                                                 </select>
                                                 {% endif %}
 					</td>

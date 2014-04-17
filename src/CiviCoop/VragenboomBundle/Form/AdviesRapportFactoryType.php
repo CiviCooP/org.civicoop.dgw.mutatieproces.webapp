@@ -32,7 +32,7 @@ class AdviesRapportFactoryType extends AbstractType
            'De Goede Woning' => 'De Goede Woning', 
            'Huurder' => 'Huurder',
            'Akkoord' => 'Akkoord',
-           'Wordt overgenomen' => 'Wordt overgenomen',
+           'Huurder (mag overgenomen worden)' => 'Huurder (mag overgenomen worden)',
            'Niet van toepassing' => 'Niet van toepassing'
         ), 
         'required' => true))
