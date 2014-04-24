@@ -81,7 +81,7 @@ class EindRapportRegel implements RapportRegelInterface {
   protected $status = '';
   
   /**
-    * @ORM\ManyToOne(targetEntity="AdviesRapportRegel")
+    * @ORM\ManyToOne(targetEntity="AdviesRapportRegel", cascade={"remove"})
     * @ORM\JoinColumn(name="advies_rapport_regel_id", referencedColumnName="id", nullable=true)
     */
   protected $adviesRapportRegel;
