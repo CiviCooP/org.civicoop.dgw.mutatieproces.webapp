@@ -10,6 +10,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use CiviCoop\VragenboomBundle\Entity\Factory\RapportFactory;
 use CiviCoop\VragenboomBundle\Entity\AdviesRapportRegel;
+use CiviCoop\VragenboomBundle\Entity\EindRapportRegel;
 use CiviCoop\VragenboomBundle\Entity\AdviesRapport;
 use CiviCoop\VragenboomBundle\Form\AdviesRapportFactoryType;
 use CiviCoop\VragenboomBundle\Form\EditAdviesRapportRegelType;
@@ -235,12 +236,32 @@ class AdviesRapportRegelController extends Controller {
     $factory = $this->get('civicoop.vragenboom.rapportfactory');
 
     $rapport = $em->getRepository($factory->getEntityFromShortname($shortname))->findOneById($id);
-    $entity = $em->getRepository('CiviCoopVragenboomBundle:AdviesRapportRegel')->findOneById($entity_id);
+
+    $entity = false;
+    foreach($rapport->getRegels() as $r) {
+      if ($r->getId() == $entity_id) {
+        $entity = $r;
+        break;
+      }
+    }
 
     if (!$entity) {
       throw $this->createNotFoundException('Unable to find AdviesRapportRegel entity.');
     }
-
+    
+    if ($entity instanceof EindRapportRegel) {
+      $adviesrapport_regel = $entity->getAdviesRapportRegel();
+    } else {
+      $adviesrapport_regel = $entity;
+    }
+    
+    if ($adviesrapport_regel instanceof AdviesRapportRegel) {
+      $eindrapport_regels = $em->getRepository('CiviCoopVragenboomBundle:EindRapportRegel')->findByAdviesRapportRegel($entity);
+      foreach($eindrapport_regels as $eindrapport_regel) {
+        $em->remove($eindrapport_regel);
+      }
+    }
+    
     $em->remove($entity);
     $em->flush();
 
