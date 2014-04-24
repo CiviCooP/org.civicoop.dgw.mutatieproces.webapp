@@ -15,6 +15,7 @@ if (isset($_SERVER['HTTP_CLIENT_IP'])
 		'127.0.0.1', 
 		'fe80::1', 
 		'::1',
+		'80.60.247.139', //Ede Dubceksingel
 	)) && (strpos($_SERVER['REMOTE_ADDR'], '192.168.') !== 0))
 ) {
     header('HTTP/1.0 403 Forbidden');
