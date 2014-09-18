@@ -85,7 +85,7 @@ class CiviCase extends CiviCommon {
       $activity_id = $activity->id;
       $cases = $this->getCaseByActivity($activity->id);
       $case = $cases->nextValue();
-      if ($case) {
+      if ($case && !$case->is_deleted) {
         $report = $this->factory->findOneByCaseId($entity, $case->id);
         if (!$report) {
           $report = $this->factory->getNewClass($entity);
