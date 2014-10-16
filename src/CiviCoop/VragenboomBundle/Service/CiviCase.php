@@ -145,7 +145,7 @@ class CiviCase extends CiviCommon {
 
   private function getActivities($activity_type_id) {
     //Haal alle activiteiten op met de status gepland (1).
-    return $this->api->Activity->get(array('activity_type_id' => $activity_type_id, 'status_id' => 1, 'is_current_revision' => 1));
+    return $this->api->Activity->get(array('activity_type_id' => $activity_type_id, 'status_id' => 1, 'is_current_revision' => 1, 'options[limit]'=>999));
   }
 
   private function getCurrentActivity($activity_id) {
