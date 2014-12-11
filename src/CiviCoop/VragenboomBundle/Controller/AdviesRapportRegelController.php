@@ -23,73 +23,60 @@ use CiviCoop\VragenboomBundle\Form\EditAdviesRapportRegelType;
 class AdviesRapportRegelController extends Controller {
 
   /**
-   * Creates a new AdviesRapportRegel entity.
-   *
-   * @Route("/create", name="adviesrapportregel_create")
-   * @Method("POST")
-   * @Template("CiviCoopVragenboomBundle:AdviesRapportRegel:new.html.twig")
-   */
-  public function createAction(Request $request, $shortname, $id) {
-    $em = $this->getDoctrine()->getManager();
-    $factory = $this->get('civicoop.vragenboom.rapportfactory');
-
-    $rapport = $em->getRepository($factory->getEntityFromShortname($shortname))->findOneById($id);
-    $entity = new RapportFactory();
-    $form = $this->createForm(new AdviesRapportFactoryType(), $entity);
-    $form->bind($request);
-
-    if ($form->isValid()) {
-      $regel = $entity->make($rapport);
-      $em->persist($regel);
-      $em->flush();
-      $ruimte = $entity->getRuimte();
-      
-      //save ruimte in session 
-      if ($ruimte) {
-        $session  = $this->get("session");
-        $session->set("room-".$id, $ruimte->getId());
-      }
-      
-      if ($request->request->get('add_another_rule')) {
-        return $this->redirect($this->generateUrl('adviesrapportregel_new', array('shortname' => $factory->getShortName($rapport), 'id' => $rapport->getId())));
-      }
-      return $this->redirect($this->generateUrl('adviesrapport_show', array('shortname' => $factory->getShortName($rapport), 'id' => $rapport->getId())));
-    }
-
-    return array(
-      'entity' => $entity,
-      'form' => $form->createView(),
-      'rapport' => $rapport,
-    );
-  }
-
-  /**
    * Displays a form to create a new AdviesRapportRegel entity.
    *
    * @Route("/new", name="adviesrapportregel_new")
-   * @Method("GET")
+   * @Method({"GET", "POST"})
    * @Template()
    */
-  public function newAction($id, $shortname) {
+  public function newAction(Request $request, $id, $shortname) {
     $em = $this->getDoctrine()->getManager();
     $factory = $this->get('civicoop.vragenboom.rapportfactory');
 
-    $rapport = $em->getRepository($factory->getEntityFromShortname($shortname))->findOneById($id);
-    $entity = new RapportFactory();
-    
+    $rapport = $em->getRepository($factory->getEntityFromShortname($shortname))->findOneById($id);   
     
     //get the last used room from session
     $session  = $this->get("session");
+    
+    $form = $this->createForm(new AdviesRapportFactoryType());
     $ruimte_id = $session->get("room-".$id, false);
     if ($ruimte_id) {
       $ruimte = $em->getRepository("CiviCoopVragenboomBundle:Ruimte")->findOneById($ruimte_id);
-      $entity->setRuimte($ruimte);
+      $form->get('ruimte')->setData($ruimte);
     }
     
-    $form = $this->createForm(new AdviesRapportFactoryType(), $entity);
+    if ($request->isMethod('POST')) {
+      $form->bind($request);
 
+      if ($form->isValid()) {
+        $ruimte = $form->get('ruimte')->getData();
+
+        foreach($form->get('acties')->getData() as $actie) {
+          $rapportFactory = new RapportFactory();
+          $rapportFactory->setRuimte($ruimte);
+          $rapportFactory->setObject($actie->getObject());
+          $rapportFactory->setActie($actie);
+
+          $regel = $rapportFactory->make($rapport);
+          $em->persist($regel);
+        }
+
+        $em->flush();
+
+
+        //save ruimte in session 
+        if ($ruimte) {
+          $session->set("room-".$id, $ruimte->getId());
+        }
+
+        if ($request->request->get('add_another_rule')) {
+          return $this->redirect($this->generateUrl('adviesrapportregel_new', array('shortname' => $factory->getShortName($rapport), 'id' => $rapport->getId())));
+        }
+        return $this->redirect($this->generateUrl('adviesrapport_show', array('shortname' => $factory->getShortName($rapport), 'id' => $rapport->getId())));
+      }
+    }
+    
     return array(
-      'entity' => $entity,
       'form' => $form->createView(),
       'rapport' => $rapport,
       'factory' => $factory,

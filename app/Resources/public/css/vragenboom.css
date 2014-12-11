@@ -292,3 +292,8 @@ button.delete {
 ul.actions {
     text-align: right;
 }
+
+#adviesrapportregel_acties div.checkbox label {
+    float: none;
+    width: auto;
+}

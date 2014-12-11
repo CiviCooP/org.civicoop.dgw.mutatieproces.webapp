@@ -129,12 +129,20 @@ class RapportFactory {
     $regel->setRuimte($this->getRuimte()->getNaam());
     $regel->setObject($this->getObject()->getNaam());
     $regel->setActie($this->actie->getActie());
-    $regel->setActieRemark($this->actie->getDescription());
     
-    $regel->setRemark($this->remark);
-    $regel->setRapport($rapport);
-    $regel->setVerantwoordelijke($this->verantwoordelijke);
+    if (empty($this->remark)) {
+      $regel->setRemark($this->actie->getDescription());
+    } else {
+      $regel->setRemark($this->remark);
+    }    
+        
+    if (empty($this->verantwoordelijke)) {
+      $regel->setVerantwoordelijke($this->actie->getVerantwoordelijke());
+    } else {
+      $regel->setVerantwoordelijke($this->verantwoordelijke);
+    }
 
+    $regel->setRapport($rapport);
     $rapport->addRegel($regel);
 
     return $regel;

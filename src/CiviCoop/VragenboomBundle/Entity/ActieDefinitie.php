@@ -134,6 +134,13 @@ class ActieDefinitie
     {
         return $this->description;
     }
+    
+    /**
+     * Returns label in the format of Object: actie
+     */
+    public function getObjectActieLabel() {
+      return $this->object->getNaam().': '.$this->actie;
+    }
 
     /**
      * Set object

@@ -3,15 +3,13 @@
 {% block body -%}
     <h1>Nieuwe regel toevoegen aan rapport {{rapport.vgeAdres}}</h1>
 
-    <form action="{{ path('adviesrapportregel_create', {'shortname': factory.getShortName(rapport), 'id': rapport.id} ) }}" method="post" {{ form_enctype(form) }}>
-        {{ form_row(form.ruimte) }}
-		{{ form_row(form.object) }}
-		{{ form_row(form.actie) }}
+    <form action="{{ path('adviesrapportregel_new', {'shortname': factory.getShortName(rapport), 'id': rapport.id} ) }}" method="post" {{ form_enctype(form) }}>
+                {{ form_row(form.ruimte) }}
+		{{ form_row(form.acties) }}
 		<div id="actie_description" class="form_row"></div>
 		{{ form_widget(form) }}
         <p>
             <button type="submit">Toevoegen</button>
-            <button type="submit" name="add_another_rule" value="add_another_rule">Toevoegen en nieuwe regel</button>
         </p>
     </form>
 
@@ -25,76 +23,24 @@
 
 <script type="text/javascript">
 $(document).ready(function(){
- 
-    $("#adviesrapportregel_ruimte").change( function() {
+    var ruimte = $("#adviesrapportregel_ruimte");
+    ruimte.change( function() {
         $("#loader").show();
+        var form = $(this).closest('form');
+        var data = {};
+        data[ruimte.attr('name')] = ruimte.val();
+        // Submit data via AJAX to the form's action path.
         $.ajax({
-            type: "GET",
-            data: "data=" + $(this).val(),
-            url:"{{ path('adviesrapportregel_objects', {'shortname': factory.getShortName(rapport), 'id': rapport.id}) }}",
-            success: function(msg){
-                if (msg != ''){
-                    $("#adviesrapportregel_object").html(msg).show();
-										$("#adviesrapportregel_object option").prop('selected', '');
-					{% if entity.object.id is defined %}
-                    $('#adviesrapportregel_object option[value={{  entity.object.id }}]').prop("selected","selected");
-					{% endif %}
-
-                    if ($("#adviesrapportregel_object option").length == 2) {
-                        $("#adviesrapportregel_object option:eq(1)").prop('selected', 'selected');
-                    }
-                    $("#loader").hide();
-                }
-                else
-                {
-                    $("#adviesrapportregel_object").html('<em>Geen objecten</em>');
-                    $("#loader").hide();
-                }
-				$("#adviesrapportregel_object").trigger('change');
-           }
-       });
+            url : form.attr('action'),
+            type: form.attr('method'),
+            data : data,
+            success: function(html) {
+                // Replace current acties field
+                $('#adviesrapportregel_acties').replaceWith($(html).find('#adviesrapportregel_acties'));
+                $("#loader").hide();                
+            }
+        });
    }); 
-   
-   $("#adviesrapportregel_object").change( function() {
-        $("#loader").show();
-        $.ajax({
-            type: "GET",
-            data: "data=" + $(this).val(),
-            url:"{{ path('adviesrapportregel_acties', {'shortname': factory.getShortName(rapport), 'id': rapport.id}) }}",
-            success: function(msg){
-                if (msg != ''){
-                    $("#adviesrapportregel_actie").html(msg).show();
-										$("#adviesrapportregel_actie option").prop('selected', '');
-					{% if entity.actie.id is defined %}
-                    $('#adviesrapportregel_actie option[value={{  entity.actie.id }}]').prop("selected","selected");
-					{% endif %}
-                    if ($("#adviesrapportregel_actie option").length == 2) {
-                        $("#adviesrapportregel_actie option:eq(1)").prop('selected', 'selected');
-                    }
-                    $("#loader").hide();
-                }
-                else
-                {
-                    $("#adviesrapportregel_actie").html('<em>Geen acties</em>');
-                    $("#loader").hide();
-                }
-                $("#adviesrapportregel_actie").trigger('change');
-           }
-       });
-   }); 
-   
-   $("#adviesrapportregel_actie").change( function() {
-		$('#actie_description').html('');
-		var actie = $(this).find(":selected");
-		if (actie.data('description')) {
-			$('#actie_description').html('<label>Omschrijving</label><p>'+actie.data('description')+'</p>');
-		}
-		if (actie.data('verantwoordelijke').length > 0) {
-			$("#adviesrapportregel_verantwoordelijke option[value='"+actie.data('verantwoordelijke')+"']").prop("selected", "selected");
-		}
-   });
-   
-   $("#adviesrapportregel_ruimte").trigger('change');
 });
 </script>
 
