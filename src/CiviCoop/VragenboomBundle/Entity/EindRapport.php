@@ -108,6 +108,15 @@ class EindRapport implements RapportInterface {
   private $regels;
   
   /**
+     * @ORM\ManyToMany(targetEntity="Attachment")
+     * @ORM\JoinTable(name="eindrapport_attachemnts",
+     *      joinColumns={@ORM\JoinColumn(name="rapport_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="attachment_id", referencedColumnName="id", unique=true)}
+     *      )
+     **/
+  private $attachments;
+  
+  /**
    * Opmerkingen voor afdeling verhuur
    * 
    * @var string
@@ -119,6 +128,7 @@ class EindRapport implements RapportInterface {
   public function __construct() {
     $this->regels = new ArrayCollection();
     $this->clients = new ArrayCollection();
+    $this->attachments = new ArrayCollection();
     $this->date = new \DateTime();
   }
 
@@ -272,6 +282,35 @@ class EindRapport implements RapportInterface {
    */
   public function getRegels() {
     return $this->regels;
+  }
+  
+  /**
+   * Remove all attachments from the rapport
+   * 
+   * @return EindRapport
+   */
+  public function removeAllAttachments() {
+    $this->attachments->clear();
+    return $this;
+  }
+  
+  /**
+   * Adds an attachment
+   * 
+   * @return EindRapport
+   */
+  public function addAttachment(Attachment $attachment) {
+    $this->attachments->add($attachment);
+    return $this;
+  }
+  
+  /**
+   * Get attachments
+   *
+   * @return \Doctrine\Common\Collections\Collection 
+   */
+  public function getAttachments() {
+    return $this->attachments;
   }
 
   /**
