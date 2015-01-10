@@ -55,6 +55,21 @@ interface RapportInterface {
   public function getCaseId();
   
   /**
+   * Set activityId
+   *
+   * @param integer $activityId
+   * @return AdviesRapport
+   */
+  public function setActivityId($activityId);
+
+  /**
+   * Get activityId
+   *
+   * @return integer 
+   */
+  public function getActivityId();
+  
+  /**
    * Remove all attachments from the rapport
    * 
    * @return RapportInterface

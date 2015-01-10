@@ -100,7 +100,7 @@ class Attachment
     }
 
     /**
-     * Set content
+     * Set content (base64 encoded)
      *
      * @param string $content
      * @return Attachment
@@ -113,12 +113,31 @@ class Attachment
     }
 
     /**
-     * Get content
+     * Get content (base64 encoded)
      *
      * @return string 
      */
     public function getContent()
     {
         return $this->content;
+    }
+    
+    /**
+     * Sets the raw content
+     * @param blob $content
+     * @return \CiviCoop\VragenboomBundle\Entity\Attachment
+     */
+    public function setRawContent($content) {
+        $this->content = base64_encode($content);
+        return $this;
+    }
+    
+    /**
+     * Returns the raw content
+     * 
+     * @return blob
+     */
+    public function getRawContent() {
+        return base64_decode($this->content);
     }
 }
