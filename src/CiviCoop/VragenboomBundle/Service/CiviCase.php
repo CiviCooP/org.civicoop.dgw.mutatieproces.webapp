@@ -149,12 +149,15 @@ class CiviCase extends CiviCommon {
   
   private function getAttachments(RapportInterface $report) {
       $attachments = $this->api->Activity->attachments(array('activity_id' => $report->getActivityId()));
+      foreach($report->getAttachments() as $attachment) {
+        $this->em->remove($attachment);
+      }
       $report->removeAllAttachments();
       while ($file = $attachments->nextValue()) {
           $attachment = new Attachment();
-          $attachment->setFilename($file['cleanName']);
-          $attachment->setMimetype($file['mime_type']);
-          $attachment->setRawContent(file_get_contents($f['url']));
+          $attachment->setFilename($file->cleanName);
+          $attachment->setMimetype($file->mime_type);
+          $attachment->setContent($file->base64_content);
           $report->addAttachment($attachment);
       }
   }

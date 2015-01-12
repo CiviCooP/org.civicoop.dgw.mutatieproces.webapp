@@ -108,7 +108,7 @@ class EindRapport implements RapportInterface {
   private $regels;
   
   /**
-     * @ORM\ManyToMany(targetEntity="Attachment")
+     * @ORM\ManyToMany(targetEntity="Attachment", cascade={"persist", "remove"})
      * @ORM\JoinTable(name="eindrapport_attachemnts",
      *      joinColumns={@ORM\JoinColumn(name="rapport_id", referencedColumnName="id")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="attachment_id", referencedColumnName="id", unique=true)}

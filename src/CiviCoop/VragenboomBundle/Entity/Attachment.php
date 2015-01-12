@@ -138,6 +138,6 @@ class Attachment
      * @return blob
      */
     public function getRawContent() {
-        return base64_decode($this->content);
+        return base64_decode(stream_get_contents($this->content));
     }
 }

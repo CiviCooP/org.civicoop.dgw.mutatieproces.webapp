@@ -32,7 +32,7 @@ class AdviesRapportRegelController extends Controller {
   public function downloadAction(Request $request, $id, $shortname, $fileid) {  
     $em = $this->getDoctrine()->getManager();
 
-    $attachment = $em->getRepository('CiviCoopVragenboomBundle:Attachment')->findOneById($id);     
+    $attachment = $em->getRepository('CiviCoopVragenboomBundle:Attachment')->findOneById($fileid);     
     if (!$attachment) {
       throw $this->createNotFoundException();
     }
