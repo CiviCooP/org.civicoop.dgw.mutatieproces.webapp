@@ -21,7 +21,7 @@ To install the application follow the instructions below
 3. `php composer.phar install`
 4. Fill in the database details and the details of your civicrm installation in **app/config/parameters.yml**
 5. `php app/console doctrine:migrations:migrate`
-6. `php app/console assetic:dump`
+6. `php app/console assetic:dump -e prod`
 7. `php app/console cache:clear -e prod`
 8. Your application is now ready for use
 
