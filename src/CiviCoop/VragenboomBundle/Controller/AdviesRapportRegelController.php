@@ -25,6 +25,29 @@ class AdviesRapportRegelController extends Controller {
   /**
    * Displays a form to create a new AdviesRapportRegel entity.
    *
+   * @Route("/download/{fileid}", name="adviesrapportregel_download")
+   * @Method({"GET"})
+   * @Template()
+   */
+  public function downloadAction(Request $request, $id, $shortname, $fileid) {  
+    $em = $this->getDoctrine()->getManager();
+
+    $attachment = $em->getRepository('CiviCoopVragenboomBundle:Attachment')->findOneById($fileid);     
+    if (!$attachment) {
+      throw $this->createNotFoundException();
+    }
+    
+    $response = new Response($attachment->getRawContent(), 200);
+    $response->headers->set('Content-Type', $attachment->getMimetype());
+    $response->headers->set('Content-Disposition', 'attachment; filename="'.$attachment->getFilename().'"');
+    
+    return $response;
+  }
+    
+    
+  /**
+   * Displays a form to create a new AdviesRapportRegel entity.
+   *
    * @Route("/new", name="adviesrapportregel_new")
    * @Method({"GET", "POST"})
    * @Template()

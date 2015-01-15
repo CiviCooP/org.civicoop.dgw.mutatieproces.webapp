@@ -3,6 +3,7 @@
 namespace CiviCoop\VragenboomBundle\Service;
 
 use CiviCoop\CiviCrmBundle\Service\Api;
+use CiviCoop\VragenboomBundle\Entity\Attachment;
 use CiviCoop\VragenboomBundle\Service\RapportFactory;
 use CiviCoop\VragenboomBundle\Entity\Client;
 use CiviCoop\VragenboomBundle\Entity\RapportInterface;
@@ -65,6 +66,7 @@ class CiviCase extends CiviCommon {
         $report->setActivityId($activity->id);
         $report->setDate(new \DateTime($activity->activity_date_time));
         $report->setClosed(($activity->status_id == 1 && $activity->is_deleted != 1) ? false : true);
+        $this->getAttachments($report);
         $this->em->persist($report);
       } else {
         $report->setClosed(true);
@@ -137,10 +139,27 @@ class CiviCase extends CiviCommon {
           }
         }
 
+        $this->getAttachments($report);
+        
         $this->em->persist($report);
         $this->em->flush();
       }
     }
+  }
+  
+  private function getAttachments(RapportInterface $report) {
+      $attachments = $this->api->Activity->attachments(array('activity_id' => $report->getActivityId()));
+      foreach($report->getAttachments() as $attachment) {
+        $this->em->remove($attachment);
+      }
+      $report->removeAllAttachments();
+      while ($file = $attachments->nextValue()) {
+          $attachment = new Attachment();
+          $attachment->setFilename($file->cleanName);
+          $attachment->setMimetype($file->mime_type);
+          $attachment->setContent($file->base64_content);
+          $report->addAttachment($attachment);
+      }
   }
 
   private function getActivities($activity_type_id) {
