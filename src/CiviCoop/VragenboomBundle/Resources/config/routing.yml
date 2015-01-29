@@ -10,7 +10,6 @@ civicoop_vragenboom_login:
 civicoop_vragenboom_logout:
     pattern:  /logout
     defaults: { _controller: CiviCoopVragenboomBundle:Default:logout }
-	
 ruimtes:
     resource: "@CiviCoopVragenboomBundle/Controller/RuimteController.php"
     type:     annotation
