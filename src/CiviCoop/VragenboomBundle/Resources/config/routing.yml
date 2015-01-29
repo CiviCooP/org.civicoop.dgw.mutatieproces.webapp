@@ -10,13 +10,7 @@ civicoop_vragenboom_login:
 civicoop_vragenboom_logout:
     pattern:  /logout
     defaults: { _controller: CiviCoopVragenboomBundle:Default:logout }
-
-adviesrapport:
-    resource: "@CiviCoopVragenboomBundle/Controller/AdviesRapportController.php"
-    type:     annotation
-adviesrapportregel:
-    resource: "@CiviCoopVragenboomBundle/Controller/AdviesRapportRegelController.php"
-    type:     annotation	
+	
 ruimtes:
     resource: "@CiviCoopVragenboomBundle/Controller/RuimteController.php"
     type:     annotation
@@ -25,4 +19,10 @@ objects:
     type:     annotation
 actiedefinities:
     resource: "@CiviCoopVragenboomBundle/Controller/ActieDefinitieController.php"
+    type:     annotation
+adviesrapport:
+    resource: "@CiviCoopVragenboomBundle/Controller/AdviesRapportController.php"
+    type:     annotation
+adviesrapportregel:
+    resource: "@CiviCoopVragenboomBundle/Controller/AdviesRapportRegelController.php"
     type:     annotation
