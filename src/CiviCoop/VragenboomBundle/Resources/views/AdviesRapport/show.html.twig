@@ -71,6 +71,7 @@
                     <th class="ruimte">Ruimte</th>
                     <th class="object">Object</th>
                     <th class="advies">Advies</th>
+                    <th class="verantwoordelijke">Verantwoordelijke</th>
                     {% if showStatus %}<th class="status">Ruimte</th>{%  endif %}
                     <th class="verwijderen">&nbsp;</th>
                 </tr>
@@ -81,10 +82,11 @@
                         <td class="ruimte"><p class="info"><span class="ruimte">{{regel.ruimte}}</span></p></td>
                         <td class="object"><p class="info"><span class="object">{{regel.object}}</span></p></td>
                         <td class="advies">
-                            <h3><a href="{{ path('adviesrapportregel_edit', {'shortname': factory.getShortName(entity), 'id': entity.id, 'rule_id': regel.id} ) }}">{{regel.actie}}</a> {% if regel.verantwoordelijke|length %} <span class="verantwoordelijke">- {{regel.verantwoordelijke}}</span> {% endif %}</h3>
+                            <h3><a href="{{ path('adviesrapportregel_edit', {'shortname': factory.getShortName(entity), 'id': entity.id, 'rule_id': regel.id} ) }}">{{regel.actie}}</a></h3>
                             <p>{{regel.actieRemark}}</p>
                             <p>{{regel.remark}}</p>
                         </td>
+                        <td class="verantwoordelijke">{% if regel.verantwoordelijke|length %}<span class="verantwoordelijke">- {{regel.verantwoordelijke}}</span>{% endif %}</td>
                             {% if showStatus %}
                                 <td class="status">
                                 <select name="status[{{regel.id}}]">
