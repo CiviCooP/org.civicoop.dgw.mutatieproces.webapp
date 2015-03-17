@@ -183,13 +183,11 @@ table.record_properties.adviesrapport td {
 
 table.record_properties.adviezen td,
 table.record_properties.adviezen th {
-    padding: 2px 12px 2px 12px;
+    padding: 12px;
 }
 
-table.record_properties.adviezen .info { font-style: italic; }
-
 tr.odd, tr.odd td {
-    background-color: #c0c0c0;
+    background-color: #eee;
 }
 
 tr.item-top {

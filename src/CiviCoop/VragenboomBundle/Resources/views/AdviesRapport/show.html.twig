@@ -79,7 +79,7 @@
             <tbody>
                 {% for regel in entity.regels %}
                     <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
-                        <td class="ruimte"><p class="info"><span class="ruimte">{{regel.ruimte}}</span></p></td>
+                        <td class="ruimte">{{regel.ruimte}}</td>
                         <td class="object"><p class="info"><span class="object">{{regel.object}}</span></p></td>
                         <td class="advies">
                             <h3><a href="{{ path('adviesrapportregel_edit', {'shortname': factory.getShortName(entity), 'id': entity.id, 'rule_id': regel.id} ) }}">{{regel.actie}}</a></h3>
@@ -100,7 +100,7 @@
                             {% endif %}
                         <td>
                             <ul class="actions">
-                                <li><a href="{{ path('adviesrapportregel_delete', {'shortname': factory.getShortName(entity), 'id': entity.id, 'entity_id': regel.id} ) }}" onclick="return confirm('Weet u het zeker?');">Verwijderen</a></li>
+                                <li><a class="button delete" href="{{ path('adviesrapportregel_delete', {'shortname': factory.getShortName(entity), 'id': entity.id, 'entity_id': regel.id} ) }}" onclick="return confirm('Weet u het zeker?');">Verwijderen</a></li>
                             </ul>
                         </td>
                     </tr>
