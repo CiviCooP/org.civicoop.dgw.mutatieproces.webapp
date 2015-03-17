@@ -126,6 +126,11 @@ class AdviesRapportController extends AbstractController {
   public function updateAction(Request $request, $shortname, $id) {
     $em = $this->getDoctrine()->getManager();
     $factory = $this->get('civicoop.vragenboom.rapportfactory');
+
+
+      if ($request->request->get('back_to_overview')) {
+          return $this->redirect($this->generateUrl('adviesrapport'));
+      }
     
     $entity = $em->getRepository($factory->getEntityFromShortname($shortname))->findOneById($id);
 
@@ -151,11 +156,7 @@ class AdviesRapportController extends AbstractController {
       }
       $em->persist($entity);
       $em->flush();
-      
-      if ($request->request->get('back_to_overview')) {
-        return $this->redirect($this->generateUrl('adviesrapport'));
-      }
-      
+
       return $this->redirect($this->generateUrl('adviesrapport_show', array('id' => $id, 'shortname' => $factory->getShortName($entity))));
     }
 
