@@ -66,14 +66,27 @@
         <a href="{{ path('adviesrapportregel_new', {'shortname': factory.getShortName(entity), 'id': entity.id} ) }}" class="button">Nieuw advies toevoegen</a>
 
         <table class="record_properties adviezen">
+            <thead>
+                <tr>
+                    <th class="ruimte">Ruimte</th>
+                    <th class="object">Object</th>
+                    <th class="advies">Advies</th>
+                    {% if showStatus %}<th class="status">Ruimte</th>{%  endif %}
+                    <th class="verwijderen">nbsp;</th>
+                </tr>
+            </thead>
             <tbody>
                 {% for regel in entity.regels %}
                     <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
-                        <td><p class="info"><span class="ruimte">{{regel.ruimte}}</span> / <span class="object">{{regel.object}}</span></p>
+                        <td class="ruimte"><p class="info"><span class="ruimte">{{regel.ruimte}}</span></p></td>
+                        <td class="object"><p class="info"><span class="object">{{regel.object}}</span></p></td>
+                        <td class="advies">
                             <h3><a href="{{ path('adviesrapportregel_edit', {'shortname': factory.getShortName(entity), 'id': entity.id, 'rule_id': regel.id} ) }}">{{regel.actie}}</a> {% if regel.verantwoordelijke|length %} <span class="verantwoordelijke">- {{regel.verantwoordelijke}}</span> {% endif %}</h3>
                             <p>{{regel.actieRemark}}</p>
                             <p>{{regel.remark}}</p>
+                        </td>
                             {% if showStatus %}
+                                <td class="status">
                                 <select name="status[{{regel.id}}]">
                                     <option value=¨>-</option>
                                     <option value="Akkoord" {% if regel.status == 'Akkoord' %}selected="selected"{% endif %} >Akkoord</option>
@@ -81,8 +94,8 @@
                                     <option value="Overname" {% if regel.status == 'Overname' %}selected="selected"{% endif %} >Overname</option>
                                     <option value="Niet van toepassing" {% if regel.status == 'Niet van toepassing' %}selected="selected"{% endif %} >Niet van toepassing</option>
                                 </select>
+                                </td>
                             {% endif %}
-                        </td>
                         <td>
                             <ul class="actions">
                                 <li><a href="{{ path('adviesrapportregel_delete', {'shortname': factory.getShortName(entity), 'id': entity.id, 'entity_id': regel.id} ) }}" onclick="return confirm('Weet u het zeker?');">Verwijderen</a></li>
