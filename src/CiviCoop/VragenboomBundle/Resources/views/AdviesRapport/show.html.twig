@@ -86,7 +86,7 @@
                             <p>{{regel.actieRemark}}</p>
                             <p>{{regel.remark}}</p>
                         </td>
-                        <td class="verantwoordelijke">{% if regel.verantwoordelijke|length %}<span class="verantwoordelijke">- {{regel.verantwoordelijke}}</span>{% endif %}</td>
+                        <td class="verantwoordelijke">{% if regel.verantwoordelijke|length %}<span class="verantwoordelijke">{{regel.verantwoordelijke}}</span>{% endif %}</td>
                             {% if showStatus %}
                                 <td class="status">
                                 <select name="status[{{regel.id}}]">
