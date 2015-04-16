@@ -2,6 +2,7 @@
 
 namespace CiviCoop\VragenboomBundle\Controller;
 
+use CiviCoop\VragenboomBundle\Entity\ToekomstAdres;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -285,6 +286,11 @@ class AdviesRapportController extends AbstractController {
     if (!$client) {
       throw $this->createNotFoundException('Unable to find client entity.');
     }
+    if (!$client->getToekomstAdres()) {
+      $client->setToekomstAdres(new ToekomstAdres());
+      $client->getToekomstAdres()->setContactId($client->getContactId());
+      $client->getToekomstAdres()->setSupplementalAddress1('(Vanaf '.$rapport->getExpectedEndDate()->format('d-m-Y'));
+    }
 
     $editForm = $this->createForm(new ClientType(), $client);
 
@@ -317,6 +323,12 @@ class AdviesRapportController extends AbstractController {
     $client = $em->getRepository('CiviCoopVragenboomBundle:Client')->findOneById($client_id);
     if (!$client) {
       throw $this->createNotFoundException('Unable to find client entity.');
+    }
+
+    if (!$client->getToekomstAdres()) {
+      $client->setToekomstAdres(new ToekomstAdres());
+      $client->getToekomstAdres()->setContactId($client->getContactId());
+      $client->getToekomstAdres()->setSupplementalAddress1('(Vanaf '.$rapport->getExpectedEndDate()->format('d-m-Y'));
     }
 
     $editForm = $this->createForm(new ClientType(), $client);

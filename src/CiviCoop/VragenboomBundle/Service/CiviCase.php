@@ -133,6 +133,7 @@ class CiviCase extends CiviCommon {
             if ($contact->phone) {
               $client->setPhone($contact->phone);
             }
+            $this->syncToekomstAdres($client);
           }
           if (!$report->getClients()->contains($client)) {
             $report->addClient($client);

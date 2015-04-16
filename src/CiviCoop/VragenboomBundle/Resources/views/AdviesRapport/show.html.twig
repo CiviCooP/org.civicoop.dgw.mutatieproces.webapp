@@ -5,8 +5,8 @@
     <form action="{{ path('adviesrapport_update', { 'shortname': factory.getShortName(entity), 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }} class="adviesrapport">
         <table class="record_properties adviesrapport">
             <tbody>
-                <tr>
-                    {% for client in entity.clients %}
+                {% for client in entity.clients %}
+                    <tr>
                         <th>Contact</th>
                         <td>
 
@@ -23,6 +23,21 @@
                         </td>
                         <th></th>
                         <td>                            <a href="{{ path('adviesrapport_show_client', {'shortname': factory.getShortName(entity), 'id': entity.id, 'client_id': client.id}) }}">Wijzig contact gegevens</a></td>
+                    </tr>
+                    <tr>
+                        <th>Toekomstig adres</th>
+                        <td>
+                            {%  if (client.toekomstAdres) %}
+                                {{ client.toekomstAdres.streetAddress}}
+                                {{ client.toekomstAdres.postalCode}}
+                                {{ client.toekomstAdres.city}}
+                                {{ client.toekomstAdres.supplementalAddress1}}
+                            {%  else %}
+                                <em>Geen toekomstig adres bekend</em>
+                            {%  endif %}
+                        </td>
+                        <th></th>
+                        <td></td>
                     </tr>
                 {% endfor %}
                 <tr>

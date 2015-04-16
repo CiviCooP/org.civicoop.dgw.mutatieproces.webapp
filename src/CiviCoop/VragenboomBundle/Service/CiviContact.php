@@ -45,7 +45,9 @@ class CiviContact extends CiviCommon {
     } catch (CiviCrmApiError $e) {
       ;
     }
-    $this->api->Email->create($params);
+    if ($client->getEmail()) {
+      $this->api->Email->create($params);
+    }
     
     //update the primary phone number
     //first get the id of the phone field
@@ -60,7 +62,29 @@ class CiviContact extends CiviCommon {
     } catch (CiviCrmApiError $e) {
       ;
     }
-    $this->api->Phone->create($params);
+    if ($client->getPhone()) {
+      $this->api->Phone->create($params);
+    }
+
+    //update toekomstig address
+    if ($client->getToekomstAdres()) {
+      $params = array();
+      $params['street_address'] = $client->getToekomstAdres()->getStreetAddress();
+      $params['supplemental_address_1'] = $client->getToekomstAdres()->getSupplementalAddress1();
+      $params['postal_code'] = $client->getToekomstAdres()->getPostalCode();
+      $params['city'] = $client->getToekomstAdres()->getCity();
+      if ($client->getToekomstAdres()->getCivicrmId()) {
+        $params['id'] = $client->getToekomstAdres()->getCivicrmId();
+      } else {
+        if (!$this->toekomst_adres_id) {
+          throw new Exception('Toekomstig adres location type does not exist in Civi');
+        }
+        $params['contact_id'] = $client->getContactId();
+        $params['location_type_id'] = $this->toekomst_adres_id;
+        $params['country_id'] = 1152; //Netherlands
+      }
+      $this->api->Address->create($params);
+    }
   }
   
   public function sync() {
@@ -93,6 +117,7 @@ class CiviContact extends CiviCommon {
         } else {
           $client->setPhone(null);
         }
+        $this->syncToekomstAdres($client);
         $this->em->persist($client);
       }
     }
