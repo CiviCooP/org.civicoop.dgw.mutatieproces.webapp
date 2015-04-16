@@ -67,7 +67,7 @@ class CiviContact extends CiviCommon {
     }
 
     //update toekomstig address
-    if ($client->getToekomstAdres()) {
+    if ($client->getToekomstAdres() && !$client->getToekomstAdres()->isEmpty()) {
       $params = array();
       $params['street_address'] = $client->getToekomstAdres()->getStreetAddress();
       $params['supplemental_address_1'] = $client->getToekomstAdres()->getSupplementalAddress1();

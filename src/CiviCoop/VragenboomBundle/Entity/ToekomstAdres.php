@@ -65,6 +65,27 @@ class ToekomstAdres {
   private $postal_code;
 
 
+  public function isEmpty() {
+    if (empty($this->street_address) && empty($this->city) && empty($this->postal_code)) {
+      return true;
+    }
+    return false;
+  }
+
+  /**
+   * @Assert\True(message = "Geef adres, postcode en woonplaats op. Of laat adres en postcode en woonplaats leeg.")
+   */
+  public function isValid()
+  {
+    if ($this->isEmpty()) {
+      return true;
+    }
+    if (empty($this->street_address) || empty($this->postal_code) || empty($this->city)) {
+      return false;
+    }
+    return true;
+  }
+
     /**
      * Get id
      *
@@ -153,7 +174,7 @@ class ToekomstAdres {
      */
     public function setCity($city)
     {
-        $this->city = $city;
+        $this->city = trim($city);
     
         return $this;
     }
@@ -176,7 +197,7 @@ class ToekomstAdres {
      */
     public function setPostalCode($postalCode)
     {
-        $this->postal_code = $postalCode;
+        $this->postal_code = trim($postalCode);
     
         return $this;
     }
@@ -199,7 +220,7 @@ class ToekomstAdres {
      */
     public function setStreetAddress($streetAddress)
     {
-        $this->street_address = $streetAddress;
+        $this->street_address = trim($streetAddress);
     
         return $this;
     }

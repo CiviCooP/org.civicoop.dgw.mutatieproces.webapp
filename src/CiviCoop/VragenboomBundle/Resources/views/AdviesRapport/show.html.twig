@@ -27,7 +27,7 @@
                     <tr>
                         <th>Toekomstig adres</th>
                         <td>
-                            {%  if (client.toekomstAdres) %}
+                            {%  if (client.toekomstAdres and not client.toekomstAdres.empty) %}
                                 {{ client.toekomstAdres.streetAddress}}
                                 {{ client.toekomstAdres.postalCode}}
                                 {{ client.toekomstAdres.city}}

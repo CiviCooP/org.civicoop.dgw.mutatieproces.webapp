@@ -10,10 +10,22 @@ class ToekomstAdresType extends AbstractType {
 
   public function buildForm(FormBuilderInterface $builder, array $options) {
     $builder
-      ->add('street_address')
-      ->add('supplemental_address_1')
-      ->add('postal_code')
-      ->add('city')
+      ->add('street_address', null, array(
+        'label' => 'Adres',
+        'required' => false,
+      ))
+      ->add('supplemental_address_1', null, array(
+        'label' => 'Adres toevoeging',
+        'required' => false,
+      ))
+      ->add('postal_code', null, array(
+        'label' => 'Postcode',
+        'required' => false,
+      ))
+      ->add('city', null, array(
+        'label' => 'Woonplaats',
+        'required' => false,
+      ))
     ;
   }
 
