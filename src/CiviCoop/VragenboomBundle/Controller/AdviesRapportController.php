@@ -347,6 +347,9 @@ class AdviesRapportController extends AbstractController {
     $editForm->bind($request);
     
    if ($editForm->isValid()) {
+      if ($client->getToekomstAdres() && $client->getToekomstAdres()->isEmpty()) {
+        $client->clearToekomstAdres();
+      }
       $em->persist($client);
       $em->flush();
       
