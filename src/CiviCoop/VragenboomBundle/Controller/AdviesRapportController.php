@@ -291,7 +291,11 @@ class AdviesRapportController extends AbstractController {
       $client->getToekomstAdres()->setContactId($client->getContactId());
     }
     if ($client->getToekomstAdres()->isEmpty()) {
-      $client->getToekomstAdres()->setSupplementalAddress1('(Vanaf '.$rapport->getExpectedEndDate()->format('d-m-Y'));
+      if ($rapport->getExpectedEndDate()) {
+        $client->getToekomstAdres()
+          ->setSupplementalAddress1('(Vanaf ' . $rapport->getExpectedEndDate()
+              ->format('d-m-Y'));
+      }
     }
 
     $editForm = $this->createForm(new ClientType(), $client);
@@ -332,7 +336,11 @@ class AdviesRapportController extends AbstractController {
       $client->getToekomstAdres()->setContactId($client->getContactId());
     }
     if ($client->getToekomstAdres()->isEmpty()) {
-      $client->getToekomstAdres()->setSupplementalAddress1('(Vanaf '.$rapport->getExpectedEndDate()->format('d-m-Y'));
+      if ($rapport->getExpectedEndDate()) {
+        $client->getToekomstAdres()
+          ->setSupplementalAddress1('(Vanaf ' . $rapport->getExpectedEndDate()
+              ->format('d-m-Y'));
+      }
     }
 
     $editForm = $this->createForm(new ClientType(), $client);
