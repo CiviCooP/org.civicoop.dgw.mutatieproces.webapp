@@ -83,6 +83,20 @@ class AdviesRapport implements RapportInterface {
   private $remarks = "";
 
   /**
+   * @var string
+   *
+   * @ORM\Column(name="future_address_in_first", type="text")
+   */
+  private $future_address_in_first = "";
+
+  /**
+   * @var string
+   *
+   * @ORM\Column(name="future_address", type="text")
+   */
+  private $future_address = "";
+
+  /**
    * @var boolean
    *
    * @ORM\Column(name="closed", type="boolean")
@@ -473,4 +487,69 @@ class AdviesRapport implements RapportInterface {
     return $this->opmAfdVerhuur;
   }
 
+
+    /**
+     * Set future_address_in_first
+     *
+     * @param string $futureAddressInFirst
+     * @return AdviesRapport
+     */
+    public function setFutureAddressInFirst($futureAddressInFirst)
+    {
+        $this->future_address_in_first = $futureAddressInFirst;
+    
+        return $this;
+    }
+
+    /**
+     * Get future_address_in_first
+     *
+     * @return string 
+     */
+    public function getFutureAddressInFirst()
+    {
+        return $this->future_address_in_first;
+    }
+
+    /**
+     * Set future_address
+     *
+     * @param string $futureAddress
+     * @return AdviesRapport
+     */
+    public function setFutureAddress($futureAddress)
+    {
+        if ($this->future_address_in_first == $futureAddress) {
+          $this->future_address = "";
+        } else {
+          $this->future_address = $futureAddress;
+        }
+    
+        return $this;
+    }
+
+    /**
+     * Get future_address
+     *
+     * @return string 
+     */
+    public function getFutureAddress()
+    {
+        if (empty($this->future_address) && !empty($this->future_address_in_first)) {
+          return $this->future_address_in_first;
+        } elseif ($this->future_address_in_first == $this->future_address) {
+          return "";
+        }
+        return $this->future_address;
+    }
+
+    /**
+     * Remove attachments
+     *
+     * @param \CiviCoop\VragenboomBundle\Entity\Attachment $attachments
+     */
+    public function removeAttachment(\CiviCoop\VragenboomBundle\Entity\Attachment $attachments)
+    {
+        $this->attachments->removeElement($attachments);
+    }
 }

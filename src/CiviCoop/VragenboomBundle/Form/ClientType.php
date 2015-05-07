@@ -14,12 +14,16 @@ class ClientType extends AbstractType {
           'attr'=> array('class'=>'text') //make sure the layout is like a text field
         ))
         ->add('phone')
+        ->add('futureAddress', 'textarea', array(
+          'required' => false,
+          'label' => 'Toekomstig adres'
+        ))
     ;
   }
 
   public function setDefaultOptions(OptionsResolverInterface $resolver) {
     $resolver->setDefaults(array(
-      'data_class' => 'CiviCoop\VragenboomBundle\Entity\Client',
+      'data_class' => 'CiviCoop\VragenboomBundle\Model\Client',
     ));
   }
 

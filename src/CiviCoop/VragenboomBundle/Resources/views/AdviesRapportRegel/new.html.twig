@@ -28,11 +28,11 @@ $(document).ready(function(){
         $("#loader").show();
         var form = $(this).closest('form');
         var data = {};
-        data[ruimte.attr('name')] = ruimte.val();
+        data['ruimte_id'] = ruimte.val();
         // Submit data via AJAX to the form's action path.
         $.ajax({
             url : form.attr('action'),
-            type: form.attr('method'),
+            type: 'get',
             data : data,
             success: function(html) {
                 // Replace current acties field

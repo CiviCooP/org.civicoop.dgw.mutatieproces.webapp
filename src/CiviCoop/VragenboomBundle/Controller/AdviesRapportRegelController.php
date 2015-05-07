@@ -2,6 +2,7 @@
 
 namespace CiviCoop\VragenboomBundle\Controller;
 
+use CiviCoop\VragenboomBundle\Entity\RapportRegelInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -60,12 +61,26 @@ class AdviesRapportRegelController extends Controller {
     
     //get the last used room from session
     $session  = $this->get("session");
+    $selectedActies = array();
+    $selectedRegels = array();
     
     $form = $this->createForm(new AdviesRapportFactoryType());
+
+    if ($request->get('ruimte_id')) {
+      $session->set("room-".$id, $request->get('ruimte_id'));
+    }
     $ruimte_id = $session->get("room-".$id, false);
     if ($ruimte_id) {
       $ruimte = $em->getRepository("CiviCoopVragenboomBundle:Ruimte")->findOneById($ruimte_id);
       $form->get('ruimte')->setData($ruimte);
+
+      foreach($rapport->getRegels() as $regel) {
+        if ($regel->getActieDefinitie() && $regel->getRuimte() == $ruimte->getNaam()) {
+          $selectedActies[] = $regel->getActieDefinitie();
+          $selectedRegels[] = $regel;
+        }
+      }
+      $form->get('acties')->setData($selectedActies);
     }
     
     if ($request->isMethod('POST')) {
@@ -74,18 +89,27 @@ class AdviesRapportRegelController extends Controller {
       if ($form->isValid()) {
         $ruimte = $form->get('ruimte')->getData();
 
+        $submittedActies = array();
         foreach($form->get('acties')->getData() as $actie) {
-          $rapportFactory = new RapportFactory();
-          $rapportFactory->setRuimte($ruimte);
-          $rapportFactory->setObject($actie->getObject());
-          $rapportFactory->setActie($actie);
+          $submittedActies[] = $actie;
+          if (!in_array($actie, $selectedActies)) {
+            $rapportFactory = new RapportFactory();
+            $rapportFactory->setRuimte($ruimte);
+            $rapportFactory->setObject($actie->getObject());
+            $rapportFactory->setActie($actie);
 
-          $regel = $rapportFactory->make($rapport);
-          $em->persist($regel);
+            $regel = $rapportFactory->make($rapport);
+
+            $em->persist($regel);
+          }
         }
-
         $em->flush();
 
+        foreach($selectedRegels as $regel) {
+          if (!in_array($regel->getActieDefinitie(), $submittedActies)) {
+            $this->removeRegel($regel);
+          }
+        }
 
         //save ruimte in session 
         if ($ruimte) {
@@ -235,6 +259,25 @@ class AdviesRapportRegelController extends Controller {
     return new Response($html);
   }
 
+  protected function removeRegel(RapportRegelInterface $regel) {
+    $em = $this->getDoctrine()->getManager();
+    if ($regel instanceof EindRapportRegel) {
+      $adviesrapport_regel = $regel->getAdviesRapportRegel();
+    } else {
+      $adviesrapport_regel = $regel;
+    }
+
+    if ($adviesrapport_regel instanceof AdviesRapportRegel) {
+      $eindrapport_regels = $em->getRepository('CiviCoopVragenboomBundle:EindRapportRegel')->findByAdviesRapportRegel($regel);
+      foreach($eindrapport_regels as $eindrapport_regel) {
+        $em->remove($eindrapport_regel);
+      }
+    }
+
+    $em->remove($regel);
+    $em->flush();
+  }
+
   /**
    * Deletes a Regel entity.
    *
@@ -259,21 +302,7 @@ class AdviesRapportRegelController extends Controller {
       throw $this->createNotFoundException('Unable to find AdviesRapportRegel entity.');
     }
     
-    if ($entity instanceof EindRapportRegel) {
-      $adviesrapport_regel = $entity->getAdviesRapportRegel();
-    } else {
-      $adviesrapport_regel = $entity;
-    }
-    
-    if ($adviesrapport_regel instanceof AdviesRapportRegel) {
-      $eindrapport_regels = $em->getRepository('CiviCoopVragenboomBundle:EindRapportRegel')->findByAdviesRapportRegel($entity);
-      foreach($eindrapport_regels as $eindrapport_regel) {
-        $em->remove($eindrapport_regel);
-      }
-    }
-    
-    $em->remove($entity);
-    $em->flush();
+    $this->removeRegel($entity);
 
     return $this->redirect($this->generateUrl('adviesrapport_show', array('shortname' => $factory->getShortName($rapport), 'id' => $rapport->getid())));
   }

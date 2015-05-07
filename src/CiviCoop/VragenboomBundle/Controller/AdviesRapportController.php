@@ -8,6 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use CiviCoop\VragenboomBundle\Model\Client as ClientModel;
 use CiviCoop\VragenboomBundle\Form\ClientType;
 use CiviCoop\VragenboomBundle\Form\AfdVerhuurType;
 use CiviCoop\VragenboomBundle\Form\EindopnameType;
@@ -287,11 +288,13 @@ class AdviesRapportController extends AbstractController {
       throw $this->createNotFoundException('Unable to find client entity.');
     }
 
-    $editForm = $this->createForm(new ClientType(), $client);
+    $clientModel = new ClientModel($client, $rapport);
+
+    $editForm = $this->createForm(new ClientType(), $clientModel);
 
     return array(
       'rapport' => $rapport,
-      'client' => $client,
+      'client' => $clientModel,
       'factory' => $factory,
       'edit_form' => $editForm->createView(),
     );
@@ -320,15 +323,21 @@ class AdviesRapportController extends AbstractController {
       throw $this->createNotFoundException('Unable to find client entity.');
     }
 
-    $editForm = $this->createForm(new ClientType(), $client);
+    $clientModel = new ClientModel($client, $rapport);
+
+    $editForm = $this->createForm(new ClientType(), $clientModel);
     $editForm->bind($request);
     
    if ($editForm->isValid()) {
-      $em->persist($client);
+      $em->persist($clientModel->getRapport());
+      $em->persist($clientModel->getClient());
       $em->flush();
       
       $civicontact = $this->get('civicoop.dgw.mutatieproces.civicontact');
-      $civicontact->updateContact($client);
+      $civicontact->updateContact($clientModel->getClient());
+
+      $civicase = $this->get('civicoop.dgw.mutatieproces.civicase');
+      $civicase->updateInfoAfdVerhuur($clientModel->getRapport());
 
       return $this->redirect($this->generateUrl('adviesrapport_show', array('id' => $id, 'shortname' => $factory->getShortName($rapport))));
     }

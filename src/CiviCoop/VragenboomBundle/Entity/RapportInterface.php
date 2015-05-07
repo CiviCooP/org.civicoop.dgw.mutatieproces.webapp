@@ -89,6 +89,36 @@ interface RapportInterface {
    * @return \Doctrine\Common\Collections\Collection 
    */
   public function getAttachments();
+
+  /**
+   * Set future_address_in_first
+   *
+   * @param string $futureAddressInFirst
+   * @return RapportInterface
+   */
+  public function setFutureAddressInFirst($futureAddressInFirst);
+
+  /**
+   * Get future_address_in_first
+   *
+   * @return string
+   */
+  public function getFutureAddressInFirst();
+
+  /**
+   * Set future_address
+   *
+   * @param string $futureAddress
+   * @return RapportInterface
+   */
+  public function setFutureAddress($futureAddress);
+
+  /**
+   * Get future_address
+   *
+   * @return string
+   */
+  public function getFutureAddress();
   
   
 }

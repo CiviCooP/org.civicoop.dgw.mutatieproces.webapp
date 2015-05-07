@@ -10,10 +10,14 @@ class AfdVerhuurType extends AbstractType {
 
   public function buildForm(FormBuilderInterface $builder, array $options) {
     $builder
+        ->add('futureAddress', 'textarea', array(
+          'required' => false,
+          'label' => 'Toekomstig adres'
+        ))
         ->add('opmAfdVerhuur', null, array(
           'required' => false,
           'label' => 'Opmerkingen'
-     ))
+         ))
     ;
   }
 

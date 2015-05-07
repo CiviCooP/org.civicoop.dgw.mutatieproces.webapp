@@ -24,6 +24,7 @@ class CiviCase extends CiviCommon {
   private $huuropzegging_id;
   private $info_afd_verhuur;
   private $info_afd_verhuur_id;
+
   private $factory;
   private $em;
 
@@ -118,6 +119,12 @@ class CiviCase extends CiviCommon {
         if (isset($custom->huuropzeg_rapport)) {
           $report->setOpmAfdVerhuur($custom->huuropzeg_rapport);
         }
+        if (isset($custom->future_address_in_first)) {
+          $report->setFutureAddressInFirst($custom->future_address_in_first);
+        }
+        if (isset($custom->future_address)) {
+          $report->setFutureAddress($custom->future_address);
+        }
 
         foreach ($case->client_id as $cid) {
           $client = $this->em->getRepository('CiviCoopVragenboomBundle:Client')->findOneByContactId($cid);
@@ -199,7 +206,8 @@ class CiviCase extends CiviCommon {
   }
 
   public function updateInfoAfdVerhuur(RapportInterface $rapport) {
-    $custom = $this->updateCustomValuesByEntity('civicrm_case', $rapport->getCaseId(), $this->info_afd_verhuur_id, 'huuropzeg_rapport', $rapport->getOpmAfdVerhuur());
+    $this->updateCustomValuesByEntity('civicrm_case', $rapport->getCaseId(), $this->info_afd_verhuur_id, 'huuropzeg_rapport', $rapport->getOpmAfdVerhuur());
+    $this->updateCustomValuesByEntity('civicrm_case', $rapport->getCaseId(), $this->info_afd_verhuur_id, 'future_address', $rapport->getFutureAddress());
   }
 
   public function createEindopname(AdviesRapport $rapport, $civi_user_id) {

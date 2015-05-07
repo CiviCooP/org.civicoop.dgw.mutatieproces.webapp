@@ -24,15 +24,19 @@
                         <th></th>
                         <td>                            <a href="{{ path('adviesrapport_show_client', {'shortname': factory.getShortName(entity), 'id': entity.id, 'client_id': client.id}) }}">Wijzig contact gegevens</a></td>
                     </tr>
-                    <tr>
-                        <th>Toekomstig adres</th>
-                        <td>
-                                <em>Geen toekomstig adres bekend</em>
-                        </td>
-                        <th></th>
-                        <td></td>
-                    </tr>
                 {% endfor %}
+                <tr>
+                    <th>Toekomstig adres</th>
+                    <td>
+                        {%  if (entity.futureAddress) %}
+                            {{ entity.futureAddress }}
+                        {%  else %}
+                            <em>Geen toekomstig adres bekend</em>
+                        {%  endif %}
+                    </td>
+                    <th></th>
+                    <td></td>
+                </tr>
                 <tr>
                     <th>VGE Adres</th>
                     <td>{{ entity.vgeAdres }}</td>
