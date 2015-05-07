@@ -27,14 +27,7 @@
                     <tr>
                         <th>Toekomstig adres</th>
                         <td>
-                            {%  if (client.toekomstAdres and not client.toekomstAdres.empty) %}
-                                {{ client.toekomstAdres.streetAddress}}
-                                {{ client.toekomstAdres.postalCode}}
-                                {{ client.toekomstAdres.city}}
-                                {{ client.toekomstAdres.supplementalAddress1}}
-                            {%  else %}
                                 <em>Geen toekomstig adres bekend</em>
-                            {%  endif %}
                         </td>
                         <th></th>
                         <td></td>

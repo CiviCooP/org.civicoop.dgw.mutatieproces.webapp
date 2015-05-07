@@ -14,16 +14,12 @@ class ClientType extends AbstractType {
           'attr'=> array('class'=>'text') //make sure the layout is like a text field
         ))
         ->add('phone')
-        ->add('toekomst_adres', new ToekomstAdresType(), array(
-          'label' => 'Toekomstig adres'
-        ))
     ;
   }
 
   public function setDefaultOptions(OptionsResolverInterface $resolver) {
     $resolver->setDefaults(array(
       'data_class' => 'CiviCoop\VragenboomBundle\Entity\Client',
-      'cascade_validation' => true,
     ));
   }
 

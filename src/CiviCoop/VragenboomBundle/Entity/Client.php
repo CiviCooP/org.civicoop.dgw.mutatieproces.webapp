@@ -51,13 +51,6 @@ class Client {
    */
   private $phone;
 
-  /**
-   * @var ToekomstAdres
-   *
-   * @ORM\OneToOne(targetEntity="ToekomstAdres", cascade={"all"}, orphanRemoval=true)
-   */
-  private $toekomstAdres;
-
 
   /**
    * Get id
@@ -147,30 +140,6 @@ class Client {
    */
   public function setPhone($phone) {
     $this->phone = $phone;
-    return $this;
-  }
-
-  /**
-   * @return \CiviCoop\VragenboomBundle\Entity\ToekomstAdres
-   */
-  public function getToekomstAdres() {
-    return $this->toekomstAdres;
-  }
-
-  /**
-   * @param \CiviCoop\VragenboomBundle\Entity\ToekomstAdres $toekomstAdres
-   * @return Client
-   */
-  public function setToekomstAdres(ToekomstAdres $toekomstAdres) {
-    $this->toekomstAdres = $toekomstAdres;
-    return $this;
-  }
-
-  /**
-   * @return Client
-   */
-  public function clearToekomstAdres() {
-    $this->toekomstAdres = null;
     return $this;
   }
 }

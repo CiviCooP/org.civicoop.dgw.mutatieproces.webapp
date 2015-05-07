@@ -286,17 +286,6 @@ class AdviesRapportController extends AbstractController {
     if (!$client) {
       throw $this->createNotFoundException('Unable to find client entity.');
     }
-    if (!$client->getToekomstAdres()) {
-      $client->setToekomstAdres(new ToekomstAdres());
-      $client->getToekomstAdres()->setContactId($client->getContactId());
-    }
-    if ($client->getToekomstAdres()->isEmpty()) {
-      if ($rapport->getExpectedEndDate()) {
-        $client->getToekomstAdres()
-          ->setSupplementalAddress1('(Vanaf ' . $rapport->getExpectedEndDate()
-              ->format('d-m-Y'));
-      }
-    }
 
     $editForm = $this->createForm(new ClientType(), $client);
 
@@ -331,25 +320,10 @@ class AdviesRapportController extends AbstractController {
       throw $this->createNotFoundException('Unable to find client entity.');
     }
 
-    if (!$client->getToekomstAdres()) {
-      $client->setToekomstAdres(new ToekomstAdres());
-      $client->getToekomstAdres()->setContactId($client->getContactId());
-    }
-    if ($client->getToekomstAdres()->isEmpty()) {
-      if ($rapport->getExpectedEndDate()) {
-        $client->getToekomstAdres()
-          ->setSupplementalAddress1('(Vanaf ' . $rapport->getExpectedEndDate()
-              ->format('d-m-Y'));
-      }
-    }
-
     $editForm = $this->createForm(new ClientType(), $client);
     $editForm->bind($request);
     
    if ($editForm->isValid()) {
-      if ($client->getToekomstAdres() && $client->getToekomstAdres()->isEmpty()) {
-        $client->clearToekomstAdres();
-      }
       $em->persist($client);
       $em->flush();
       

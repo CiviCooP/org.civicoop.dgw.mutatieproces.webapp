@@ -118,42 +118,4 @@ abstract class CiviCommon {
 		
 		return $contact;
 	}
-
-  protected function retrieveToekomstAdres($contact_id) {
-    if (!$this->toekomst_adres_id) {
-      return false;
-    }
-    if (!isset($this->_cache['toekomst_adres_'.$contact_id])) {
-      $adres = $this->api->Address->get(array('contact_id' => $contact_id, 'location_type_id' => $this->toekomst_adres_id));
-      $this->_cache['toekomst_adres_'.$contact_id] = $adres->nextValue();
-    }
-    $adres = $this->_cache['toekomst_adres_'.$contact_id];
-    return $adres;
-  }
-
-  protected function syncToekomstAdres(Client $client) {
-    $toekomstAdres = $this->retrieveToekomstAdres($client->getContactId());
-    if ($client->getToekomstAdres()) {
-      if ($toekomstAdres) {
-        $adres = $client->getToekomstAdres();
-        $adres->setCity($toekomstAdres->city);
-        $adres->setCivicrmId($toekomstAdres->id);
-        $adres->setContactId($toekomstAdres->contact_id);
-        $adres->setPostalCode($toekomstAdres->postal_code);
-        $adres->setSupplementalAddress1($toekomstAdres->supplemental_address_1);
-        $adres->setStreetAddress($toekomstAdres->street_address);
-      } else {
-        $client->clearToekomstAdres();
-      }
-    } elseif ($toekomstAdres) {
-      $adres = new ToekomstAdres();
-      $adres->setCity($toekomstAdres->city);
-      $adres->setCivicrmId($toekomstAdres->id);
-      $adres->setContactId($toekomstAdres->contact_id);
-      $adres->setPostalCode($toekomstAdres->postal_code);
-      $adres->setSupplementalAddress1($toekomstAdres->supplemental_address_1);
-      $adres->setStreetAddress($toekomstAdres->street_address);
-      $client->setToekomstAdres($adres);
-    }
-  }
 }
