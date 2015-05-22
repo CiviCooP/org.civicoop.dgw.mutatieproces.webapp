@@ -12,7 +12,10 @@ class AfdVerhuurType extends AbstractType {
     $builder
         ->add('futureAddress', 'textarea', array(
           'required' => false,
-          'label' => 'Toekomstig adres'
+          'label' => 'Toekomstig adres',
+          'attr' => array(
+            'class' => 'small'
+          ),
         ))
         ->add('opmAfdVerhuur', null, array(
           'required' => false,

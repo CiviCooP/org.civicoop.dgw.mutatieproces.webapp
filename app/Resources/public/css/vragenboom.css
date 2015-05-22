@@ -72,6 +72,10 @@ table td {
     height: 350px;
 }
 
+.form_row textarea.small {
+    height: 90px;
+}
+
 .form_row textarea:focus,
 .form_row input.text:focus 
 {

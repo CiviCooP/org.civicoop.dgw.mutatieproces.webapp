@@ -16,7 +16,10 @@ class ClientType extends AbstractType {
         ->add('phone')
         ->add('futureAddress', 'textarea', array(
           'required' => false,
-          'label' => 'Toekomstig adres'
+          'label' => 'Toekomstig adres',
+          'attr' => array(
+            'class' => 'small'
+          ),
         ))
     ;
   }
