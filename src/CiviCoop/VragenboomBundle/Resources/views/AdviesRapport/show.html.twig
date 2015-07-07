@@ -52,7 +52,7 @@
                 <tr>
                     <th>Verwachte einddatum</th>
                     <td>{{ entity.expectedEndDate|date("d-m-Y") }}</td>
-                    <th>Datum gesprek</th>
+                    <th>Datum {{ factory.getHumanName(entity) }}</th>
                     <td>{{ entity.date|date("d-m-Y H:i") }}</td>
                 </tr>
             </tbody>
